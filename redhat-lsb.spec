@@ -10,8 +10,8 @@
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
-Version: 1.2.0
-Release: 2
+Version: 1.3
+Release: 1
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -26,25 +26,39 @@ ExclusiveArch: i386
 Requires: libc.so.6
 Requires: libm.so.6
 Requires: libpthread.so.0
+Requires: libdl.so.2
+Requires: libcrypt.so.1
+Requires: libpthread.so.0
 Requires: libz.so.1
 Requires: libutil.so.1
 %endif
 
 %ifarch ia64
 # archLSB IA64 Base Libraries
+Requires: libc.so.6.1
+Requires: libm.so.6.1
+Requires: libpthread.so.0
+Requires: libdl.so.2
 Requires: libcrypt.so.1
+Requires: libcrypt.so.1
+Requires: libc.so.6.1
 Requires: libdb.so.3
 Requires: libdl.so.2
+Requires: libm.so.6.1
 Requires: libpthread.so.0
 %endif
 
 # gLSB Base Libraries
+Requires: libpthread.so.0
+Requires: libgcc_s.so.1
 Requires: libdl.so.2
 Requires: libcrypt.so.1
+Requires: libpam.so.0
 
 # gLSB Utility Libraries
 Requires: libz.so.1
 Requires: libncurses.so.5
+Requires: libutil.so.1
 
 # gLSB Graphics Libraries
 Requires: libX11.so.6
@@ -55,7 +69,6 @@ Requires: libXt.so.6
 Requires: libGL.so.1
 
 # gLSB Command and Utilities
-Requires: /bin/awk
 Requires: /bin/basename
 Requires: /bin/cat
 Requires: /bin/chgrp
@@ -63,19 +76,16 @@ Requires: /bin/chmod
 Requires: /bin/chown
 Requires: /bin/cp
 Requires: /bin/cpio
-Requires: /bin/cut
 Requires: /bin/date
 Requires: /bin/dd
 Requires: /bin/df
+Requires: /bin/dmesg
 Requires: /bin/echo
 Requires: /bin/egrep
 Requires: /bin/false
 Requires: /bin/fgrep
 Requires: /bin/grep
-Requires: /bin/gunzip
-Requires: /bin/gzip
 Requires: /bin/hostname
-Requires: /bin/kill
 Requires: /bin/ln
 Requires: /bin/ls
 Requires: /bin/mkdir
@@ -103,8 +113,11 @@ Requires: /bin/umount
 Requires: /bin/uname
 Requires: /sbin/fuser
 Requires: /sbin/pidof
+Requires: /sbin/shutdown
+Requires: /usr/bin/[
 Requires: /usr/bin/ar
 Requires: /usr/bin/at
+Requires: /usr/bin/awk
 Requires: /usr/bin/batch
 Requires: /usr/bin/bc
 Requires: /usr/bin/chfn
@@ -115,6 +128,7 @@ Requires: /usr/bin/col
 Requires: /usr/bin/comm
 Requires: /usr/bin/crontab
 Requires: /usr/bin/csplit
+Requires: /usr/bin/cut
 Requires: /usr/bin/diff
 Requires: /usr/bin/dirname
 Requires: /usr/bin/du
@@ -126,7 +140,10 @@ Requires: /usr/bin/find
 Requires: /usr/bin/fold
 Requires: /usr/bin/gencat
 Requires: /usr/bin/getconf
+Requires: /usr/bin/gettext
 Requires: /usr/bin/groups
+Requires: /usr/bin/gunzip
+Requires: /usr/bin/gzip
 Requires: /usr/bin/head
 Requires: /usr/bin/iconv
 Requires: /usr/bin/id
@@ -134,6 +151,7 @@ Requires: /usr/bin/install
 Requires: /usr/bin/ipcrm
 Requires: /usr/bin/ipcs
 Requires: /usr/bin/join
+Requires: /usr/bin/kill
 Requires: /usr/bin/killall
 Requires: /usr/bin/locale
 Requires: /usr/bin/localedef
@@ -144,6 +162,7 @@ Requires: /usr/bin/make
 Requires: /usr/bin/man
 Requires: /usr/bin/md5sum
 Requires: /usr/bin/mkfifo
+Requires: /usr/bin/msgfmt
 Requires: /usr/bin/newgrp
 Requires: /usr/bin/nl
 Requires: /usr/bin/nohup
@@ -170,6 +189,8 @@ Requires: /usr/bin/unexpand
 Requires: /usr/bin/uniq
 Requires: /usr/bin/wc
 Requires: /usr/bin/xargs
+Requires: /usr/lib/lsb/install_initd
+Requires: /usr/lib/lsb/remove_initd
 Requires: /usr/sbin/groupadd
 Requires: /usr/sbin/groupdel
 Requires: /usr/sbin/groupmod
@@ -205,7 +226,7 @@ cd lsb-release-%{lsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
 cat > $RPM_BUILD_ROOT/etc/lsb-release <<EOF
-LSB_VERSION="1.2.0"
+LSB_VERSION="1.3"
 EOF
 
 ln -s %{ldso} $RPM_BUILD_ROOT/lib/ld-lsb.so.1
@@ -227,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 /lib/ld-lsb.so.1
 
 %changelog
+* Tue Feb 18 2003 Matt Wilson <msw@redhat.com> 1.3-1
+- 1.3
+
 * Wed Sep  4 2002 Matt Wilson <msw@redhat.com>
 - 1.2.0
 
