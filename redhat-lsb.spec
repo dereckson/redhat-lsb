@@ -308,24 +308,6 @@ Applications.  It also contains requirements that will ensure that all
 components required by the LSB that are provided by Red Hat Linux are
 installed on the system.
 
-%triggerpostun -- glibc
-%ifnarch %{ix86}
-  for LSBVER in %{lsbsover}; do
-    /sbin/sln %{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
-  done
-%else
-if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
-  for LSBVER in %{lsbsover}; do
-    /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
-  done
-else
-  for LSBVER in %{lsbsover}; do
-    /sbin/sln %{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
-  done
-fi
-%endif
-
-
 %prep
 %setup -q -a 1
 
@@ -355,6 +337,25 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%triggerpostun -- glibc
+%ifnarch %{ix86}
+  /sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+%else
+  if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
+    /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso} || :
+  else
+    /sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+  fi
+%endif
+
+%ifarch %{ix86}
+%post
+# make this softlink again for /emul
+  if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
+    /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso} || :
+  fi
+%endif
+
 %files
 %defattr(-,root,root)
 %config /etc/lsb-release
@@ -366,6 +367,13 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/*
 
 %changelog
+* Tue Feb 01 2005 Leon Ho <llch@redhat.com> 1.3-9
+- Sync what we have changed on the branches
+  Wed Nov 24 2004 Harald Hoyer <harald@redhat.com>
+  - added post section to recreate the softlink in emul mode (bug 140739)
+  Mon Nov 15 2004 Phil Knirsch <pknirsch@redhat.com>
+  Tiny correction of bug in new triggers
+
 * Mon Jan 24 2005 Leon Ho <llch@redhat.com> 1.3-8
 - Add support provide on lsb-core-* for each arch
 
