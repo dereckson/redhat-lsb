@@ -11,7 +11,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 1.1.0
-Release: 0.4
+Release: 0.5
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -178,11 +178,6 @@ Requires: /usr/sbin/useradd
 Requires: /usr/sbin/userdel
 Requires: /usr/sbin/usermod
 
-# gLSB System Initialization
-Requires: /lib/lsb/init-functions
-Requires: chkconfig >= 1.3.2-1
-Requires: initscripts >= 6.56-1
-
 %description
 The Linux Standards Base (LSB) is an attempt to develop a set of
 standards that will increase compatibility among Linux distributions.
@@ -190,6 +185,9 @@ The redhat-lsb package provides utilities needed for LSB Compliant
 Applications.  It also contains requirements that will ensure that all
 components required by the LSB that are provided by Red Hat Linux are
 installed on the system.
+
+%triggerpostun -- glibc
+/sbin/sln ld-linux.so.2 /lib/ld-lsb.so.1 || :
 
 %prep
 %setup -q -a 1
@@ -215,8 +213,6 @@ ln -s %{ldso} $RPM_BUILD_ROOT/lib/ld-lsb.so.1
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/remove_initd
 
-
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -231,6 +227,10 @@ rm -rf $RPM_BUILD_ROOT
 /lib/ld-lsb.so.1
 
 %changelog
+* Wed Mar 27 2002 Matt Wilson <msw@redhat.com>
+- addeed trigger on glibc to re-establish the ld-lsb.so.1 symlink in the
+  forced downgrade case.
+
 * Tue Mar 12 2002 Bill Nottingham <notting@redhat.com>
 - add initscripts support
 
