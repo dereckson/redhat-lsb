@@ -10,8 +10,8 @@
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
-Version: 1.1.0
-Release: 2.5
+Version: 1.2.0
+Release: 2
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -205,7 +205,7 @@ cd lsb-release-%{lsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
 cat > $RPM_BUILD_ROOT/etc/lsb-release <<EOF
-LSB_VERSION="1.1.0"
+LSB_VERSION="1.2.0"
 EOF
 
 ln -s %{ldso} $RPM_BUILD_ROOT/lib/ld-lsb.so.1
@@ -227,6 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 /lib/ld-lsb.so.1
 
 %changelog
+* Wed Sep  4 2002 Matt Wilson <msw@redhat.com>
+- 1.2.0
+
 * Fri Jun 21 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
