@@ -44,7 +44,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 1.3
-Release: 4
+Release: 6
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -277,7 +277,15 @@ components required by the LSB that are provided by Red Hat Linux are
 installed on the system.
 
 %triggerpostun -- glibc
-/sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+%ifnarch %{ix86}
+  /sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+%else
+if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
+  /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso} || :
+else
+  /sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+fi
+
 
 %prep
 %setup -q -a 1
@@ -317,6 +325,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/*
 
 %changelog
+* Thu Nov 11 2004 Phil Knirsch <pknirsch@redhat.com> 1.3-6
+- Fixed invalid sln call for trigger in postun on ia64 (#137647)
+
 * Mon Aug 09 2004 Phil Knirsch <pknirsch@redhat.com> 1.3-4
 - Bump release and rebuilt for RHEL4.
 
