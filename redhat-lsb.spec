@@ -1,36 +1,39 @@
+# Define this to link to which library version
+%define lsbsover 1 2
+
 %ifarch %{ix86}
 %define ldso ld-linux.so.2
-%define lsbldso ld-lsb.so.1
+%define lsbldso ld-lsb.so
 %endif
 
 %ifarch ia64
 %define ldso ld-linux-ia64.so.2
-%define lsbldso ld-lsb-ia64.so.1
+%define lsbldso ld-lsb-ia64.so
 %endif
 
 %ifarch ppc
 %define ldso ld.so.1
-%define lsbldso ld-lsb-ppc32.so.1
+%define lsbldso ld-lsb-ppc32.so
 %endif
 
 %ifarch ppc64
 %define ldso ld64.so.1
-%define lsbldso ld-lsb-ppc64.so.1
+%define lsbldso ld-lsb-ppc64.so
 %endif
 
 %ifarch s390
 %define ldso ld.so.1
-%define lsbldso ld-lsb-s390.so.1
+%define lsbldso ld-lsb-s390.so
 %endif
 
 %ifarch s390x
 %define ldso ld64.so.1
-%define lsbldso ld-lsb-s390x.so.1
+%define lsbldso ld-lsb-s390x.so
 %endif
 
 %ifarch x86_64
 %define ldso ld-linux-x86-64.so.2
-%define lsbldso ld-lsb-x86-64.so.1
+%define lsbldso ld-lsb-x86-64.so
 %endif
 
 %ifarch ia64 ppc64 s390x x86_64
@@ -44,14 +47,43 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 1.3
-Release: 6
+Release: 8
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
 License: GPL
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-root
+# dependency for primary LSB application for v1.3
 Provides: lsb = %{version}
+# dependency for primary LSB application for v2.0
+%ifarch %{ix86}
+Provides: lsb-core-ia32 = %{version}
+%endif
+%ifarch ia64
+Provides: lsb-core-ia64 = %{version}
+%endif
+%ifarch ppc
+Provides: lsb-core-ppc32 = %{version}
+%endif
+%ifarch ppc64
+Provides: lsb-core-ppc64 = %{version}
+%endif
+%ifarch s390
+Provides: lsb-core-s390 = %{version}
+%endif
+%ifarch s390x
+Provides: lsb-core-s390x = %{version}
+%endif
+%ifarch x86_64
+Provides: lsb-core-amd64 = %{version}
+%endif
+
+%ifarch ia64 ppc64 s390x x86_64
+%define qual ()(64bit)
+%else
+%define qual %{nil}
+%endif
 ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x
 
 %ifarch %{ix86}
@@ -278,13 +310,20 @@ installed on the system.
 
 %triggerpostun -- glibc
 %ifnarch %{ix86}
-  /sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+  for LSBVER in %{lsbsover}; do
+    /sbin/sln %{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
+  done
 %else
 if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
-  /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso} || :
+  for LSBVER in %{lsbsover}; do
+    /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
+  done
 else
-  /sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+  for LSBVER in %{lsbsover}; do
+    /sbin/sln %{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
+  done
 fi
+%endif
 
 
 %prep
@@ -306,7 +345,9 @@ cat > $RPM_BUILD_ROOT/etc/lsb-release <<EOF
 LSB_VERSION="1.3"
 EOF
 
-ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}
+for LSBVER in %{lsbsover}; do
+  ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
+done
 
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
@@ -325,6 +366,13 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/*
 
 %changelog
+* Mon Jan 24 2005 Leon Ho <llch@redhat.com> 1.3-8
+- Add support provide on lsb-core-* for each arch
+
+* Fri Jan 21 2005 Leon Ho <llch@redhat.com> 1.3-7
+- Add to support multiple LSB test suite version
+- Add %endif in trigger postun
+
 * Thu Nov 11 2004 Phil Knirsch <pknirsch@redhat.com> 1.3-6
 - Fixed invalid sln call for trigger in postun on ia64 (#137647)
 
