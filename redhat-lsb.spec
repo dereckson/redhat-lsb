@@ -1,9 +1,42 @@
 %ifarch %{ix86}
 %define ldso ld-linux.so.2
+%define lsbldso ld-lsb.so.1
 %endif
 
-%ifarch %{ia64}
+%ifarch ia64
 %define ldso ld-linux-ia64.so.2
+%define lsbldso ld-lsb-ia64.so.1
+%endif
+
+%ifarch ppc
+%define ldso ld.so.1
+%define lsbldso ld-lsb-ppc32.so.1
+%endif
+
+%ifarch ppc64
+%define ldso ld64.so.1
+%define lsbldso ld-lsb-ppc64.so.1
+%endif
+
+%ifarch s390
+%define ldso ld.so.1
+%define lsbldso ld-lsb-s390.so.1
+%endif
+
+%ifarch s390x
+%define ldso ld64.so.1
+%define lsbldso ld-lsb-s390x.so.1
+%endif
+
+%ifarch x86_64
+%define ldso ld-linux-x86-64.so.2
+%define lsbldso ld-lsb-x86-64.so.1
+%endif
+
+%ifarch ia64 ppc64 s390x x86_64
+%define qual ()(64bit)
+%else
+%define qual %{nil}
 %endif
 
 %define lsbrelver 1.4
@@ -11,7 +44,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 1.3
-Release: 1
+Release: 4
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -19,56 +52,93 @@ License: GPL
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-root
 Provides: lsb = %{version}
-ExclusiveArch: i386
+ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x
 
 %ifarch %{ix86}
 # archLSB IA32 Base Libraries
+Requires: libcrypt.so.1
 Requires: libc.so.6
+Requires: libdl.so.2
 Requires: libm.so.6
 Requires: libpthread.so.0
-Requires: libdl.so.2
-Requires: libcrypt.so.1
-Requires: libpthread.so.0
-Requires: libz.so.1
-Requires: libutil.so.1
 %endif
 
 %ifarch ia64
 # archLSB IA64 Base Libraries
-Requires: libc.so.6.1
-Requires: libm.so.6.1
-Requires: libpthread.so.0
-Requires: libdl.so.2
+Requires: libcrypt.so.1()(64bit)
+Requires: libc.so.6.1()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libm.so.6.1()(64bit)
+Requires: libpthread.so.0()(64bit)
+%endif
+
+%ifarch ppc
+# archLSB PPC32 Base Libraries
 Requires: libcrypt.so.1
-Requires: libcrypt.so.1
-Requires: libc.so.6.1
-Requires: libdb.so.3
+Requires: libc.so.6
 Requires: libdl.so.2
-Requires: libm.so.6.1
+Requires: libm.so.6
 Requires: libpthread.so.0
 %endif
 
-# gLSB Base Libraries
-Requires: libpthread.so.0
-Requires: libgcc_s.so.1
-Requires: libdl.so.2
+%ifarch ppc64
+# archLSB PPC64 Base Libraries
+Requires: libcrypt.so.1()(64bit)
+Requires: libc.so.6()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libpthread.so.0()(64bit)
+%endif
+
+%ifarch s390
+# archLSB S390 Base Libraries
 Requires: libcrypt.so.1
-Requires: libpam.so.0
+Requires: libc.so.6
+Requires: libdl.so.2
+Requires: libm.so.6
+Requires: libpthread.so.0
+%endif
+
+%ifarch s390x
+# archLSB S390X Base Libraries
+Requires: libcrypt.so.1()(64bit)
+Requires: libc.so.6()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libpthread.so.0()(64bit)
+%endif
+
+%ifarch x86_64
+# archLSB X86-64 Base Libraries
+Requires: libcrypt.so.1()(64bit)
+Requires: libc.so.6()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libpthread.so.0()(64bit)
+%endif
+
+# gLSB Base Libraries
+Requires: libpthread.so.0%{qual}
+Requires: libgcc_s.so.1%{qual}
+Requires: libdl.so.2%{qual}
+Requires: libcrypt.so.1%{qual}
+Requires: libpam.so.0%{qual}
 
 # gLSB Utility Libraries
-Requires: libz.so.1
-Requires: libncurses.so.5
-Requires: libutil.so.1
+Requires: libz.so.1%{qual}
+Requires: libncurses.so.5%{qual}
+Requires: libutil.so.1%{qual}
 
 # gLSB Graphics Libraries
-Requires: libX11.so.6
-Requires: libXext.so.6
-Requires: libSM.so.6
-Requires: libICE.so.6
-Requires: libXt.so.6
-Requires: libGL.so.1
+Requires: libX11.so.6%{qual}
+Requires: libXext.so.6%{qual}
+Requires: libSM.so.6%{qual}
+Requires: libICE.so.6%{qual}
+Requires: libXt.so.6%{qual}
+Requires: libGL.so.1%{qual}
 
 # gLSB Command and Utilities
+Requires: /bin/awk
 Requires: /bin/basename
 Requires: /bin/cat
 Requires: /bin/chgrp
@@ -76,16 +146,22 @@ Requires: /bin/chmod
 Requires: /bin/chown
 Requires: /bin/cp
 Requires: /bin/cpio
+Requires: /bin/cut
 Requires: /bin/date
 Requires: /bin/dd
 Requires: /bin/df
 Requires: /bin/dmesg
 Requires: /bin/echo
 Requires: /bin/egrep
+Requires: /bin/env
 Requires: /bin/false
 Requires: /bin/fgrep
+Requires: /bin/gettext
 Requires: /bin/grep
+Requires: /bin/gunzip
+Requires: /bin/gzip
 Requires: /bin/hostname
+Requires: /bin/kill
 Requires: /bin/ln
 Requires: /bin/ls
 Requires: /bin/mkdir
@@ -117,7 +193,6 @@ Requires: /sbin/shutdown
 Requires: /usr/bin/[
 Requires: /usr/bin/ar
 Requires: /usr/bin/at
-Requires: /usr/bin/awk
 Requires: /usr/bin/batch
 Requires: /usr/bin/bc
 Requires: /usr/bin/chfn
@@ -128,11 +203,9 @@ Requires: /usr/bin/col
 Requires: /usr/bin/comm
 Requires: /usr/bin/crontab
 Requires: /usr/bin/csplit
-Requires: /usr/bin/cut
 Requires: /usr/bin/diff
 Requires: /usr/bin/dirname
 Requires: /usr/bin/du
-Requires: /usr/bin/env
 Requires: /usr/bin/expand
 Requires: /usr/bin/expr
 Requires: /usr/bin/file
@@ -140,10 +213,7 @@ Requires: /usr/bin/find
 Requires: /usr/bin/fold
 Requires: /usr/bin/gencat
 Requires: /usr/bin/getconf
-Requires: /usr/bin/gettext
 Requires: /usr/bin/groups
-Requires: /usr/bin/gunzip
-Requires: /usr/bin/gzip
 Requires: /usr/bin/head
 Requires: /usr/bin/iconv
 Requires: /usr/bin/id
@@ -151,7 +221,6 @@ Requires: /usr/bin/install
 Requires: /usr/bin/ipcrm
 Requires: /usr/bin/ipcs
 Requires: /usr/bin/join
-Requires: /usr/bin/kill
 Requires: /usr/bin/killall
 Requires: /usr/bin/locale
 Requires: /usr/bin/localedef
@@ -208,7 +277,7 @@ components required by the LSB that are provided by Red Hat Linux are
 installed on the system.
 
 %triggerpostun -- glibc
-/sbin/sln ld-linux.so.2 /lib/ld-lsb.so.1 || :
+/sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
 
 %prep
 %setup -q -a 1
@@ -219,8 +288,8 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/etc $RPM_BUILD_ROOT/lib $RPM_BUILD_ROOT/%{_mandir} \
-         $RPM_BUILD_ROOT/%{_bindir} $RPM_BUILD_ROOT/%{_libdir}/lsb
+mkdir -p $RPM_BUILD_ROOT/etc $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT/%{_mandir} \
+         $RPM_BUILD_ROOT/%{_bindir} $RPM_BUILD_ROOT/usr/lib/lsb
 make DESTDIR=$RPM_BUILD_ROOT install
 cd lsb-release-%{lsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
@@ -229,10 +298,10 @@ cat > $RPM_BUILD_ROOT/etc/lsb-release <<EOF
 LSB_VERSION="1.3"
 EOF
 
-ln -s %{ldso} $RPM_BUILD_ROOT/lib/ld-lsb.so.1
+ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}
 
-ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/install_initd
-ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/remove_initd
+ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
+ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -243,11 +312,23 @@ rm -rf $RPM_BUILD_ROOT
 /etc/redhat-lsb
 %{_mandir}/*/*
 %{_bindir}/*
-%{_libdir}/lsb
+/usr/lib/lsb
 /lib/lsb
-/lib/ld-lsb.so.1
+/%{_lib}/*
 
 %changelog
+* Mon Aug 09 2004 Phil Knirsch <pknirsch@redhat.com> 1.3-4
+- Bump release and rebuilt for RHEL4.
+
+* Thu Jul 24 2003 Matt Wilson <msw@redhat.com> 1.3-3
+- fix lsb ld.so name for ia64 (#100613)
+
+* Fri May 23 2003 Matt Wilson <msw@redhat.com> 1.3-2
+- use /usr/lib/lsb for install_initd, remove_initd
+
+* Fri May 23 2003 Matt Wilson <msw@redhat.com> 1.3-2
+- add ia64 x86_64 ppc ppc64 s390 s390x
+
 * Tue Feb 18 2003 Matt Wilson <msw@redhat.com> 1.3-1
 - 1.3
 
