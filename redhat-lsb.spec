@@ -11,7 +11,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 1.1.0
-Release: 0.5
+Release: 1.5
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -227,6 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 /lib/ld-lsb.so.1
 
 %changelog
+* Thu May 23 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
 * Wed Mar 27 2002 Matt Wilson <msw@redhat.com>
 - addeed trigger on glibc to re-establish the ld-lsb.so.1 symlink in the
   forced downgrade case.
