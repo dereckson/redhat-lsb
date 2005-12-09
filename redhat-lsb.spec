@@ -47,7 +47,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 1.3
-Release: 10
+Release: 10.1
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -367,6 +367,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/*
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Thu Mar 17 2005 Leon Ho <llch@redhat.com> 1.3-10
 
 * Tue Feb 01 2005 Leon Ho <llch@redhat.com> 1.3-9
