@@ -1,0 +1,26 @@
+--- lsb-release-2.0.orig/lsb_release	2004-07-01 03:30:34.000000000 +1000
++++ lsb-release-2.0/lsb_release	2005-08-03 23:31:58.000000000 +1000
+@@ -188,15 +188,6 @@
+ 
+ # Get/Init LSB infos (maybe Distrib infos too)
+ GetLSBInfo() {
+-    if [ -f "$INFO_ROOT/$INFO_LSB_FILE" ]
+-    then
+-        # should init at least LSB_VERSION
+-        . "$INFO_ROOT/$INFO_LSB_FILE"
+-    fi
+-    if [ -z "$LSB_VERSION" ]
+-    then
+-	LSB_VERSION=$MSG_NA
+-    else
+ 	# if we found LSB_VERSION, continue to look in directory
+ 	if [ -d "$INFO_ROOT/$INFO_LSB_DIR" ]
+ 	then
+@@ -205,7 +196,6 @@
+ 		LSB_VERSION=$LSB_VERSION:`basename $tag`
+ 	    done
+ 	fi
+-    fi
+ }
+ 
+ # Get the whole distrib information string (from ARG $1 file)
