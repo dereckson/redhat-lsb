@@ -48,7 +48,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.0
-Release: 9.1
+Release: 9.2
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
@@ -395,6 +395,9 @@ fi
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 3.0-9.2
+- bump again for double-long bug on ppc(64)
+
 * Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 3.0-9.1
 - rebuilt for new gcc4.1 snapshot and glibc changes
 
