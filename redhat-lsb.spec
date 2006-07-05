@@ -42,15 +42,17 @@
 %define qual %{nil}
 %endif
 
-%define lsbrelver 2.0
+%define upstreamlsbrelver 2.0
+%define lsbrelver 3.0
 %define srcrelease 2
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.0
-Release: 10
+Release: 10.1
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
+Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
 Patch0: lsb-release-2.0-disable-etc-lsb-release.patch
 License: GPL
 Group: System Environment/Base
@@ -203,10 +205,6 @@ Requires: libSM.so.6%{qual}
 Requires: libICE.so.6%{qual}
 Requires: libGL.so.1%{qual}
 
-#@GLSB_UTILLIB@
-
-#@GLSB_GRAPHLIB@
-
 # gLSB Command and Utilities
 Requires: /bin/awk
 Requires: /bin/basename
@@ -354,7 +352,7 @@ installed on the system.
 %patch0 -p 0
 
 %build
-cd lsb-release-%{lsbrelver}
+cd lsb-release-%{upstreamlsbrelver}
 make
 
 %install
@@ -363,7 +361,7 @@ mkdir -p $RPM_BUILD_ROOT/etc $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT/%{_mandir} 
          $RPM_BUILD_ROOT/%{_bindir} $RPM_BUILD_ROOT/usr/lib/lsb \
          $RPM_BUILD_ROOT/etc/lsb-release.d/ $RPM_BUILD_ROOT/usr/sbin/
 make DESTDIR=$RPM_BUILD_ROOT install
-cd lsb-release-%{lsbrelver}
+cd lsb-release-%{upstreamlsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
 touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-%{archname}
@@ -421,8 +419,8 @@ fi
 %files
 %defattr(-,root,root)
 /etc/redhat-lsb
-%config /etc/lsb-release
-/etc/redhat-lsb
+#%config /etc/lsb-release
+#/etc/redhat-lsb
 %dir /etc/lsb-release.d
 /etc/lsb-release.d/*
 %{_mandir}/*/*
@@ -434,9 +432,9 @@ fi
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
-* Thu Jun 22 2006 Lawrence Lim <llim@redhat.com> - 3.1-10
-- Rewrite most part of the mkredhat-lsb to obtain information directly via specdb 
-  rather than sniffing through sgml
+* Thu Jun 22 2006 Lawrence Lim <llim@redhat.com> - 3.0-10.1
+- Attempt to rewrite most part of the mkredhat-lsb to obtain information directly via 
+  specdb rather than sniffing through sgml
 - remove redundent script and bump up tarball version
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 3.0-9.2
