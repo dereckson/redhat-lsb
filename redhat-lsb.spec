@@ -1,5 +1,5 @@
-# Define this to link to which library version
-%define lsbsover 3
+# Define this to link to which library version  eg. /lib64/ld-lsb-x86-64.so.3
+%define lsbsover 3 
 
 %ifarch %{ix86}
 %define ldso ld-linux.so.2
@@ -43,15 +43,14 @@
 %endif
 
 %define lsbrelver 2.0
-%define srcrelease 1
+%define srcrelease 2
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.0
-Release: 9.2
+Release: 10
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
-Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{lsbrelver}.tar.gz
 Patch0: lsb-release-2.0-disable-etc-lsb-release.patch
 License: GPL
 Group: System Environment/Base
@@ -89,100 +88,127 @@ ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x
 
 %ifarch %{ix86}
 # archLSB IA32 Base Libraries
+Requires: libz.so.1
+Requires: libutil.so.1
+Requires: libpthread.so.0
+Requires: libncurses.so.5
+Requires: libm.so.6
+Requires: libgcc_s.so.1
+Requires: libdl.so.2
 Requires: libcrypt.so.1
 Requires: libc.so.6
-Requires: libdl.so.2
-Requires: libgcc_s.so.1
-Requires: libm.so.6
-Requires: libpthread.so.0
+Requires: libstdc++.so.6
 %endif
 
 %ifarch ia64
 # archLSB IA64 Base Libraries
+Requires: libz.so.1()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libm.so.6.1()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
 Requires: libcrypt.so.1()(64bit)
 Requires: libc.so.6.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6.1()(64bit)
-Requires: libpthread.so.0()(64bit)
+Requires: libstdc++.so.6()(64bit)
 %endif
 
 %ifarch ppc
 # archLSB PPC32 Base Libraries
+Requires: libz.so.1
+Requires: libutil.so.1
+Requires: libpthread.so.0
+Requires: libncurses.so.5
+Requires: libm.so.6
+Requires: libgcc_s.so.1
+Requires: libdl.so.2
 Requires: libcrypt.so.1
 Requires: libc.so.6
-Requires: libdl.so.2
-Requires: libgcc_s.so.1
-Requires: libm.so.6
-Requires: libpthread.so.0
+Requires: libstdc++.so.6
 %endif
 
 %ifarch ppc64
 # archLSB PPC64 Base Libraries
+Requires: libz.so.1()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
 Requires: libcrypt.so.1()(64bit)
 Requires: libc.so.6()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libpthread.so.0()(64bit)
+Requires: libstdc++.so.6()(64bit)
 %endif
 
 %ifarch s390
 # archLSB S390 Base Libraries
+Requires: libz.so.1
+Requires: libutil.so.1
+Requires: libpthread.so.0
+Requires: libncurses.so.5
+Requires: libm.so.6
+Requires: libgcc_s.so.1
+Requires: libdl.so.2
 Requires: libcrypt.so.1
 Requires: libc.so.6
-Requires: libdl.so.2
-Requires: libgcc_s.so.1
-Requires: libm.so.6
-Requires: libpthread.so.0
+Requires: libstdc++.so.6
 %endif
 
 %ifarch s390x
 # archLSB S390X Base Libraries
+Requires: libz.so.1()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
 Requires: libcrypt.so.1()(64bit)
 Requires: libc.so.6()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libpthread.so.0()(64bit)
+Requires: libstdc++.so.6()(64bit)
 %endif
 
 %ifarch x86_64
 # archLSB AMD64 Base Libraries
+Requires: libz.so.1()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
 Requires: libcrypt.so.1()(64bit)
 Requires: libc.so.6()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libpthread.so.0()(64bit)
+Requires: libstdc++.so.6()(64bit)
 %endif
 
-# gLSB Base Libraries
+# gLSB Base/Utility/Stdc++/Graphics Libraries
+Requires: libz.so.1%{qual}
+Requires: libutil.so.1%{qual}
+Requires: librt.so.1%{qual}
 Requires: libpthread.so.0%{qual}
+Requires: libpam.so.0%{qual}
+Requires: libncurses.so.5%{qual}
 Requires: libgcc_s.so.1%{qual}
 Requires: libdl.so.2%{qual}
-Requires: librt.so.1%{qual}
 Requires: libcrypt.so.1%{qual}
-Requires: libpam.so.0%{qual}
-
-# LSB Base C++
 Requires: libstdc++.so.6%{qual}
-
-# gLSB Utility Libraries
-Requires: libz.so.1%{qual}
-Requires: libncurses.so.5%{qual}
-Requires: libutil.so.1%{qual}
-
-# gLSB Graphics Libraries
+Requires: libXt.so.6%{qual}
+Requires: libXi.so.6%{qual}
+Requires: libXext.so.6%{qual}
 Requires: libX11.so.6%{qual}
 Requires: libSM.so.6%{qual}
 Requires: libICE.so.6%{qual}
-Requires: libXt.so.6%{qual}
-Requires: libXext.so.6%{qual}
-Requires: libXi.so.6%{qual}
 Requires: libGL.so.1%{qual}
 
+#@GLSB_UTILLIB@
+
+#@GLSB_GRAPHLIB@
+
 # gLSB Command and Utilities
+Requires: /bin/awk
 Requires: /bin/basename
 Requires: /bin/cat
 Requires: /bin/chgrp
@@ -190,6 +216,7 @@ Requires: /bin/chmod
 Requires: /bin/chown
 Requires: /bin/cp
 Requires: /bin/cpio
+Requires: /bin/cut
 Requires: /bin/date
 Requires: /bin/dd
 Requires: /bin/df
@@ -197,14 +224,18 @@ Requires: /bin/dmesg
 Requires: /bin/echo
 Requires: /bin/ed
 Requires: /bin/egrep
+Requires: /bin/env
 Requires: /bin/false
 Requires: /bin/fgrep
+Requires: /bin/gettext
 Requires: /bin/grep
+Requires: /bin/gunzip
+Requires: /bin/gzip
 Requires: /bin/hostname
+Requires: /bin/kill
 Requires: /bin/ln
 Requires: /bin/ls
-#Requires: /bin/mailx
-Requires: mailx
+Requires: /bin/mailx
 Requires: /bin/mkdir
 Requires: /bin/mknod
 Requires: /bin/mktemp
@@ -234,7 +265,6 @@ Requires: /sbin/shutdown
 Requires: /usr/bin/[
 Requires: /usr/bin/ar
 Requires: /usr/bin/at
-Requires: /usr/bin/awk
 Requires: /usr/bin/batch
 Requires: /usr/bin/bc
 Requires: /usr/bin/chfn
@@ -245,11 +275,9 @@ Requires: /usr/bin/col
 Requires: /usr/bin/comm
 Requires: /usr/bin/crontab
 Requires: /usr/bin/csplit
-Requires: /usr/bin/cut
 Requires: /usr/bin/diff
 Requires: /usr/bin/dirname
 Requires: /usr/bin/du
-Requires: /usr/bin/env
 Requires: /usr/bin/expand
 Requires: /usr/bin/expr
 Requires: /usr/bin/file
@@ -257,10 +285,7 @@ Requires: /usr/bin/find
 Requires: /usr/bin/fold
 Requires: /usr/bin/gencat
 Requires: /usr/bin/getconf
-Requires: /usr/bin/gettext
 Requires: /usr/bin/groups
-Requires: /usr/bin/gunzip
-Requires: /usr/bin/gzip
 Requires: /usr/bin/head
 Requires: /usr/bin/iconv
 Requires: /usr/bin/id
@@ -268,7 +293,6 @@ Requires: /usr/bin/install
 Requires: /usr/bin/ipcrm
 Requires: /usr/bin/ipcs
 Requires: /usr/bin/join
-Requires: /usr/bin/kill
 Requires: /usr/bin/killall
 Requires: /usr/bin/locale
 Requires: /usr/bin/localedef
@@ -327,7 +351,7 @@ installed on the system.
 
 %prep
 %setup -q -a 1
-%patch0 -p 0 
+%patch0 -p 0
 
 %build
 cd lsb-release-%{lsbrelver}
@@ -342,10 +366,10 @@ make DESTDIR=$RPM_BUILD_ROOT install
 cd lsb-release-%{lsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.0-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.0-noarch
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-3.0-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-3.0-noarch 
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-noarch
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-3.1-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-3.1-noarch
 
 for LSBVER in %{lsbsover}; do
   ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
@@ -362,7 +386,6 @@ gcc -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsove
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT/usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -370,6 +393,20 @@ rm -rf $RPM_BUILD_ROOT
 if [ -x /usr/sbin/redhat_lsb_trigger.%{_target_cpu} ]; then
   /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 fi
+
+%ifnarch %{ix86}
+  /sbin/sln %{ldso} /%{_lib}/%{lsbldso} || :
+%else
+  if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
+    for LSBVER in %{lsbsover}; do
+      /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
+    done
+  else
+    for LSBVER in %{lsbsover}; do
+      /sbin/sln %{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
+    done
+  fi
+%endif
 
 %ifarch %{ix86}
 %post
@@ -384,6 +421,8 @@ fi
 %files
 %defattr(-,root,root)
 /etc/redhat-lsb
+%config /etc/lsb-release
+/etc/redhat-lsb
 %dir /etc/lsb-release.d
 /etc/lsb-release.d/*
 %{_mandir}/*/*
@@ -395,6 +434,11 @@ fi
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Thu Jun 22 2006 Lawrence Lim <llim@redhat.com> - 3.1-10
+- Rewrite most part of the mkredhat-lsb to obtain information directly via specdb 
+  rather than sniffing through sgml
+- remove redundent script and bump up tarball version
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 3.0-9.2
 - bump again for double-long bug on ppc(64)
 
@@ -408,21 +452,18 @@ fi
 - Added libstdc++.so.6/libGL.so.1 requirement (RH#154605)
 
 * Wed Aug  3 2005 Leon Ho <llch@redhat.com> 3.0-7.EL
-- Fixed multilib problem on lsb_release not to read /etc/lsb-release and solely 
+- Fixed multilib problem on lsb_release not to read /etc/lsb-release and solely
   depends on /etc/lsb-release.d/ (Advised by LSB committee)
 - Removed /etc/lsb-release (Advised by LSB committee)
 
 * Mon Aug  1 2005 Leon Ho <llch@redhat.com> 3.0-6.EL
 - Made the /etc/lsb-release useful (RH#154605)
 - Added redhat_lsb_trigger to fix RH#160585 (Jakub Jelinek)
-- Fixed AMD64 base libraries requirement parsing (RH#154605) 
+- Fixed AMD64 base libraries requirement parsing (RH#154605)
 
-* Fri Jul 29 2005 Leon Ho <llch@redhat.com> 3.0-5.EL
-- Fixed redhat-lsb's mkredhat-lsb on fetching lib and cmd requirements (RH#154605)
-- Changed explicit mailx command requirement to package requirements (RH#164124)
-- Added mailx symlink to /bin/mail (RH#164124)
-- Added lsb-core-noarch and lsb-graphics-noarch and lsb-graphics-{arch} requirements (RH#164468)
-- Added requirements from lsb_release command on lsb-release.d and deps. (RH#164468)
+* Tue Jul 26 2005 Leon Ho <llch@redhat.com> 3.0-5.EL
+- Fixed redhat-lsb's mkredhat-lsb on fetching lib and 
+  cmd requirements
 
 * Mon Jul 18 2005 Leon Ho <llch@redhat.com> 3.0-4.EL
 - Rebuilt
