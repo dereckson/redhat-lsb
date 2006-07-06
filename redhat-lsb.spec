@@ -1,5 +1,5 @@
 # Define this to link to which library version  eg. /lib64/ld-lsb-x86-64.so.3
-%define lsbsover 3.1 
+%define lsbsover 3 
 
 %ifarch %{ix86}
 %define ldso ld-linux.so.2
@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 10.1
+Release: 10.2
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -441,6 +441,9 @@ fi
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Thu Jul 6 2006 Lawrence Lim <llim@redhat.com> - 3.1-10.2
+- for some strange reason, ld-lsb-x86-64.so need to be ld-lsb-x86-64.so.3 (LSB3.0) rather than ld-lsb-x86-64.so.3.1 (LSB3.1)
+
 * Thu Jul 6 2006 Lawrence Lim <llim@redhat.com> - 3.1-10.1
 - generate spec file on RHEL5-Alpha system
 - fix vsw4 test suite setup by creating symlink for X11 SecurityPolicy and XFontPath
