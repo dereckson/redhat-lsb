@@ -1,5 +1,5 @@
 # Define this to link to which library version  eg. /lib64/ld-lsb-x86-64.so.3
-%define lsbsover 3 
+%define lsbsover 3.1 
 
 %ifarch %{ix86}
 %define ldso ld-linux.so.2
@@ -44,11 +44,11 @@
 
 %define upstreamlsbrelver 2.0
 %define lsbrelver 3.0
-%define srcrelease 2
+%define srcrelease 1
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
-Version: 3.0
+Version: 3.1
 Release: 10.1
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
@@ -379,6 +379,12 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
+mkdir -p /usr/X11R6/lib/X11/xserver
+ln -snf /usr/%{_lib}/xserver/SecurityPolicy /usr/X11R6/lib/X11/xserver/SecurityPolicy
+mkdir -p /usr/X11R6/lib/X11/fonts/
+ln -snf /usr/share/X11/fonts/misc /usr/X11R6/lib/X11/fonts/misc
+ln -snf /usr/share/X11/rgb.txt /usr/X11R6/lib/X11/rgb.txt
+
 gcc -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
@@ -432,9 +438,13 @@ fi
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
-* Thu Jun 22 2006 Lawrence Lim <llim@redhat.com> - 3.0-10.1
-- Attempt to rewrite most part of the mkredhat-lsb to obtain information directly via 
-  specdb rather than sniffing through sgml
+* Thu Jul 6 2006 Lawrence Lim <llim@redhat.com> - 3.1-10.1
+- generate spec file on RHEL5-Alpha system
+- fix vsw4 test suite setup by creating symlink for X11 SecurityPolicy and XFontPath
+
+* Thu Jun 22 2006 Lawrence Lim <llim@redhat.com> - 3.0-10
+- Rewrite most part of the mkredhat-lsb to obtain information directly via specdb 
+  rather than sniffing through sgml
 - remove redundent script and bump up tarball version
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 3.0-9.2
