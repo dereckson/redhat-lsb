@@ -379,11 +379,10 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
-mkdir -p /usr/X11R6/lib/X11/xserver
-ln -snf /usr/%{_lib}/xserver/SecurityPolicy /usr/X11R6/lib/X11/xserver/SecurityPolicy
-mkdir -p /usr/X11R6/lib/X11/fonts/
-ln -snf /usr/share/X11/fonts/misc /usr/X11R6/lib/X11/fonts/misc
-ln -snf /usr/share/X11/rgb.txt /usr/X11R6/lib/X11/rgb.txt
+mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
+ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
+ln -snf /usr/share/X11/fonts $RPM_BUILD_ROOT/usr/X11R6/lib/X11/fonts
+ln -snf /usr/share/X11/rgb.txt  $RPM_BUILD_ROOT/usr/X11R6/lib/X11/rgb.txt
 
 gcc -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
@@ -423,12 +422,16 @@ fi
 %endif
 
 %files
+/usr/X11R6/lib/X11/fonts
+/usr/X11R6/lib/X11/rgb.txt
 %defattr(-,root,root)
 /etc/redhat-lsb
 #%config /etc/lsb-release
 #/etc/redhat-lsb
 %dir /etc/lsb-release.d
 /etc/lsb-release.d/*
+%dir /usr/X11R6/lib/X11/xserver
+/usr/X11R6/lib/X11/xserver/SecurityPolicy
 %{_mandir}/*/*
 %{_bindir}/*
 /bin/mailx
