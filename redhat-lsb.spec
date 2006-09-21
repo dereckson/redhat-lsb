@@ -44,12 +44,12 @@
 
 %define upstreamlsbrelver 2.0
 %define lsbrelver 3.0
-%define srcrelease 1
+%define srcrelease 2
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 10.2.1
+Release: 10.3
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -379,15 +379,17 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
-mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
-ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
-ln -snf /usr/share/X11/fonts $RPM_BUILD_ROOT/usr/X11R6/lib/X11/fonts
-ln -snf /usr/share/X11/rgb.txt  $RPM_BUILD_ROOT/usr/X11R6/lib/X11/rgb.txt
+#mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
+#ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
+#ln -snf /usr/share/X11/fonts $RPM_BUILD_ROOT/usr/X11R6/lib/X11/fonts
+#ln -snf /usr/share/X11/rgb.txt  $RPM_BUILD_ROOT/usr/X11R6/lib/X11/rgb.txt
 
 gcc -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT/usr/sbin/redhat_lsb_trigger.%{_target_cpu}
+
+cp redhat_lsb_init $RPM_BUILD_ROOT/bin/redhat_lsb_init
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -422,25 +424,32 @@ fi
 %endif
 
 %files
-/usr/X11R6/lib/X11/fonts
-/usr/X11R6/lib/X11/rgb.txt
+#/usr/X11R6/lib/X11/fonts
+#/usr/X11R6/lib/X11/rgb.txt
 %defattr(-,root,root)
 /etc/redhat-lsb
 #%config /etc/lsb-release
 #/etc/redhat-lsb
 %dir /etc/lsb-release.d
 /etc/lsb-release.d/*
-%dir /usr/X11R6/lib/X11/xserver
-/usr/X11R6/lib/X11/xserver/SecurityPolicy
+#%dir /usr/X11R6/lib/X11/xserver
+#/usr/X11R6/lib/X11/xserver/*
 %{_mandir}/*/*
 %{_bindir}/*
 /bin/mailx
+/bin/redhat_lsb_init
 /usr/lib/lsb
 /lib/lsb
 /%{_lib}/*
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
+#/usr/X11R6/lib/X11/xserver/SecurityPolicy
+#/usr/X11R6/lib/X11/fonts
+#/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Thu Sep 21 2006 Lawrence Lim <llim@redhat.com> - 3.1-10.3
+- Fix upgrade issue; Bug 202548 
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 3.1-10.2.1
 - rebuild
 
