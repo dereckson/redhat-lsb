@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 10.3
+Release: 11
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -447,6 +447,9 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> - 3.1-11
+- rebuilt for unwind info generation, broken in gcc-4.1.1-21
+
 * Thu Sep 21 2006 Lawrence Lim <llim@redhat.com> - 3.1-10.3
 - Fix upgrade issue; Bug 202548 
 
