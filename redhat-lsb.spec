@@ -44,12 +44,12 @@
 
 %define upstreamlsbrelver 2.0
 %define lsbrelver 3.0
-%define srcrelease 2
+%define srcrelease 3
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 11
+Release: 12.1
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -447,6 +447,13 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Wed Nov 29 2006 Lawrence Lim <llim@redhat.com> - 3.1-12.1
+- rebuild package
+
+* Wed Nov 29 2006 Lawrence Lim <llim@redhat.com> - 3.1-12
+- Resolves: #217566
+- replaced aliases with functions in /lib/lsb/init-functions
+
 * Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> - 3.1-11
 - rebuilt for unwind info generation, broken in gcc-4.1.1-21
 
