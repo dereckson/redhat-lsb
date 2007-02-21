@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 12.2
+Release: 13 
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -379,12 +379,7 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
-#mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
-#ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
-#ln -snf /usr/share/X11/fonts $RPM_BUILD_ROOT/usr/X11R6/lib/X11/fonts
-#ln -snf /usr/share/X11/rgb.txt  $RPM_BUILD_ROOT/usr/X11R6/lib/X11/rgb.txt
-
-gcc -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
+gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT/usr/sbin/redhat_lsb_trigger.%{_target_cpu}
@@ -424,16 +419,10 @@ fi
 %endif
 
 %files
-#/usr/X11R6/lib/X11/fonts
-#/usr/X11R6/lib/X11/rgb.txt
 %defattr(-,root,root)
 /etc/redhat-lsb
-#%config /etc/lsb-release
-#/etc/redhat-lsb
 %dir /etc/lsb-release.d
 /etc/lsb-release.d/*
-#%dir /usr/X11R6/lib/X11/xserver
-#/usr/X11R6/lib/X11/xserver/*
 %{_mandir}/*/*
 %{_bindir}/*
 /bin/mailx
@@ -442,11 +431,11 @@ fi
 /lib/lsb
 /%{_lib}/*
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
-#/usr/X11R6/lib/X11/xserver/SecurityPolicy
-#/usr/X11R6/lib/X11/fonts
-#/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Wed Feb 21 2007 Lawrence Lim <llim@redhat.com> - 3.1-13
+- fixed Bug 226363
+
 * Wed Nov 29 2006 Lawrence Lim <llim@redhat.com> - 3.1-12
 - replaced aliases with functions in /lib/lsb/init-functions; Bug 217566
 
