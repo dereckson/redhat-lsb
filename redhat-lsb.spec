@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 13 
+Release: 14.fc7 
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -379,8 +379,11 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
-gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
+#gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
+#  -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
+gcc $RPM_OPT_FLAGS -fno-stack-protector -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
+
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT/usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
@@ -433,6 +436,9 @@ fi
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Wed May 2 2007 Lawrence Lim <llim@redhat.com> - 3.1-14.fc7
+- fixed Bug 232918 for new glibc version
+
 * Wed Feb 21 2007 Lawrence Lim <llim@redhat.com> - 3.1-13
 - fixed Bug 226363
 
