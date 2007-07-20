@@ -44,16 +44,17 @@
 
 %define upstreamlsbrelver 2.0
 %define lsbrelver 3.0
-%define srcrelease 3
+%define srcrelease 4
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 14.fc7 
+Release: 15.f8
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
 Patch0: lsb-release-2.0-disable-etc-lsb-release.patch
+Patch1: lsb-release-3.1-update-init-functions.patch
 License: GPL
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-root
@@ -350,6 +351,7 @@ installed on the system.
 %prep
 %setup -q -a 1
 %patch0 -p 0
+%patch1 -p 1
 
 %build
 cd lsb-release-%{upstreamlsbrelver}
@@ -379,11 +381,13 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
-#gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
-#  -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
-gcc $RPM_OPT_FLAGS -fno-stack-protector -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
-  -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
+#mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
+#ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
+#ln -snf /usr/share/X11/fonts $RPM_BUILD_ROOT/usr/X11R6/lib/X11/fonts
+#ln -snf /usr/share/X11/rgb.txt  $RPM_BUILD_ROOT/usr/X11R6/lib/X11/rgb.txt
 
+gcc -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
+  -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT/usr/sbin/redhat_lsb_trigger.%{_target_cpu}
 
@@ -422,10 +426,16 @@ fi
 %endif
 
 %files
+#/usr/X11R6/lib/X11/fonts
+#/usr/X11R6/lib/X11/rgb.txt
 %defattr(-,root,root)
 /etc/redhat-lsb
+#%config /etc/lsb-release
+#/etc/redhat-lsb
 %dir /etc/lsb-release.d
 /etc/lsb-release.d/*
+#%dir /usr/X11R6/lib/X11/xserver
+#/usr/X11R6/lib/X11/xserver/*
 %{_mandir}/*/*
 %{_bindir}/*
 /bin/mailx
@@ -434,8 +444,15 @@ fi
 /lib/lsb
 /%{_lib}/*
 /usr/sbin/redhat_lsb_trigger.%{_target_cpu}
+#/usr/X11R6/lib/X11/xserver/SecurityPolicy
+#/usr/X11R6/lib/X11/fonts
+#/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Wed Jul 18 2007 Lawrence <llim@redhat.com> - 3.1-15.f8
+- Resolved: #239842 - /lib/lsb/init-functions shall use aliases but not functions
+- forward port the patch from 3.1-12.3.EL which fix #217566, #233530, #240916
+
 * Wed May 2 2007 Lawrence Lim <llim@redhat.com> - 3.1-14.fc7
 - fixed Bug 232918 for new glibc version
 
