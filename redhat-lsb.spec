@@ -49,15 +49,15 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 15.f8
+Release: 16%{?dist}
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
 Patch0: lsb-release-2.0-disable-etc-lsb-release.patch
 Patch1: lsb-release-3.1-update-init-functions.patch
-License: GPL
+License: GPLv2
 Group: System Environment/Base
-BuildRoot: %{_tmppath}/%{name}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # dependency for primary LSB application for v1.3
 Provides: lsb = %{version}
 # dependency for primary LSB application for v2.0 and v3.0
@@ -330,8 +330,8 @@ Requires: /usr/bin/unexpand
 Requires: /usr/bin/uniq
 Requires: /usr/bin/wc
 Requires: /usr/bin/xargs
-Requires: /usr/lib/lsb/install_initd
-Requires: /usr/lib/lsb/remove_initd
+Requires: %{_libdir}/lsb/install_initd
+Requires: %{_libdir}/lsb/remove_initd
 Requires: /usr/sbin/groupadd
 Requires: /usr/sbin/groupdel
 Requires: /usr/sbin/groupmod
@@ -344,7 +344,7 @@ Requires: /usr/sbin/usermod
 The Linux Standards Base (LSB) is an attempt to develop a set of
 standards that will increase compatibility among Linux distributions.
 The redhat-lsb package provides utilities needed for LSB Compliant
-Applications.  It also contains requirements that will ensure that all
+Applications. It also contains requirements that will ensure all
 components required by the LSB that are provided by Red Hat Linux are
 installed on the system.
 
@@ -359,17 +359,17 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/etc $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT/%{_mandir} \
-         $RPM_BUILD_ROOT/%{_bindir} $RPM_BUILD_ROOT/usr/lib/lsb \
-         $RPM_BUILD_ROOT/etc/lsb-release.d/ $RPM_BUILD_ROOT/usr/sbin/
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir} $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT%{_mandir} \
+         $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_libdir}/lsb \
+         $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/ $RPM_BUILD_ROOT%{_sbindir}
 make DESTDIR=$RPM_BUILD_ROOT install
 cd lsb-release-%{upstreamlsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-noarch
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-3.1-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-3.1-noarch
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-3.1-%{archname}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-3.1-noarch
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-3.1-%{archname}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-3.1-noarch
 
 for LSBVER in %{lsbsover}; do
   ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
@@ -377,19 +377,14 @@ done
 
 mkdir -p $RPM_BUILD_ROOT/bin
 
-ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
-ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
+ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/install_initd
+ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/remove_initd
 ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
-#mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
-#ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
-#ln -snf /usr/share/X11/fonts $RPM_BUILD_ROOT/usr/X11R6/lib/X11/fonts
-#ln -snf /usr/share/X11/rgb.txt  $RPM_BUILD_ROOT/usr/X11R6/lib/X11/rgb.txt
-
-gcc -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
+gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
-  $RPM_BUILD_ROOT/usr/sbin/redhat_lsb_trigger.%{_target_cpu}
+  $RPM_BUILD_ROOT%{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 cp redhat_lsb_init $RPM_BUILD_ROOT/bin/redhat_lsb_init
 
@@ -426,30 +421,25 @@ fi
 %endif
 
 %files
-#/usr/X11R6/lib/X11/fonts
-#/usr/X11R6/lib/X11/rgb.txt
 %defattr(-,root,root)
-/etc/redhat-lsb
-#%config /etc/lsb-release
-#/etc/redhat-lsb
-%dir /etc/lsb-release.d
-/etc/lsb-release.d/*
-#%dir /usr/X11R6/lib/X11/xserver
-#/usr/X11R6/lib/X11/xserver/*
+%doc README
+%{_sysconfdir}/redhat-lsb
+%dir %{_sysconfdir}/lsb-release.d
+%{_sysconfdir}/lsb-release.d/*
 %{_mandir}/*/*
 %{_bindir}/*
 /bin/mailx
 /bin/redhat_lsb_init
-/usr/lib/lsb
-/lib/lsb
+%{_libdir}/lsb
 /%{_lib}/*
-/usr/sbin/redhat_lsb_trigger.%{_target_cpu}
-#/usr/X11R6/lib/X11/xserver/SecurityPolicy
-#/usr/X11R6/lib/X11/fonts
-#/usr/X11R6/lib/X11/rgb.txt
+/lib/lsb
+%{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
-* Wed Jul 18 2007 Lawrence <llim@redhat.com> - 3.1-15.f8
+* Fri Aug 20 2007 Lawrence Lim <llim@redhat.com> - 3.1-16
+- update spec file in accordance to feedback provided through merge review - merge-review.patch - #226363
+
+* Wed Jul 18 2007 Lawrence Lim <llim@redhat.com> - 3.1-15.f8
 - Resolved: #239842 - /lib/lsb/init-functions shall use aliases but not functions
 - forward port the patch from 3.1-12.3.EL which fix #217566, #233530, #240916
 
