@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 16%{?dist}
+Release: 17%{?dist}
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -436,6 +436,9 @@ fi
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 3.1-17
+- Rebuild for selinux ppc32 issue.
+
 * Fri Aug 20 2007 Lawrence Lim <llim@redhat.com> - 3.1-16
 - update spec file in accordance to feedback provided through merge review - merge-review.patch - #226363
 
