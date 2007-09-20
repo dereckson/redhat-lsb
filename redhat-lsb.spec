@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 17%{?dist}
+Release: 18%{?dist}
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -58,6 +58,8 @@ Patch1: lsb-release-3.1-update-init-functions.patch
 License: GPLv2
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires: perl, help2man
+
 # dependency for primary LSB application for v1.3
 Provides: lsb = %{version}
 # dependency for primary LSB application for v2.0 and v3.0
@@ -436,6 +438,9 @@ fi
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Fri Sep 21 2007 Lawrence Lim <llim@redhat.com> - 3.1-18
+- fix build issue in minimal build root (Bug #265241)
+
 * Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 3.1-17
 - Rebuild for selinux ppc32 issue.
 
