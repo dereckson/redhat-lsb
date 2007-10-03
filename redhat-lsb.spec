@@ -44,12 +44,12 @@
 
 %define upstreamlsbrelver 2.0
 %define lsbrelver 3.0
-%define srcrelease 4
+%define srcrelease 5
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 18%{?dist}
+Release: 19%{?dist}
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -438,6 +438,9 @@ fi
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Wed Oct 3 2007 Lawrence Lim <llim@redhat.com> - 3.1-19
+- fix build issue on ppc - (.opd+0x10): multiple definition of `__libc_start_main'
+
 * Fri Sep 21 2007 Lawrence Lim <llim@redhat.com> - 3.1-18
 - fix build issue in minimal build root (Bug #265241)
 
