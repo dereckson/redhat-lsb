@@ -381,7 +381,7 @@ mkdir -p $RPM_BUILD_ROOT/bin
 
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/remove_initd
-ln -snf mail $RPM_BUILD_ROOT/bin/mailx
+#ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
 gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
@@ -430,7 +430,7 @@ fi
 %{_sysconfdir}/lsb-release.d/*
 %{_mandir}/*/*
 %{_bindir}/*
-/bin/mailx
+#/bin/mailx
 /bin/redhat_lsb_init
 %{_libdir}/lsb
 /%{_lib}/*
@@ -438,6 +438,9 @@ fi
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Thu Jul 31 2009 Lawrence Lim <llim@redhat.com> - 3.1-21
+- remove symlink for mailx (Bug #457241)
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 3.1-20
 - Autorebuild for GCC 4.3
 
