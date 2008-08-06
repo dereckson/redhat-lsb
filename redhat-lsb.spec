@@ -438,7 +438,7 @@ fi
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
-* Thu Jul 31 2009 Lawrence Lim <llim@redhat.com> - 3.1-21
+* Thu Jul 31 2008 Lawrence Lim <llim@redhat.com> - 3.1-21
 - remove symlink for mailx (Bug #457241)
 
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 3.1-20
