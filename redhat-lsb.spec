@@ -49,12 +49,10 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.1
-Release: 21%{?dist}
+Release: 22%{?dist}
 URL: http://www.linuxbase.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
-Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
-Patch0: lsb-release-2.0-disable-etc-lsb-release.patch
-Patch1: lsb-release-3.1-update-init-functions.patch
+Patch0: lsb-release-3.1-update-init-functions.patch
 License: GPLv2
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -332,8 +330,6 @@ Requires: /usr/bin/unexpand
 Requires: /usr/bin/uniq
 Requires: /usr/bin/wc
 Requires: /usr/bin/xargs
-Requires: %{_libdir}/lsb/install_initd
-Requires: %{_libdir}/lsb/remove_initd
 Requires: /usr/sbin/groupadd
 Requires: /usr/sbin/groupdel
 Requires: /usr/sbin/groupmod
@@ -351,9 +347,8 @@ components required by the LSB that are provided by Red Hat Linux are
 installed on the system.
 
 %prep
-%setup -q -a 1
-%patch0 -p 0
-%patch1 -p 1
+%setup -q
+%patch0 -p1
 
 %build
 cd lsb-release-%{upstreamlsbrelver}
@@ -361,8 +356,9 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
+# LSB uses /usr/lib rather than /usr/lib64 even for 64bit OS
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir} $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT%{_mandir} \
-         $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_libdir}/lsb \
+         $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT/usr/lib/lsb \
          $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/ $RPM_BUILD_ROOT%{_sbindir}
 make DESTDIR=$RPM_BUILD_ROOT install
 cd lsb-release-%{upstreamlsbrelver}
@@ -379,16 +375,22 @@ done
 
 mkdir -p $RPM_BUILD_ROOT/bin
 
-ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/install_initd
-ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT%{_libdir}/lsb/remove_initd
+# LSB uses /usr/lib rather than /usr/lib64 even for 64bit OS
+# According to the lsb-core documentation provided by 
+# http://refspecs.linux-foundation.org/LSB_3.2.0/LSB-Core-generic/LSB-Core-generic.pdf
+# it's OK to put non binary in /usr/lib.
+ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
+ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 #ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
+# According to https://bugzilla.redhat.com/show_bug.cgi?id=232918 , the '-static' option
+# is imported against segfault error while running redhat_lsb_trigger
 gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT%{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
-cp redhat_lsb_init $RPM_BUILD_ROOT/bin/redhat_lsb_init
+cp -p redhat_lsb_init $RPM_BUILD_ROOT/bin/redhat_lsb_init
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -427,17 +429,28 @@ fi
 %doc README
 %{_sysconfdir}/redhat-lsb
 %dir %{_sysconfdir}/lsb-release.d
+# These files are needed because they shows which LSB we're supporting now, 
+# for example, if core-3.1-noarch exists, it means we are supporting LSB3.1 now
 %{_sysconfdir}/lsb-release.d/*
 %{_mandir}/*/*
 %{_bindir}/*
 #/bin/mailx
 /bin/redhat_lsb_init
-%{_libdir}/lsb
-/%{_lib}/*
-/lib/lsb
+/usr/lib/lsb
+/%{_lib}/*so*
+/lib/lsb*
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %changelog
+* Thu Aug 5 2008 Hao Liu <hliu@redhat.com> - 3.1-22
+- Remove 2 requires which provided by redhat-lsb
+- Add comments explaining why hard-coded path is kept
+- Resolve some hard-coded path problems
+- Add comments explaining why importing '-static' option while compiling redhat_lsb_trigger
+- Replace %{_libdir}/lsb with /usr/lib/lsb
+- Replace /%{_lib}/* with /%{_lib}/*so*
+- Replace /lib/lsb with /lib/lsb*
+
 * Thu Jul 31 2008 Lawrence Lim <llim@redhat.com> - 3.1-21
 - remove symlink for mailx (Bug #457241)
 
@@ -543,7 +556,7 @@ fi
 
 * Fri Jan 21 2005 Leon Ho <llch@redhat.com> 1.3-7
 - Add to support multiple LSB test suite version
-- Add %endif in trigger postun
+- Add %%endif in trigger postun
 
 * Thu Nov 11 2004 Phil Knirsch <pknirsch@redhat.com> 1.3-6
 - Fixed invalid sln call for trigger in postun on ia64 (#137647)
