@@ -1,0 +1,89 @@
+Index: redhat-lsb.spec
+===================================================================
+RCS file: /cvs/pkgs/devel/redhat-lsb/redhat-lsb.spec,v
+retrieving revision 1.32
+diff -u -p -r1.32 redhat-lsb.spec
+--- redhat-lsb.spec	20 Sep 2007 22:53:38 -0000	1.32
++++ redhat-lsb.spec	26 Sep 2007 07:24:56 -0000
+@@ -36,6 +36,11 @@
+ %define lsbldso ld-lsb-x86-64.so
+ %endif
+ 
++%ifarch alpha
++%define ldso ld-linux-alpha.so.2
++%define lsbldso ld-lsb-alpha.so
++%endif
++
+ %ifarch ia64 ppc64 s390x x86_64
+ %define qual ()(64bit)
+ %else
+@@ -49,7 +54,7 @@
+ Summary: LSB support for Red Hat Linux
+ Name: redhat-lsb
+ Version: 3.1
+-Release: 18%{?dist}
++Release: 18%{?dist}axp
+ URL: http://www.linuxbase.org/
+ Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
+ Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
+@@ -84,12 +89,15 @@ Provides: lsb = %{version}
+ %ifarch x86_64
+ %define archname amd64
+ %endif
++%ifarch alpha
++%define archname alpha
++%endif
+ Provides: lsb-core-%{archname} = %{version}
+ Provides: lsb-graphics-%{archname} = %{version}
+ Provides: lsb-core-noarch = %{version}
+ Provides: lsb-graphics-noarch = %{version}
+ 
+-ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x
++ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x alpha
+ 
+ %ifarch %{ix86}
+ # archLSB IA32 Base Libraries
+@@ -189,16 +197,32 @@ Requires: libc.so.6()(64bit)
+ Requires: libstdc++.so.6()(64bit)
+ %endif
+ 
++%ifarch alpha
++# archLSB Alpha Base Libraries
++Requires: libz.so.1
++Requires: libutil.so.1.1
++Requires: libpthread.so.0
++Requires: libncurses.so.5
++Requires: libm.so.6.1
++Requires: libgcc_s.so.1
++Requires: libdl.so.2.1
++Requires: libcrypt.so.1.1
++Requires: libc.so.6.1
++Requires: libstdc++.so.6
++%endif
++
+ # gLSB Base/Utility/Stdc++/Graphics Libraries
+ Requires: libz.so.1%{qual}
+-Requires: libutil.so.1%{qual}
+ Requires: librt.so.1%{qual}
+ Requires: libpthread.so.0%{qual}
+ Requires: libpam.so.0%{qual}
+ Requires: libncurses.so.5%{qual}
+ Requires: libgcc_s.so.1%{qual}
++%ifnarch alpha
+ Requires: libdl.so.2%{qual}
+ Requires: libcrypt.so.1%{qual}
++Requires: libutil.so.1%{qual}
++%endif
+ Requires: libstdc++.so.6%{qual}
+ Requires: libXt.so.6%{qual}
+ Requires: libXi.so.6%{qual}
+@@ -438,6 +462,9 @@ fi
+ %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
+ 
+ %changelog
++* Wed Sep 26 2007 Oliver Falk <oliver@linux-kernel.at> - 3.1-18axp
++- Add alpha
++
+ * Fri Sep 21 2007 Lawrence Lim <llim@redhat.com> - 3.1-18
+ - fix build issue in minimal build root (Bug #265241)
+ 
