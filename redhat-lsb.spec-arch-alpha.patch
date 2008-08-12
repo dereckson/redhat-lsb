@@ -1,14 +1,15 @@
+Diff against 3.1-22:
 Index: redhat-lsb.spec
 ===================================================================
 RCS file: /cvs/pkgs/devel/redhat-lsb/redhat-lsb.spec,v
-retrieving revision 1.32
-diff -u -p -r1.32 redhat-lsb.spec
---- redhat-lsb.spec	20 Sep 2007 22:53:38 -0000	1.32
-+++ redhat-lsb.spec	26 Sep 2007 07:24:56 -0000
+retrieving revision 1.38
+diff -u -p -r1.38 redhat-lsb.spec
+--- redhat-lsb.spec 7 Aug 2008 08:46:31 -0000 1.38
++++ redhat-lsb.spec 11 Aug 2008 10:34:20 -0000
 @@ -36,6 +36,11 @@
  %define lsbldso ld-lsb-x86-64.so
  %endif
- 
+
 +%ifarch alpha
 +%define ldso ld-linux-alpha.so.2
 +%define lsbldso ld-lsb-alpha.so
@@ -17,16 +18,7 @@ diff -u -p -r1.32 redhat-lsb.spec
  %ifarch ia64 ppc64 s390x x86_64
  %define qual ()(64bit)
  %else
-@@ -49,7 +54,7 @@
- Summary: LSB support for Red Hat Linux
- Name: redhat-lsb
- Version: 3.1
--Release: 18%{?dist}
-+Release: 18%{?dist}axp
- URL: http://www.linuxbase.org/
- Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
- Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
-@@ -84,12 +89,15 @@ Provides: lsb = %{version}
+@@ -82,12 +87,15 @@ Provides: lsb = %{version}
  %ifarch x86_64
  %define archname amd64
  %endif
@@ -37,16 +29,16 @@ diff -u -p -r1.32 redhat-lsb.spec
  Provides: lsb-graphics-%{archname} = %{version}
  Provides: lsb-core-noarch = %{version}
  Provides: lsb-graphics-noarch = %{version}
- 
+
 -ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x
 +ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x alpha
- 
+
  %ifarch %{ix86}
  # archLSB IA32 Base Libraries
-@@ -189,16 +197,32 @@ Requires: libc.so.6()(64bit)
+@@ -187,16 +195,34 @@ Requires: libc.so.6()(64bit)
  Requires: libstdc++.so.6()(64bit)
  %endif
- 
+
 +%ifarch alpha
 +# archLSB Alpha Base Libraries
 +Requires: libz.so.1
@@ -63,7 +55,9 @@ diff -u -p -r1.32 redhat-lsb.spec
 +
  # gLSB Base/Utility/Stdc++/Graphics Libraries
  Requires: libz.so.1%{qual}
--Requires: libutil.so.1%{qual}
++%ifnarch alpha
+ Requires: libutil.so.1%{qual}
++%endif
  Requires: librt.so.1%{qual}
  Requires: libpthread.so.0%{qual}
  Requires: libpam.so.0%{qual}
@@ -72,18 +66,7 @@ diff -u -p -r1.32 redhat-lsb.spec
 +%ifnarch alpha
  Requires: libdl.so.2%{qual}
  Requires: libcrypt.so.1%{qual}
-+Requires: libutil.so.1%{qual}
 +%endif
  Requires: libstdc++.so.6%{qual}
  Requires: libXt.so.6%{qual}
  Requires: libXi.so.6%{qual}
-@@ -438,6 +462,9 @@ fi
- %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
- 
- %changelog
-+* Wed Sep 26 2007 Oliver Falk <oliver@linux-kernel.at> - 3.1-18axp
-+- Add alpha
-+
- * Fri Sep 21 2007 Lawrence Lim <llim@redhat.com> - 3.1-18
- - fix build issue in minimal build root (Bug #265241)
- 
