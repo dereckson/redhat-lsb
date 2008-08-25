@@ -44,20 +44,18 @@
 
 %define upstreamlsbrelver 2.0
 %define lsbrelver 3.0
-%define srcrelease 5
+%define srcrelease 1
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
-Version: 3.1
-Release: 22%{?dist}
-URL: http://www.linuxbase.org/
+Version: 3.2
+Release: 1.fc10
+URL: http://www.linuxfoundation.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
 License: GPLv2
 Group: System Environment/Base
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: perl, help2man
-
+BuildRoot: %{_tmppath}/%{name}-root
 # dependency for primary LSB application for v1.3
 Provides: lsb = %{version}
 # dependency for primary LSB application for v2.0 and v3.0
@@ -91,120 +89,290 @@ ExclusiveArch: i386 ia64 x86_64 ppc ppc64 s390 s390x
 
 %ifarch %{ix86}
 # archLSB IA32 Base Libraries
-Requires: libz.so.1
-Requires: libutil.so.1
-Requires: libpthread.so.0
-Requires: libncurses.so.5
-Requires: libm.so.6
-Requires: libgcc_s.so.1
-Requires: libdl.so.2
-Requires: libcrypt.so.1
+Requires: libatk-1.0.so.0
 Requires: libc.so.6
+Requires: libcrypt.so.1
+Requires: libdl.so.2
+Requires: libgcc_s.so.1
+Requires: libgdk-x11-2.0.so.0
+Requires: libgdk_pixbuf-2.0.so.0
+Requires: libgdk_pixbuf_xlib-2.0.so.0
+Requires: libglib-2.0.so.0
+Requires: libgmodule-2.0.so.0
+Requires: libgobject-2.0.so.0
+Requires: libgthread-2.0.so.0
+Requires: libgtk-x11-2.0.so.0
+Requires: libm.so.6
+Requires: libncurses.so.5
+Requires: libpango-1.0.so.0
+Requires: libpangoft2-1.0.so.0
+Requires: libpangoxft-1.0.so.0
+Requires: libpthread.so.0
+Requires: libqt-mt.so.3
+Requires: libQtCore.so.4
+Requires: libQtGui.so.4
+Requires: libQtNetwork.so.4
+Requires: libQtOpenGL.so.4
+Requires: libQtSql.so.4
+Requires: libQtSvg.so.4
+Requires: libQtXml.so.4
 Requires: libstdc++.so.6
+Requires: libutil.so.1
+Requires: libz.so.1
 %endif
 
 %ifarch ia64
 # archLSB IA64 Base Libraries
-Requires: libz.so.1()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libm.so.6.1()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libcrypt.so.1()(64bit)
+Requires: libatk-1.0.so.0()(64bit)
 Requires: libc.so.6.1()(64bit)
+Requires: libcrypt.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libgdk-x11-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
+Requires: libglib-2.0.so.0()(64bit)
+Requires: libgmodule-2.0.so.0()(64bit)
+Requires: libgobject-2.0.so.0()(64bit)
+Requires: libgthread-2.0.so.0()(64bit)
+Requires: libgtk-x11-2.0.so.0()(64bit)
+Requires: libm.so.6.1()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangoft2-1.0.so.0()(64bit)
+Requires: libpangoxft-1.0.so.0()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libqt-mt.so.3()(64bit)
+Requires: libQtCore.so.4()(64bit)
+Requires: libQtGui.so.4()(64bit)
+Requires: libQtNetwork.so.4()(64bit)
+Requires: libQtOpenGL.so.4()(64bit)
+Requires: libQtSql.so.4()(64bit)
+Requires: libQtSvg.so.4()(64bit)
+Requires: libQtXml.so.4()(64bit)
 Requires: libstdc++.so.6()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libz.so.1()(64bit)
 %endif
 
 %ifarch ppc
 # archLSB PPC32 Base Libraries
-Requires: libz.so.1
-Requires: libutil.so.1
-Requires: libpthread.so.0
-Requires: libncurses.so.5
-Requires: libm.so.6
-Requires: libgcc_s.so.1
-Requires: libdl.so.2
-Requires: libcrypt.so.1
+Requires: libatk-1.0.so.0
 Requires: libc.so.6
+Requires: libcrypt.so.1
+Requires: libdl.so.2
+Requires: libgcc_s.so.1
+Requires: libgdk-x11-2.0.so.0
+Requires: libgdk_pixbuf-2.0.so.0
+Requires: libgdk_pixbuf_xlib-2.0.so.0
+Requires: libglib-2.0.so.0
+Requires: libgmodule-2.0.so.0
+Requires: libgobject-2.0.so.0
+Requires: libgthread-2.0.so.0
+Requires: libgtk-x11-2.0.so.0
+Requires: libm.so.6
+Requires: libncurses.so.5
+Requires: libpango-1.0.so.0
+Requires: libpangoft2-1.0.so.0
+Requires: libpangoxft-1.0.so.0
+Requires: libpthread.so.0
+Requires: libqt-mt.so.3
+Requires: libQtCore.so.4
+Requires: libQtGui.so.4
+Requires: libQtNetwork.so.4
+Requires: libQtOpenGL.so.4
+Requires: libQtSql.so.4
+Requires: libQtSvg.so.4
+Requires: libQtXml.so.4
 Requires: libstdc++.so.6
+Requires: libutil.so.1
+Requires: libz.so.1
 %endif
 
 %ifarch ppc64
 # archLSB PPC64 Base Libraries
-Requires: libz.so.1()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libcrypt.so.1()(64bit)
+Requires: libatk-1.0.so.0()(64bit)
 Requires: libc.so.6()(64bit)
+Requires: libcrypt.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libgdk-x11-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
+Requires: libglib-2.0.so.0()(64bit)
+Requires: libgmodule-2.0.so.0()(64bit)
+Requires: libgobject-2.0.so.0()(64bit)
+Requires: libgthread-2.0.so.0()(64bit)
+Requires: libgtk-x11-2.0.so.0()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangoft2-1.0.so.0()(64bit)
+Requires: libpangoxft-1.0.so.0()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libqt-mt.so.3()(64bit)
+Requires: libQtCore.so.4()(64bit)
+Requires: libQtGui.so.4()(64bit)
+Requires: libQtNetwork.so.4()(64bit)
+Requires: libQtOpenGL.so.4()(64bit)
+Requires: libQtSql.so.4()(64bit)
+Requires: libQtSvg.so.4()(64bit)
+Requires: libQtXml.so.4()(64bit)
 Requires: libstdc++.so.6()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libz.so.1()(64bit)
 %endif
 
 %ifarch s390
 # archLSB S390 Base Libraries
-Requires: libz.so.1
-Requires: libutil.so.1
-Requires: libpthread.so.0
-Requires: libncurses.so.5
-Requires: libm.so.6
-Requires: libgcc_s.so.1
-Requires: libdl.so.2
-Requires: libcrypt.so.1
+Requires: libatk-1.0.so.0
 Requires: libc.so.6
+Requires: libcrypt.so.1
+Requires: libdl.so.2
+Requires: libgcc_s.so.1
+Requires: libgdk-x11-2.0.so.0
+Requires: libgdk_pixbuf-2.0.so.0
+Requires: libgdk_pixbuf_xlib-2.0.so.0
+Requires: libglib-2.0.so.0
+Requires: libgmodule-2.0.so.0
+Requires: libgobject-2.0.so.0
+Requires: libgthread-2.0.so.0
+Requires: libgtk-x11-2.0.so.0
+Requires: libm.so.6
+Requires: libncurses.so.5
+Requires: libpango-1.0.so.0
+Requires: libpangoft2-1.0.so.0
+Requires: libpangoxft-1.0.so.0
+Requires: libpthread.so.0
+Requires: libqt-mt.so.3
+Requires: libQtCore.so.4
+Requires: libQtGui.so.4
+Requires: libQtNetwork.so.4
+Requires: libQtOpenGL.so.4
+Requires: libQtSql.so.4
+Requires: libQtSvg.so.4
+Requires: libQtXml.so.4
 Requires: libstdc++.so.6
+Requires: libutil.so.1
+Requires: libz.so.1
 %endif
 
 %ifarch s390x
 # archLSB S390X Base Libraries
-Requires: libz.so.1()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libcrypt.so.1()(64bit)
+Requires: libatk-1.0.so.0()(64bit)
 Requires: libc.so.6()(64bit)
+Requires: libcrypt.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libgdk-x11-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
+Requires: libglib-2.0.so.0()(64bit)
+Requires: libgmodule-2.0.so.0()(64bit)
+Requires: libgobject-2.0.so.0()(64bit)
+Requires: libgthread-2.0.so.0()(64bit)
+Requires: libgtk-x11-2.0.so.0()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangoft2-1.0.so.0()(64bit)
+Requires: libpangoxft-1.0.so.0()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libqt-mt.so.3()(64bit)
+Requires: libQtCore.so.4()(64bit)
+Requires: libQtGui.so.4()(64bit)
+Requires: libQtNetwork.so.4()(64bit)
+Requires: libQtOpenGL.so.4()(64bit)
+Requires: libQtSql.so.4()(64bit)
+Requires: libQtSvg.so.4()(64bit)
+Requires: libQtXml.so.4()(64bit)
 Requires: libstdc++.so.6()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libz.so.1()(64bit)
 %endif
 
 %ifarch x86_64
 # archLSB AMD64 Base Libraries
-Requires: libz.so.1()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libcrypt.so.1()(64bit)
+Requires: libatk-1.0.so.0()(64bit)
 Requires: libc.so.6()(64bit)
+Requires: libcrypt.so.1()(64bit)
+Requires: libdl.so.2()(64bit)
+Requires: libgcc_s.so.1()(64bit)
+Requires: libgdk-x11-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf-2.0.so.0()(64bit)
+Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
+Requires: libglib-2.0.so.0()(64bit)
+Requires: libgmodule-2.0.so.0()(64bit)
+Requires: libgobject-2.0.so.0()(64bit)
+Requires: libgthread-2.0.so.0()(64bit)
+Requires: libgtk-x11-2.0.so.0()(64bit)
+Requires: libm.so.6()(64bit)
+Requires: libncurses.so.5()(64bit)
+Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangoft2-1.0.so.0()(64bit)
+Requires: libpangoxft-1.0.so.0()(64bit)
+Requires: libpthread.so.0()(64bit)
+Requires: libqt-mt.so.3()(64bit)
+Requires: libQtCore.so.4()(64bit)
+Requires: libQtGui.so.4()(64bit)
+Requires: libQtNetwork.so.4()(64bit)
+Requires: libQtOpenGL.so.4()(64bit)
+Requires: libQtSql.so.4()(64bit)
+Requires: libQtSvg.so.4()(64bit)
+Requires: libQtXml.so.4()(64bit)
 Requires: libstdc++.so.6()(64bit)
+Requires: libutil.so.1()(64bit)
+Requires: libz.so.1()(64bit)
 %endif
 
 # gLSB Base/Utility/Stdc++/Graphics Libraries
-Requires: libz.so.1%{qual}
-Requires: libutil.so.1%{qual}
-Requires: librt.so.1%{qual}
-Requires: libpthread.so.0%{qual}
-Requires: libpam.so.0%{qual}
-Requires: libncurses.so.5%{qual}
-Requires: libgcc_s.so.1%{qual}
-Requires: libdl.so.2%{qual}
+Requires: libasound.so.2%{qual}
+Requires: libatk-1.0.so.0%{qual}
 Requires: libcrypt.so.1%{qual}
-Requires: libstdc++.so.6%{qual}
-Requires: libXt.so.6%{qual}
-Requires: libXi.so.6%{qual}
-Requires: libXext.so.6%{qual}
-Requires: libX11.so.6%{qual}
-Requires: libSM.so.6%{qual}
-Requires: libICE.so.6%{qual}
+Requires: libcups.so.2%{qual}
+Requires: libcupsimage.so.2%{qual}
+Requires: libdl.so.2%{qual}
+Requires: libfontconfig.so.1%{qual}
+Requires: libfreetype.so.6%{qual}
+Requires: libgcc_s.so.1%{qual}
+Requires: libgdk-x11-2.0.so.0%{qual}
+Requires: libgdk_pixbuf-2.0.so.0%{qual}
+Requires: libgdk_pixbuf_xlib-2.0.so.0%{qual}
 Requires: libGL.so.1%{qual}
+Requires: libglib-2.0.so.0%{qual}
+Requires: libgmodule-2.0.so.0%{qual}
+Requires: libgobject-2.0.so.0%{qual}
+Requires: libgthread-2.0.so.0%{qual}
+Requires: libgtk-x11-2.0.so.0%{qual}
+Requires: libICE.so.6%{qual}
+Requires: libjpeg.so.62%{qual}
+Requires: libncurses.so.5%{qual}
+Requires: libpam.so.0%{qual}
+Requires: libpango-1.0.so.0%{qual}
+Requires: libpangoft2-1.0.so.0%{qual}
+Requires: libpangoxft-1.0.so.0%{qual}
+Requires: libpng12.so.0%{qual}
+Requires: libpthread.so.0%{qual}
+Requires: libqt-mt.so.3%{qual}
+Requires: libQtCore.so.4%{qual}
+Requires: libQtGui.so.4%{qual}
+Requires: libQtNetwork.so.4%{qual}
+Requires: libQtOpenGL.so.4%{qual}
+Requires: libQtSql.so.4%{qual}
+Requires: libQtSvg.so.4%{qual}
+Requires: libQtXml.so.4%{qual}
+Requires: librt.so.1%{qual}
+Requires: libSM.so.6%{qual}
+Requires: libstdc++.so.6%{qual}
+Requires: libutil.so.1%{qual}
+Requires: libX11.so.6%{qual}
+Requires: libXext.so.6%{qual}
+Requires: libXft.so.2%{qual}
+Requires: libXi.so.6%{qual}
+Requires: libxml2.so.2%{qual}
+Requires: libXrender.so.1%{qual}
+Requires: libXt.so.6%{qual}
+Requires: libz.so.1%{qual}
 
 # gLSB Command and Utilities
 Requires: /bin/awk
@@ -234,7 +402,7 @@ Requires: /bin/hostname
 Requires: /bin/kill
 Requires: /bin/ln
 Requires: /bin/ls
-Requires: /bin/mailx
+Requires: /usr/bin/mailx
 Requires: /bin/mkdir
 Requires: /bin/mknod
 Requires: /bin/mktemp
@@ -258,6 +426,7 @@ Requires: /bin/touch
 Requires: /bin/true
 Requires: /bin/umount
 Requires: /bin/uname
+Requires: /bin/zcat
 Requires: /sbin/fuser
 Requires: /sbin/pidof
 Requires: /sbin/shutdown
@@ -279,12 +448,17 @@ Requires: /usr/bin/dirname
 Requires: /usr/bin/du
 Requires: /usr/bin/expand
 Requires: /usr/bin/expr
+Requires: /usr/bin/fc-cache
+Requires: /usr/bin/fc-list
+Requires: /usr/bin/fc-match
 Requires: /usr/bin/file
 Requires: /usr/bin/find
 Requires: /usr/bin/fold
+Requires: /usr/bin/foomatic-rip
 Requires: /usr/bin/gencat
 Requires: /usr/bin/getconf
 Requires: /usr/bin/groups
+Requires: /usr/bin/gs
 Requires: /usr/bin/head
 Requires: /usr/bin/iconv
 Requires: /usr/bin/id
@@ -314,8 +488,10 @@ Requires: /usr/bin/paste
 Requires: /usr/bin/patch
 Requires: /usr/bin/pathchk
 Requires: /usr/bin/pax
+Requires: /usr/bin/perl
 Requires: /usr/bin/pr
 Requires: /usr/bin/printf
+Requires: /usr/bin/python
 Requires: /usr/bin/renice
 Requires: /usr/bin/split
 Requires: /usr/bin/strip
@@ -339,10 +515,10 @@ Requires: /usr/sbin/userdel
 Requires: /usr/sbin/usermod
 
 %description
-The Linux Standards Base (LSB) is an attempt to develop a set of
+The Linux Standard Base (LSB) is an attempt to develop a set of
 standards that will increase compatibility among Linux distributions.
 The redhat-lsb package provides utilities needed for LSB Compliant
-Applications. It also contains requirements that will ensure all
+Applications.  It also contains requirements that will ensure that all
 components required by the LSB that are provided by Red Hat Linux are
 installed on the system.
 
@@ -354,6 +530,14 @@ installed on the system.
 cd lsb-release-%{upstreamlsbrelver}
 make
 
+%pre
+# remove the extra symlink /bin/mailx -> /bin/mail
+  if [ -e /bin/mailx ]; then
+    if [ -L /bin/mailx ]; then
+      rm -f /bin/mailx
+    fi
+  fi
+
 %install
 rm -rf $RPM_BUILD_ROOT
 # LSB uses /usr/lib rather than /usr/lib64 even for 64bit OS
@@ -364,10 +548,15 @@ make DESTDIR=$RPM_BUILD_ROOT install
 cd lsb-release-%{upstreamlsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-3.1-%{archname}
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-3.1-noarch
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-3.1-%{archname}
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-3.1-noarch
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-noarch
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-noarch
+# and claim LSB 3.1 is supported as well
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-noarch
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-noarch
 
 for LSBVER in %{lsbsover}; do
   ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
@@ -381,7 +570,12 @@ mkdir -p $RPM_BUILD_ROOT/bin
 # it's OK to put non binary in /usr/lib.
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
-#ln -snf mail $RPM_BUILD_ROOT/bin/mailx
+# ln -snf mail $RPM_BUILD_ROOT/bin/mailx
+
+#mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
+#ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
+#ln -snf /usr/share/X11/fonts $RPM_BUILD_ROOT/usr/X11R6/lib/X11/fonts
+#ln -snf /usr/share/X11/rgb.txt  $RPM_BUILD_ROOT/usr/X11R6/lib/X11/rgb.txt
 
 # According to https://bugzilla.redhat.com/show_bug.cgi?id=232918 , the '-static' option
 # is imported against segfault error while running redhat_lsb_trigger
@@ -425,13 +619,18 @@ fi
 %endif
 
 %files
+#/usr/X11R6/lib/X11/fonts
+#/usr/X11R6/lib/X11/rgb.txt
 %defattr(-,root,root)
-%doc README
 %{_sysconfdir}/redhat-lsb
+#%config /etc/lsb-release
+#/etc/redhat-lsb
 %dir %{_sysconfdir}/lsb-release.d
 # These files are needed because they shows which LSB we're supporting now, 
 # for example, if core-3.1-noarch exists, it means we are supporting LSB3.1 now
 %{_sysconfdir}/lsb-release.d/*
+#%dir /usr/X11R6/lib/X11/xserver
+#/usr/X11R6/lib/X11/xserver/*
 %{_mandir}/*/*
 %{_bindir}/*
 #/bin/mailx
@@ -440,8 +639,16 @@ fi
 /%{_lib}/*so*
 /lib/lsb*
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
+#/usr/X11R6/lib/X11/xserver/SecurityPolicy
+#/usr/X11R6/lib/X11/fonts
+#/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Wed Aug 18 2008 Hao Liu <hliu@redhat.com> 3.2-1
+- Port forward to LSB 3.2
+- Remove symlink for mailx if user is upgrading from the redhat-lsb of older version 
+- Since F10 put mailx under /usr/bin, change the corresponding requires
+
 * Thu Aug 5 2008 Hao Liu <hliu@redhat.com> - 3.1-22
 - Remove 2 requires which provided by redhat-lsb
 - Add comments explaining why hard-coded path is kept
