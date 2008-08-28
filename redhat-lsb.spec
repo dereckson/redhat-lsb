@@ -402,7 +402,7 @@ Requires: /bin/hostname
 Requires: /bin/kill
 Requires: /bin/ln
 Requires: /bin/ls
-Requires: /usr/bin/mailx
+Requires: mailx
 Requires: /bin/mkdir
 Requires: /bin/mknod
 Requires: /bin/mktemp
@@ -644,6 +644,9 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Thu Aug 28 2008 Hao Liu <hliu@redhat.com> 3.2-2
+- Modify "Requires: /usr/bin/mailx" to "Requires: mailx" (Bug #460249)
+
 * Wed Aug 18 2008 Hao Liu <hliu@redhat.com> 3.2-1
 - Port forward to LSB 3.2
 - Remove symlink for mailx if user is upgrading from the redhat-lsb of older version 
