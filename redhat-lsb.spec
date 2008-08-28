@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.2
-Release: 1.fc10
+Release: 2.fc10
 URL: http://www.linuxfoundation.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
