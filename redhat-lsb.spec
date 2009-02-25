@@ -49,7 +49,7 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.2
-Release: 2.fc10
+Release: 3.fc10
 URL: http://www.linuxfoundation.org/
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -644,6 +644,9 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2-3.fc10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Thu Aug 28 2008 Hao Liu <hliu@redhat.com> 3.2-2
 - Modify "Requires: /usr/bin/mailx" to "Requires: mailx" (Bug #460249)
 
