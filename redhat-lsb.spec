@@ -50,7 +50,7 @@ Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.2
 Release: 4%{?dist}
-URL: http://www.linuxfoundation.org/
+URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
 License: GPLv2
@@ -645,6 +645,9 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Fri Apr 24 2009 Jens Petersen <petersen@redhat.com>
+- improve url to LSB WG
+
 * Thu Apr 23 2009 Jens Petersen <petersen@redhat.com> - 3.2-4
 - use dist tag (Debarshi, #496553)
 - update to ix86 (caillon)
