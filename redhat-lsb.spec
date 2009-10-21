@@ -49,10 +49,11 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.2
-Release: 5%{?dist}
+Release: 6%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
+Patch1: redhat-lsb-lsb_start_daemon-fix.patch
 License: GPLv2
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-root
@@ -526,6 +527,7 @@ installed on the system.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 cd lsb-release-%{upstreamlsbrelver}
@@ -645,6 +647,9 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Wed Oct 21 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 3.2-6
+- apply fix from bz485367 (thanks to Jon Thomas)
+
 * Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
