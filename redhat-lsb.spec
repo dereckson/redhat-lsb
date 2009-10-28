@@ -49,11 +49,12 @@
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
 Version: 3.2
-Release: 6%{?dist}
+Release: 7%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
 Patch1: redhat-lsb-lsb_start_daemon-fix.patch
+Patch2: redhat-lsb-trigger.patch
 License: GPLv2
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-root
@@ -528,6 +529,7 @@ installed on the system.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p0 -b .triggerfix
 
 %build
 cd lsb-release-%{upstreamlsbrelver}
@@ -582,7 +584,7 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 
 # According to https://bugzilla.redhat.com/show_bug.cgi?id=232918 , the '-static' option
 # is imported against segfault error while running redhat_lsb_trigger
-gcc $RPM_OPT_FLAGS -Os -static -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
+gcc $RPM_OPT_FLAGS -Os -static -fno-stack-protector -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
 install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT%{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
@@ -647,6 +649,9 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Tue Oct 27 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 3.2-7
+- apply fix from bz514760 (thanks to Jakub Jelinek)
+
 * Wed Oct 21 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 3.2-6
 - apply fix from bz485367 (thanks to Jon Thomas)
 
