@@ -43,19 +43,20 @@
 %endif
 
 %define upstreamlsbrelver 2.0
-%define lsbrelver 3.0
+%define lsbrelver 4.0
 %define srcrelease 1
 
 Summary: LSB support for Red Hat Linux
 Name: redhat-lsb
-Version: 3.2
-Release: 7%{?dist}
+Version: 4.0
+Release: 1%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
+#Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
 Patch0: lsb-release-3.1-update-init-functions.patch
 Patch1: redhat-lsb-lsb_start_daemon-fix.patch
 Patch2: redhat-lsb-trigger.patch
-License: GPLv2
+License: GPL
 Group: System Environment/Base
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: glibc-static
@@ -108,6 +109,7 @@ Requires: libgtk-x11-2.0.so.0
 Requires: libm.so.6
 Requires: libncurses.so.5
 Requires: libpango-1.0.so.0
+Requires: libpangocairo-1.0.so.0
 Requires: libpangoft2-1.0.so.0
 Requires: libpangoxft-1.0.so.0
 Requires: libpthread.so.0
@@ -142,6 +144,7 @@ Requires: libgtk-x11-2.0.so.0()(64bit)
 Requires: libm.so.6.1()(64bit)
 Requires: libncurses.so.5()(64bit)
 Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangocairo-1.0.so.0()(64bit)
 Requires: libpangoft2-1.0.so.0()(64bit)
 Requires: libpangoxft-1.0.so.0()(64bit)
 Requires: libpthread.so.0()(64bit)
@@ -176,6 +179,7 @@ Requires: libgtk-x11-2.0.so.0
 Requires: libm.so.6
 Requires: libncurses.so.5
 Requires: libpango-1.0.so.0
+Requires: libpangocairo-1.0.so.0
 Requires: libpangoft2-1.0.so.0
 Requires: libpangoxft-1.0.so.0
 Requires: libpthread.so.0
@@ -210,6 +214,7 @@ Requires: libgtk-x11-2.0.so.0()(64bit)
 Requires: libm.so.6()(64bit)
 Requires: libncurses.so.5()(64bit)
 Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangocairo-1.0.so.0()(64bit)
 Requires: libpangoft2-1.0.so.0()(64bit)
 Requires: libpangoxft-1.0.so.0()(64bit)
 Requires: libpthread.so.0()(64bit)
@@ -244,6 +249,7 @@ Requires: libgtk-x11-2.0.so.0
 Requires: libm.so.6
 Requires: libncurses.so.5
 Requires: libpango-1.0.so.0
+Requires: libpangocairo-1.0.so.0
 Requires: libpangoft2-1.0.so.0
 Requires: libpangoxft-1.0.so.0
 Requires: libpthread.so.0
@@ -278,6 +284,7 @@ Requires: libgtk-x11-2.0.so.0()(64bit)
 Requires: libm.so.6()(64bit)
 Requires: libncurses.so.5()(64bit)
 Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangocairo-1.0.so.0()(64bit)
 Requires: libpangoft2-1.0.so.0()(64bit)
 Requires: libpangoxft-1.0.so.0()(64bit)
 Requires: libpthread.so.0()(64bit)
@@ -312,6 +319,7 @@ Requires: libgtk-x11-2.0.so.0()(64bit)
 Requires: libm.so.6()(64bit)
 Requires: libncurses.so.5()(64bit)
 Requires: libpango-1.0.so.0()(64bit)
+Requires: libpangocairo-1.0.so.0()(64bit)
 Requires: libpangoft2-1.0.so.0()(64bit)
 Requires: libpangoxft-1.0.so.0()(64bit)
 Requires: libpthread.so.0()(64bit)
@@ -331,6 +339,7 @@ Requires: libz.so.1()(64bit)
 # gLSB Base/Utility/Stdc++/Graphics Libraries
 Requires: libasound.so.2%{qual}
 Requires: libatk-1.0.so.0%{qual}
+Requires: libcairo.so.2%{qual}
 Requires: libcrypt.so.1%{qual}
 Requires: libcups.so.2%{qual}
 Requires: libcupsimage.so.2%{qual}
@@ -343,6 +352,7 @@ Requires: libgdk_pixbuf-2.0.so.0%{qual}
 Requires: libgdk_pixbuf_xlib-2.0.so.0%{qual}
 Requires: libGL.so.1%{qual}
 Requires: libglib-2.0.so.0%{qual}
+Requires: libGLU.so.1%{qual}
 Requires: libgmodule-2.0.so.0%{qual}
 Requires: libgobject-2.0.so.0%{qual}
 Requires: libgthread-2.0.so.0%{qual}
@@ -350,8 +360,11 @@ Requires: libgtk-x11-2.0.so.0%{qual}
 Requires: libICE.so.6%{qual}
 Requires: libjpeg.so.62%{qual}
 Requires: libncurses.so.5%{qual}
+Requires: libnspr4.so%{qual}
+Requires: libnss3.so%{qual}
 Requires: libpam.so.0%{qual}
 Requires: libpango-1.0.so.0%{qual}
+Requires: libpangocairo-1.0.so.0%{qual}
 Requires: libpangoft2-1.0.so.0%{qual}
 Requires: libpangoxft-1.0.so.0%{qual}
 Requires: libpng12.so.0%{qual}
@@ -366,6 +379,7 @@ Requires: libQtSvg.so.4%{qual}
 Requires: libQtXml.so.4%{qual}
 Requires: librt.so.1%{qual}
 Requires: libSM.so.6%{qual}
+Requires: libssl3.so%{qual}
 Requires: libstdc++.so.6%{qual}
 Requires: libutil.so.1%{qual}
 Requires: libX11.so.6%{qual}
@@ -375,6 +389,7 @@ Requires: libXi.so.6%{qual}
 Requires: libxml2.so.2%{qual}
 Requires: libXrender.so.1%{qual}
 Requires: libXt.so.6%{qual}
+Requires: libXtst.so.6%{qual}
 Requires: libz.so.1%{qual}
 
 # gLSB Command and Utilities
@@ -397,6 +412,7 @@ Requires: /bin/egrep
 Requires: /bin/env
 Requires: /bin/false
 Requires: /bin/fgrep
+Requires: /bin/find
 Requires: /bin/gettext
 Requires: /bin/grep
 Requires: /bin/gunzip
@@ -405,7 +421,7 @@ Requires: /bin/hostname
 Requires: /bin/kill
 Requires: /bin/ln
 Requires: /bin/ls
-Requires: mailx
+Requires: /bin/mailx
 Requires: /bin/mkdir
 Requires: /bin/mknod
 Requires: /bin/mktemp
@@ -455,7 +471,6 @@ Requires: /usr/bin/fc-cache
 Requires: /usr/bin/fc-list
 Requires: /usr/bin/fc-match
 Requires: /usr/bin/file
-Requires: /usr/bin/find
 Requires: /usr/bin/fold
 Requires: /usr/bin/foomatic-rip
 Requires: /usr/bin/gencat
@@ -496,6 +511,7 @@ Requires: /usr/bin/pr
 Requires: /usr/bin/printf
 Requires: /usr/bin/python
 Requires: /usr/bin/renice
+Requires: /usr/bin/seq
 Requires: /usr/bin/split
 Requires: /usr/bin/strip
 Requires: /usr/bin/tail
@@ -509,6 +525,8 @@ Requires: /usr/bin/unexpand
 Requires: /usr/bin/uniq
 Requires: /usr/bin/wc
 Requires: /usr/bin/xargs
+Requires: /usr/lib/lsb/install_initd
+Requires: /usr/lib/lsb/remove_initd
 Requires: /usr/sbin/groupadd
 Requires: /usr/sbin/groupdel
 Requires: /usr/sbin/groupmod
@@ -537,11 +555,12 @@ make
 
 %pre
 # remove the extra symlink /bin/mailx -> /bin/mail
-  if [ -e /bin/mailx ]; then
-    if [ -L /bin/mailx ]; then
-      rm -f /bin/mailx
-    fi
-  fi
+if [ -e /bin/mailx ]; then
+   if [ -L /bin/mailx ]; then
+     rm -f /bin/mailx
+   fi 
+fi
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -553,15 +572,19 @@ make DESTDIR=$RPM_BUILD_ROOT install
 cd lsb-release-%{upstreamlsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-noarch
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-noarch
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-4.0-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-4.0-noarch
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-4.0-%{archname}
+touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-4.0-noarch
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-%{archname}
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-noarch
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-%{archname}
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-noarch
 # and claim LSB 3.1 is supported as well
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-noarch
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-noarch
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-%{archname}
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-noarch
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-%{archname}
+#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-noarch
 
 for LSBVER in %{lsbsover}; do
   ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
@@ -575,7 +598,7 @@ mkdir -p $RPM_BUILD_ROOT/bin
 # it's OK to put non binary in /usr/lib.
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/install_initd
 ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
-# ln -snf mail $RPM_BUILD_ROOT/bin/mailx
+#ln -snf mail $RPM_BUILD_ROOT/bin/mailx
 
 #mkdir -p $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver
 #ln -snf /usr/%{_lib}/xserver/SecurityPolicy $RPM_BUILD_ROOT/usr/X11R6/lib/X11/xserver/SecurityPolicy
@@ -649,6 +672,9 @@ fi
 #/usr/X11R6/lib/X11/rgb.txt
 
 %changelog
+* Fri Jan 8 2010 Lawrence Lim <llim@redhat.com> - 4.0-1
+- update to LSB4.0
+
 * Tue Oct 27 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 3.2-7
 - apply fix from bz514760 (thanks to Jakub Jelinek)
 
@@ -688,6 +714,9 @@ fi
 * Thu Jul 31 2008 Lawrence Lim <llim@redhat.com> - 3.1-21
 - remove symlink for mailx (Bug #457241)
 
+* Wed Apr 16 2008 Mats Wichmann <mats@freestandards.org> 3.2-1
+- port forward to LSB 3.2
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 3.1-20
 - Autorebuild for GCC 4.3
 
@@ -707,11 +736,17 @@ fi
 - Resolved: #239842 - /lib/lsb/init-functions shall use aliases but not functions
 - forward port the patch from 3.1-12.3.EL which fix #217566, #233530, #240916
 
-* Wed May 2 2007 Lawrence Lim <llim@redhat.com> - 3.1-14.fc7
+* Wed Jul 2 2007 Lawrence Lim <llim@redhat.com> - 3.1-14.fc7
 - fixed Bug 232918 for new glibc version
 
-* Wed Feb 21 2007 Lawrence Lim <llim@redhat.com> - 3.1-13
-- fixed Bug 226363
+* Tue Jun 26 2007 Lawrence Lim <llim@redhat.com> - 3.1-12.3.EL
+- Resolves: #217566 - rewrite /lib/lsb/init-functions file needs to define the commands as true shell functions rather than aliases.
+- Resolves: #233530 - LSB pidofproc misspelled as pidofprof.
+- Resolves: #240916 - "log_warning_message" replaced with "log_warning_msg" per the LSB 3.1 spec
+
+* Wed Dec 6 2006 Lawrence Lim <llim@redhat.com> - 3.1-12.2.EL
+- Resolves: bug 217566
+- revise patch
 
 * Wed Nov 29 2006 Lawrence Lim <llim@redhat.com> - 3.1-12
 - replaced aliases with functions in /lib/lsb/init-functions; Bug 217566
@@ -790,7 +825,7 @@ fi
 
 * Fri Jan 21 2005 Leon Ho <llch@redhat.com> 1.3-7
 - Add to support multiple LSB test suite version
-- Add %%endif in trigger postun
+- Add %endif in trigger postun
 
 * Thu Nov 11 2004 Phil Knirsch <pknirsch@redhat.com> 1.3-6
 - Fixed invalid sln call for trigger in postun on ia64 (#137647)
