@@ -49,7 +49,7 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -58,7 +58,6 @@ Patch1: redhat-lsb-lsb_start_daemon-fix.patch
 Patch2: redhat-lsb-trigger.patch
 License: GPL
 Group: System Environment/Base
-BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: glibc-static
 # dependency for primary LSB application for v1.3
 Provides: lsb = %{version}
@@ -350,13 +349,6 @@ installed on the system.
 Group: System Environment/Base
 Summary: LSB graphics libraries support for Red Hat Enterprise Linux
 
-Provides: lsb-graphics-%{archname} = %{version}
-Provides: lsb-graphics-noarch = %{version}
-
-%description graphics
-The Linux Standard Base (LSB) Graphics Specifications define components that are required
- to be present on an LSB conforming system.
-
 %ifarch %{ix86}
 # archLSB IA32 Graphics Libraries
 Requires: libatk-1.0.so.0
@@ -582,18 +574,16 @@ Requires: /usr/bin/fc-cache
 Requires: /usr/bin/fc-list
 Requires: /usr/bin/fc-match
 
+Provides: lsb-graphics-%{archname} = %{version}
+Provides: lsb-graphics-noarch = %{version}
 
+%description graphics
+The Linux Standard Base (LSB) Graphics Specifications define components that are required
+ to be present on an LSB conforming system.
 
 %package printing
 Group: System Environment/Base
 Summary: LSB printing libraries support for Red Hat Enterprise Linux
-
-Provides: lsb-printing-%{archname} = %{version}
-Provides: lsb-printing-noarch = %{version}
-
-%description printing
-The Linux Standard Base (LSB) Printing Specifications define components that are required
- to be present on an LSB conforming system.
 
 # gLSB Printing Libraries
 Requires: libcups.so.2%{qual}
@@ -605,6 +595,12 @@ Requires: /usr/bin/gs
 Requires: /usr/bin/lp
 Requires: /usr/bin/lpr
 
+Provides: lsb-printing-%{archname} = %{version}
+Provides: lsb-printing-noarch = %{version}
+
+%description printing
+The Linux Standard Base (LSB) Printing Specifications define components that are required
+ to be present on an LSB conforming system.
 
 %prep
 %setup -q
@@ -626,7 +622,6 @@ fi
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 # LSB uses /usr/lib rather than /usr/lib64 even for 64bit OS
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir} $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT%{_mandir} \
          $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT/usr/lib/lsb \
@@ -679,9 +674,6 @@ install -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT%{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 cp -p redhat_lsb_init $RPM_BUILD_ROOT/bin/redhat_lsb_init
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %triggerpostun -- glibc
 if [ -x /usr/sbin/redhat_lsb_trigger.%{_target_cpu} ]; then
@@ -738,6 +730,9 @@ fi
 
 
 %changelog
+* Thu Jun 24 2010 Parag <pnemade AT redhat.com> - 4.0-3
+- Resolves:rh#585858:-redhat-lsb-graphics broken
+
 * Fri Jan 15 2010 Lawrence Lim <llim@redhat.com> - 4.0-2
 - update spec file to split package into core, desktop and printing (Curtis Doty, #472633)
 
