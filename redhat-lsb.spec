@@ -49,14 +49,14 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
 Patch0: lsb-release-3.1-update-init-functions.patch
 Patch1: redhat-lsb-lsb_start_daemon-fix.patch
 Patch2: redhat-lsb-trigger.patch
-License: GPL
+License: GPLv2
 Group: System Environment/Base
 BuildRequires: glibc-static
 # dependency for primary LSB application for v1.3
@@ -730,6 +730,9 @@ fi
 
 
 %changelog
+* Fri Jun 25 2010 Parag <pnemade AT redhat.com> - 4.0-4
+- Revert license back to GPLv2
+
 * Thu Jun 24 2010 Parag <pnemade AT redhat.com> - 4.0-3
 - Resolves:rh#585858:-redhat-lsb-graphics broken
 
