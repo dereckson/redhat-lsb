@@ -49,7 +49,7 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -574,6 +574,9 @@ Requires: /usr/bin/fc-cache
 Requires: /usr/bin/fc-list
 Requires: /usr/bin/fc-match
 
+#for directory ownership
+Requires:       %{name} = %{version}-%{release}
+
 Provides: lsb-graphics-%{archname} = %{version}
 Provides: lsb-graphics-noarch = %{version}
 
@@ -594,6 +597,9 @@ Requires: /usr/bin/foomatic-rip
 Requires: /usr/bin/gs
 Requires: /usr/bin/lp
 Requires: /usr/bin/lpr
+
+#for directory ownership
+Requires:       %{name} = %{version}-%{release}
 
 Provides: lsb-printing-%{archname} = %{version}
 Provides: lsb-printing-noarch = %{version}
@@ -626,26 +632,16 @@ fi
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir} $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT%{_mandir} \
          $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT/usr/lib/lsb \
          $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/ $RPM_BUILD_ROOT%{_sbindir}
-make DESTDIR=$RPM_BUILD_ROOT install
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 cd lsb-release-%{upstreamlsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-4.0-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-4.0-noarch
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-4.0-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/graphics-4.0-noarch
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/printing-4.0-%{archname}
-touch $RPM_BUILD_ROOT/etc/lsb-release.d/printing-4.0-noarch
-
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-%{archname}
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.2-noarch
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-%{archname}
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.2-noarch
-# and claim LSB 3.1 is supported as well
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-%{archname}
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/core-3.1-noarch
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-%{archname}
-#touch $RPM_BUILD_ROOT/etc/lsb-release.d/desktop-3.1-noarch
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-4.0-%{archname}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-4.0-noarch
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-4.0-%{archname}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-4.0-noarch
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/printing-4.0-%{archname}
+touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/printing-4.0-noarch
 
 for LSBVER in %{lsbsover}; do
   ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
@@ -705,12 +701,12 @@ fi
 %endif
 
 %files
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %{_sysconfdir}/redhat-lsb
 %dir %{_sysconfdir}/lsb-release.d
 # These files are needed because they shows which LSB we're supporting now, 
 # for example, if core-3.1-noarch exists, it means we are supporting LSB3.1 now
-%{_sysconfdir}/lsb-release.d/*
+%{_sysconfdir}/lsb-release.d/core*
 %{_mandir}/*/*
 %{_bindir}/*
 #/bin/mailx
@@ -721,15 +717,19 @@ fi
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %files graphics
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %{_sysconfdir}/lsb-release.d/graphics*
 
 %files printing
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %{_sysconfdir}/lsb-release.d/printing*
 
 
 %changelog
+* Fri Jul 09 2010 Parag <pnemade AT redhat.com> - 4.0-5
+- Fix directory ownership issue for %%{_sysconfdir}/lsb-release.d
+- Fix duplicate files issue as reported in bodhi testing for 4.0-4
+
 * Fri Jun 25 2010 Parag <pnemade AT redhat.com> - 4.0-4
 - Revert license back to GPLv2
 
