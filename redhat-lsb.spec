@@ -49,7 +49,7 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -726,6 +726,9 @@ fi
 
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Fri Jul 09 2010 Parag <pnemade AT redhat.com> - 4.0-5
 - Fix directory ownership issue for %%{_sysconfdir}/lsb-release.d
 - Fix duplicate files issue as reported in bodhi testing for 4.0-4
