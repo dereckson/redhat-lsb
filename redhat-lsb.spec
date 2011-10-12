@@ -49,7 +49,7 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -336,6 +336,10 @@ Requires: /usr/sbin/sendmail
 Requires: /usr/sbin/useradd
 Requires: /usr/sbin/userdel
 Requires: /usr/sbin/usermod
+
+# Add split off packages from core perl package
+Requires: perl(Locale::Codes)
+Requires: perl(Class::ISA)
 
 %description
 The Linux Standard Base (LSB) is an attempt to develop a set of
@@ -701,7 +705,6 @@ fi
 %endif
 
 %files
-%defattr(-,root,root,-)
 %{_sysconfdir}/redhat-lsb
 %dir %{_sysconfdir}/lsb-release.d
 # These files are needed because they shows which LSB we're supporting now, 
@@ -717,15 +720,17 @@ fi
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 %files graphics
-%defattr(-,root,root,-)
 %{_sysconfdir}/lsb-release.d/graphics*
 
 %files printing
-%defattr(-,root,root,-)
 %{_sysconfdir}/lsb-release.d/printing*
 
 
 %changelog
+* Wed Oct 12 2011 Parag <pnemade AT redhat DOT com> - 4.0-7
+- Resolves:rh#654689,rh#736822
+- Added dependencies for perl-Locale-Codes and perl-Class-ISA
+
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
