@@ -49,7 +49,7 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -340,6 +340,8 @@ Requires: /usr/sbin/usermod
 # Add split off packages from core perl package
 Requires: perl(Locale::Codes)
 Requires: perl(Class::ISA)
+## following for f17 and above
+Requires: perl(Digest::MD5)
 
 %description
 The Linux Standard Base (LSB) is an attempt to develop a set of
@@ -727,6 +729,9 @@ fi
 
 
 %changelog
+* Thu Oct 13 2011 Parag <pnemade AT redhat DOT com> - 4.0-8
+- Resolves:rh#745100: Add requires: perl-Digest-MD5
+
 * Wed Oct 12 2011 Parag <pnemade AT redhat DOT com> - 4.0-7
 - Resolves:rh#654689,rh#736822
 - Added dependencies for perl-Locale-Codes and perl-Class-ISA
