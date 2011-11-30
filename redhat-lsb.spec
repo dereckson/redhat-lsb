@@ -49,13 +49,14 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
 Patch0: lsb-release-3.1-update-init-functions.patch
 Patch1: redhat-lsb-lsb_start_daemon-fix.patch
 Patch2: redhat-lsb-trigger.patch
+Patch3: redhat-lsb-arm.patch
 License: GPLv2
 Group: System Environment/Base
 BuildRequires: glibc-static
@@ -86,7 +87,7 @@ Provides: lsb = %{version}
 Provides: lsb-core-%{archname} = %{version}
 Provides: lsb-core-noarch = %{version}
 
-ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x
+ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm}
 
 %ifarch %{ix86}
 # archLSB IA32 Base Libraries
@@ -619,6 +620,7 @@ The Linux Standard Base (LSB) Printing Specifications define components that are
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0 -b .triggerfix
+%patch3 -p1 -b .arm
 
 %build
 cd lsb-release-%{upstreamlsbrelver}
@@ -729,6 +731,9 @@ fi
 
 
 %changelog
+* Wed Nov 30 2011 Parag <pnemade AT redhat DOT com> - 4.0-9
+- Resolves:rh#738256:- redhat-lsb fails to build on ARM
+
 * Thu Oct 13 2011 Parag <pnemade AT redhat DOT com> - 4.0-8
 - Resolves:rh#745100: Add requires: perl-Digest-MD5
 
