@@ -49,7 +49,7 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 9%{?dist}
+Release: 10%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -343,6 +343,11 @@ Requires: perl(Locale::Codes)
 Requires: perl(Class::ISA)
 ## following for f17 and above
 Requires: perl(Digest::MD5)
+Requires: perl(Pod::Perldoc::ToChecker)
+Requires: perl(Pod::Perldoc::ToMan)
+Requires: perl(Pod::Perldoc::ToNroff)
+Requires: perl(Pod::Perldoc::ToPod)
+Requires: perl(Pod::Perldoc::ToText)
 
 %description
 The Linux Standard Base (LSB) is an attempt to develop a set of
@@ -731,6 +736,9 @@ fi
 
 
 %changelog
+* Wed Nov 30 2011 Parag <pnemade AT redhat DOT com> - 4.0-10
+- Resolves:rh#758383:- redhat-lsb does not pull in required perl-Pod-Perldoc
+
 * Wed Nov 30 2011 Parag <pnemade AT redhat DOT com> - 4.0-9
 - Resolves:rh#738256:- redhat-lsb fails to build on ARM
 
