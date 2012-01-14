@@ -49,7 +49,7 @@
 Summary: LSB base libraries support for Red Hat Enterprise Linux
 Name: redhat-lsb
 Version: 4.0
-Release: 10%{?dist}
+Release: 11%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
 #Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
@@ -736,6 +736,9 @@ fi
 
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Wed Nov 30 2011 Parag <pnemade AT redhat DOT com> - 4.0-10
 - Resolves:rh#758383:- redhat-lsb does not pull in required perl-Pod-Perldoc
 
