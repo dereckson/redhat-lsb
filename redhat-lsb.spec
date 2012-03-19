@@ -36,23 +36,16 @@
 %define lsbldso ld-lsb-x86-64.so
 %endif
 
-%ifarch ia64 ppc64 s390x x86_64
-%define qual ()(64bit)
-%else
-%define qual %{nil}
-%endif
-
 %define upstreamlsbrelver 2.0
-%define lsbrelver 4.0
+%define lsbrelver 4.1
 %define srcrelease 1
 
-Summary: LSB base libraries support for Red Hat Enterprise Linux
+Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
-Version: 4.0
-Release: 11%{?dist}
+Version: 4.1
+Release: 1%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
-Source0: %{name}-%{version}-%{srcrelease}.tar.bz2
-#Source1: http://prdownloads.sourceforge.net/lsb/lsb-release-%{upstreamlsbrelver}.tar.gz
+Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
 Patch1: redhat-lsb-lsb_start_daemon-fix.patch
 Patch2: redhat-lsb-trigger.patch
@@ -60,9 +53,7 @@ Patch3: redhat-lsb-arm.patch
 License: GPLv2
 Group: System Environment/Base
 BuildRequires: glibc-static
-# dependency for primary LSB application for v1.3
-Provides: lsb = %{version}
-# dependency for primary LSB application for v2.0 and v3.0
+
 %ifarch %{ix86}
 %define archname ia32
 %endif
@@ -84,126 +75,67 @@ Provides: lsb = %{version}
 %ifarch x86_64
 %define archname amd64
 %endif
-Provides: lsb-core-%{archname} = %{version}
-Provides: lsb-core-noarch = %{version}
 
 ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm}
 
-%ifarch %{ix86}
-# archLSB IA32 Base Libraries
-Requires: libc.so.6
-Requires: libcrypt.so.1
-Requires: libdl.so.2
-Requires: libgcc_s.so.1
-Requires: libm.so.6
-Requires: libncurses.so.5
-Requires: libpthread.so.0
-Requires: libstdc++.so.6
-Requires: libutil.so.1
-Requires: libz.so.1
-%endif
+Requires: redhat-lsb-core%{?_isa} = %{version}
+Requires: redhat-lsb-cxx%{?_isa} = %{version}
+Requires: redhat-lsb-desktop%{?_isa} = %{version}
+Requires: redhat-lsb-languages = %{version}
+Requires: redhat-lsb-printing = %{version}
+#Requires: redhat-lsb-trialuse = %{version}
 
-%ifarch ia64
-# archLSB IA64 Base Libraries
-Requires: libc.so.6.1()(64bit)
-Requires: libcrypt.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6.1()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libstdc++.so.6()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libz.so.1()(64bit)
-%endif
+Provides: lsb = %{version}
+Provides: lsb-%{archname} = %{version}
+Provides: lsb-noarch = %{version}
 
-%ifarch ppc
-# archLSB PPC32 Base Libraries
-Requires: libc.so.6
-Requires: libcrypt.so.1
-Requires: libdl.so.2
-Requires: libgcc_s.so.1
-Requires: libm.so.6
-Requires: libncurses.so.5
-Requires: libpthread.so.0
-Requires: libstdc++.so.6
-Requires: libutil.so.1
-Requires: libz.so.1
-%endif
+%description
+The Linux Standard Base (LSB) is an attempt to develop a set of standards that
+will increase compatibility among Linux distributions. It is designed to be 
+binary-compatible and produce a stable application binary interface (ABI) for
+independent software vendors.
+The lsb package provides utilities, libraries etc. needed for LSB Compliant 
+Applications. It also contains requirements that will ensure that all 
+components required by the LSB are installed on the system.
 
-%ifarch ppc64
-# archLSB PPC64 Base Libraries
-Requires: libc.so.6()(64bit)
-Requires: libcrypt.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libstdc++.so.6()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libz.so.1()(64bit)
-%endif
+%package submod-security
+Group: System Environment/Base
+Summary: LSB Security submodule support
+Requires: nspr%{?_isa}
+# Requires: nspr-devel
+Requires: nss%{?_isa}
 
-%ifarch s390
-# archLSB S390 Base Libraries
-Requires: libc.so.6
-Requires: libcrypt.so.1
-Requires: libdl.so.2
-Requires: libgcc_s.so.1
-Requires: libm.so.6
-Requires: libncurses.so.5
-Requires: libpthread.so.0
-Requires: libstdc++.so.6
-Requires: libutil.so.1
-Requires: libz.so.1
-%endif
+Provides: lsb-submod-security-%{archname} = %{version}
+Provides: lsb-submod-security-noarch = %{version}
 
-%ifarch s390x
-# archLSB S390X Base Libraries
-Requires: libc.so.6()(64bit)
-Requires: libcrypt.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libstdc++.so.6()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libz.so.1()(64bit)
-%endif
+%description submod-security
+The Linux Standard Base (LSB) Security submodule specifications define 
+components that are required to be present on an LSB conforming system.
 
-%ifarch x86_64
-# archLSB AMD64 Base Libraries
-Requires: libc.so.6()(64bit)
-Requires: libcrypt.so.1()(64bit)
-Requires: libdl.so.2()(64bit)
-Requires: libgcc_s.so.1()(64bit)
-Requires: libm.so.6()(64bit)
-Requires: libncurses.so.5()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libstdc++.so.6()(64bit)
-Requires: libutil.so.1()(64bit)
-Requires: libz.so.1()(64bit)
-%endif
+%package submod-multimedia
+Group: System Environment/Base
+Summary: LSB Multimedia submodule support
+Requires: alsa-lib%{?_isa}
 
-# gLSB Base/Utility/Stdc++
-Requires: libcrypt.so.1%{qual}
-Requires: libdl.so.2%{qual}
-Requires: libgcc_s.so.1%{qual}
-Requires: libncurses.so.5%{qual}
-Requires: libnspr4.so%{qual}
-Requires: libnss3.so%{qual}
-Requires: libpam.so.0%{qual}
-Requires: libpthread.so.0%{qual}
-Requires: librt.so.1%{qual}
-Requires: libssl3.so%{qual}
-Requires: libstdc++.so.6%{qual}
-Requires: libutil.so.1%{qual}
-Requires: libz.so.1%{qual}
+Provides: lsb-submod-multimedia-%{archname} = %{version}
+Provides: lsb-submod-multimedia-noarch = %{version}
+
+%description submod-multimedia
+The Linux Standard Base (LSB) Multimedia submodule specifications define 
+components that are required to be present on an LSB conforming system.
+
+%package core
+Group: System Environment/Base
+Summary: LSB Core module support
+# gLSB Library
+Requires: glibc%{?_isa}
+Requires: glibc-common%{?_isa}
+Requires: libgcc%{?_isa}
+Requires: ncurses-libs%{?_isa}
+Requires: pam%{?_isa}
+Requires: zlib%{?_isa}
 
 # gLSB Command and Utilities
-Requires: /bin/awk
 Requires: /bin/basename
 Requires: /bin/cat
 Requires: /bin/chgrp
@@ -211,7 +143,6 @@ Requires: /bin/chmod
 Requires: /bin/chown
 Requires: /bin/cp
 Requires: /bin/cpio
-Requires: /bin/cut
 Requires: /bin/date
 Requires: /bin/dd
 Requires: /bin/df
@@ -219,11 +150,9 @@ Requires: /bin/dmesg
 Requires: /bin/echo
 Requires: /bin/ed
 Requires: /bin/egrep
-Requires: /bin/env
 Requires: /bin/false
 Requires: /bin/fgrep
 Requires: /bin/find
-Requires: /bin/gettext
 Requires: /bin/grep
 Requires: /bin/gunzip
 Requires: /bin/gzip
@@ -262,6 +191,7 @@ Requires: /sbin/shutdown
 Requires: /usr/bin/[
 Requires: /usr/bin/ar
 Requires: /usr/bin/at
+Requires: /usr/bin/awk
 Requires: /usr/bin/batch
 Requires: /usr/bin/bc
 Requires: /usr/bin/chfn
@@ -272,15 +202,19 @@ Requires: /usr/bin/col
 Requires: /usr/bin/comm
 Requires: /usr/bin/crontab
 Requires: /usr/bin/csplit
+Requires: /usr/bin/cut
 Requires: /usr/bin/diff
 Requires: /usr/bin/dirname
 Requires: /usr/bin/du
+Requires: /usr/bin/env
 Requires: /usr/bin/expand
 Requires: /usr/bin/expr
 Requires: /usr/bin/file
+Requires: /usr/bin/find
 Requires: /usr/bin/fold
 Requires: /usr/bin/gencat
 Requires: /usr/bin/getconf
+Requires: /usr/bin/gettext
 Requires: /usr/bin/groups
 Requires: /usr/bin/head
 Requires: /usr/bin/iconv
@@ -294,6 +228,8 @@ Requires: /usr/bin/locale
 Requires: /usr/bin/localedef
 Requires: /usr/bin/logger
 Requires: /usr/bin/logname
+Requires: /usr/bin/lp
+Requires: /usr/bin/lpr
 Requires: /usr/bin/m4
 Requires: /usr/bin/make
 Requires: /usr/bin/man
@@ -309,13 +245,12 @@ Requires: /usr/bin/paste
 Requires: /usr/bin/patch
 Requires: /usr/bin/pathchk
 Requires: /usr/bin/pax
-Requires: /usr/bin/perl
 Requires: /usr/bin/pr
 Requires: /usr/bin/printf
-Requires: /usr/bin/python
 Requires: /usr/bin/renice
 Requires: /usr/bin/seq
 Requires: /usr/bin/split
+Requires: /usr/bin/strings
 Requires: /usr/bin/strip
 Requires: /usr/bin/tail
 Requires: /usr/bin/tee
@@ -328,297 +263,154 @@ Requires: /usr/bin/unexpand
 Requires: /usr/bin/uniq
 Requires: /usr/bin/wc
 Requires: /usr/bin/xargs
-Requires: /usr/lib/lsb/install_initd
-Requires: /usr/lib/lsb/remove_initd
 Requires: /usr/sbin/groupadd
 Requires: /usr/sbin/groupdel
 Requires: /usr/sbin/groupmod
-Requires: /usr/sbin/sendmail
 Requires: /usr/sbin/useradd
 Requires: /usr/sbin/userdel
 Requires: /usr/sbin/usermod
+Requires: redhat-lsb-submod-security%{?_isa} = %{version}
 
-# Add split off packages from core perl package
-Requires: perl(Locale::Codes)
-Requires: perl(Class::ISA)
-## following for f17 and above
-Requires: perl(Digest::MD5)
-Requires: perl(Pod::Perldoc::ToChecker)
-Requires: perl(Pod::Perldoc::ToMan)
-Requires: perl(Pod::Perldoc::ToNroff)
-Requires: perl(Pod::Perldoc::ToPod)
-Requires: perl(Pod::Perldoc::ToText)
+Provides: lsb-core-%{archname} = %{version}
+Provides: lsb-core-noarch = %{version}
+Obsoletes: redhat-lsb < %{version}
 
-%description
-The Linux Standard Base (LSB) is an attempt to develop a set of
-standards that will increase compatibility among Linux distributions.
-The redhat-lsb package provides utilities needed for LSB Compliant
-Applications.  It also contains requirements that will ensure that all
-components required by the LSB that are provided by Red Hat Linux are
-installed on the system.
+%description core
+The Linux Standard Base (LSB) Core module support provides the fundamental
+system interfaces, libraries, and runtime environment upon which all conforming
+applications and libraries depend.
 
-%package graphics
+%package cxx
 Group: System Environment/Base
-Summary: LSB graphics libraries support for Red Hat Enterprise Linux
+Summary: LSB CXX module support
+Requires: libstdc++%{?_isa}
+Requires: redhat-lsb-core%{?_isa} = %{version}
 
-%ifarch %{ix86}
-# archLSB IA32 Graphics Libraries
-Requires: libatk-1.0.so.0
-Requires: libgdk-x11-2.0.so.0
-Requires: libgdk_pixbuf-2.0.so.0
-Requires: libgdk_pixbuf_xlib-2.0.so.0
-Requires: libglib-2.0.so.0
-Requires: libgmodule-2.0.so.0
-Requires: libgobject-2.0.so.0
-Requires: libgthread-2.0.so.0
-Requires: libgtk-x11-2.0.so.0
-Requires: libpango-1.0.so.0
-Requires: libpangocairo-1.0.so.0
-Requires: libpangoft2-1.0.so.0
-Requires: libpangoxft-1.0.so.0
-Requires: libqt-mt.so.3
-Requires: libQtCore.so.4
-Requires: libQtGui.so.4
-Requires: libQtNetwork.so.4
-Requires: libQtOpenGL.so.4
-Requires: libQtSql.so.4
-Requires: libQtSvg.so.4
-Requires: libQtXml.so.4
-%endif
+Provides: lsb-cxx-%{archname} = %{version}
+Provides: lsb-cxx-noarch = %{version}
 
-%ifarch ia64
-# archLSB IA64 Graphics Libraries
-Requires: libatk-1.0.so.0()(64bit)
-Requires: libgdk-x11-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
-Requires: libglib-2.0.so.0()(64bit)
-Requires: libgmodule-2.0.so.0()(64bit)
-Requires: libgobject-2.0.so.0()(64bit)
-Requires: libgthread-2.0.so.0()(64bit)
-Requires: libgtk-x11-2.0.so.0()(64bit)
-Requires: libpango-1.0.so.0()(64bit)
-Requires: libpangocairo-1.0.so.0()(64bit)
-Requires: libpangoft2-1.0.so.0()(64bit)
-Requires: libpangoxft-1.0.so.0()(64bit)
-Requires: libqt-mt.so.3()(64bit)
-Requires: libQtCore.so.4()(64bit)
-Requires: libQtGui.so.4()(64bit)
-Requires: libQtNetwork.so.4()(64bit)
-Requires: libQtOpenGL.so.4()(64bit)
-Requires: libQtSql.so.4()(64bit)
-Requires: libQtSvg.so.4()(64bit)
-Requires: libQtXml.so.4()(64bit)
-%endif
+%description cxx
+The Linux Standard Base (LSB) CXX module supports the core interfaces by
+providing system interfaces, libraries, and a runtime environment for 
+applications built using the C++ programming language. These interfaces 
+provide low-level support for the core constructs of the language, and 
+implement the standard base C++ libraries.
 
-%ifarch ppc
-# archLSB PPC32 Graphics Libraries
-Requires: libatk-1.0.so.0
-Requires: libgdk-x11-2.0.so.0
-Requires: libgdk_pixbuf-2.0.so.0
-Requires: libgdk_pixbuf_xlib-2.0.so.0
-Requires: libglib-2.0.so.0
-Requires: libgmodule-2.0.so.0
-Requires: libgobject-2.0.so.0
-Requires: libgthread-2.0.so.0
-Requires: libgtk-x11-2.0.so.0
-Requires: libpango-1.0.so.0
-Requires: libpangocairo-1.0.so.0
-Requires: libpangoft2-1.0.so.0
-Requires: libpangoxft-1.0.so.0
-Requires: libqt-mt.so.3
-Requires: libQtCore.so.4
-Requires: libQtGui.so.4
-Requires: libQtNetwork.so.4
-Requires: libQtOpenGL.so.4
-Requires: libQtSql.so.4
-Requires: libQtSvg.so.4
-Requires: libQtXml.so.4
-%endif
-
-%ifarch ppc64
-# archLSB PPC64 Graphics Libraries
-Requires: libatk-1.0.so.0()(64bit)
-Requires: libgdk-x11-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
-Requires: libglib-2.0.so.0()(64bit)
-Requires: libgmodule-2.0.so.0()(64bit)
-Requires: libgobject-2.0.so.0()(64bit)
-Requires: libgthread-2.0.so.0()(64bit)
-Requires: libgtk-x11-2.0.so.0()(64bit)
-Requires: libpango-1.0.so.0()(64bit)
-Requires: libpangocairo-1.0.so.0()(64bit)
-Requires: libpangoft2-1.0.so.0()(64bit)
-Requires: libpangoxft-1.0.so.0()(64bit)
-Requires: libqt-mt.so.3()(64bit)
-Requires: libQtCore.so.4()(64bit)
-Requires: libQtGui.so.4()(64bit)
-Requires: libQtNetwork.so.4()(64bit)
-Requires: libQtOpenGL.so.4()(64bit)
-Requires: libQtSql.so.4()(64bit)
-Requires: libQtSvg.so.4()(64bit)
-Requires: libQtXml.so.4()(64bit)
-%endif
-
-%ifarch s390
-# archLSB S390 Graphics Libraries
-Requires: libatk-1.0.so.0
-Requires: libgdk-x11-2.0.so.0
-Requires: libgdk_pixbuf-2.0.so.0
-Requires: libgdk_pixbuf_xlib-2.0.so.0
-Requires: libglib-2.0.so.0
-Requires: libgmodule-2.0.so.0
-Requires: libgobject-2.0.so.0
-Requires: libgthread-2.0.so.0
-Requires: libgtk-x11-2.0.so.0
-Requires: libpango-1.0.so.0
-Requires: libpangocairo-1.0.so.0
-Requires: libpangoft2-1.0.so.0
-Requires: libpangoxft-1.0.so.0
-Requires: libqt-mt.so.3
-Requires: libQtCore.so.4
-Requires: libQtGui.so.4
-Requires: libQtNetwork.so.4
-Requires: libQtOpenGL.so.4
-Requires: libQtSql.so.4
-Requires: libQtSvg.so.4
-Requires: libQtXml.so.4
-%endif
-
-%ifarch s390x
-# archLSB S390X Graphics Libraries
-Requires: libatk-1.0.so.0()(64bit)
-Requires: libgdk-x11-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
-Requires: libglib-2.0.so.0()(64bit)
-Requires: libgmodule-2.0.so.0()(64bit)
-Requires: libgobject-2.0.so.0()(64bit)
-Requires: libgthread-2.0.so.0()(64bit)
-Requires: libgtk-x11-2.0.so.0()(64bit)
-Requires: libpango-1.0.so.0()(64bit)
-Requires: libpangocairo-1.0.so.0()(64bit)
-Requires: libpangoft2-1.0.so.0()(64bit)
-Requires: libpangoxft-1.0.so.0()(64bit)
-Requires: libqt-mt.so.3()(64bit)
-Requires: libQtCore.so.4()(64bit)
-Requires: libQtGui.so.4()(64bit)
-Requires: libQtNetwork.so.4()(64bit)
-Requires: libQtOpenGL.so.4()(64bit)
-Requires: libQtSql.so.4()(64bit)
-Requires: libQtSvg.so.4()(64bit)
-Requires: libQtXml.so.4()(64bit)
-%endif
-
-%ifarch x86_64
-# archLSB AMD64 Graphics Libraries
-Requires: libatk-1.0.so.0()(64bit)
-Requires: libgdk-x11-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf-2.0.so.0()(64bit)
-Requires: libgdk_pixbuf_xlib-2.0.so.0()(64bit)
-Requires: libglib-2.0.so.0()(64bit)
-Requires: libgmodule-2.0.so.0()(64bit)
-Requires: libgobject-2.0.so.0()(64bit)
-Requires: libgthread-2.0.so.0()(64bit)
-Requires: libgtk-x11-2.0.so.0()(64bit)
-Requires: libpango-1.0.so.0()(64bit)
-Requires: libpangocairo-1.0.so.0()(64bit)
-Requires: libpangoft2-1.0.so.0()(64bit)
-Requires: libpangoxft-1.0.so.0()(64bit)
-Requires: libpthread.so.0()(64bit)
-Requires: libqt-mt.so.3()(64bit)
-Requires: libQtCore.so.4()(64bit)
-Requires: libQtGui.so.4()(64bit)
-Requires: libQtNetwork.so.4()(64bit)
-Requires: libQtOpenGL.so.4()(64bit)
-Requires: libQtSql.so.4()(64bit)
-Requires: libQtSvg.so.4()(64bit)
-Requires: libQtXml.so.4()(64bit)
-%endif
-
-# gLSB Graphics Libraries
-Requires: libasound.so.2%{qual}
-Requires: libatk-1.0.so.0%{qual}
-Requires: libcairo.so.2%{qual}
-Requires: libcrypt.so.1%{qual}
-Requires: libcups.so.2%{qual}
-Requires: libcupsimage.so.2%{qual}
-Requires: libfontconfig.so.1%{qual}
-Requires: libfreetype.so.6%{qual}
-Requires: libgdk-x11-2.0.so.0%{qual}
-Requires: libgdk_pixbuf-2.0.so.0%{qual}
-Requires: libgdk_pixbuf_xlib-2.0.so.0%{qual}
-Requires: libGL.so.1%{qual}
-Requires: libglib-2.0.so.0%{qual}
-Requires: libGLU.so.1%{qual}
-Requires: libgmodule-2.0.so.0%{qual}
-Requires: libgobject-2.0.so.0%{qual}
-Requires: libgthread-2.0.so.0%{qual}
-Requires: libgtk-x11-2.0.so.0%{qual}
-Requires: libICE.so.6%{qual}
-Requires: libjpeg.so.62%{qual}
-Requires: libpango-1.0.so.0%{qual}
-Requires: libpangocairo-1.0.so.0%{qual}
-Requires: libpangoft2-1.0.so.0%{qual}
-Requires: libpangoxft-1.0.so.0%{qual}
-Requires: libpng12.so.0%{qual}
-Requires: libqt-mt.so.3%{qual}
-Requires: libQtCore.so.4%{qual}
-Requires: libQtGui.so.4%{qual}
-Requires: libQtNetwork.so.4%{qual}
-Requires: libQtOpenGL.so.4%{qual}
-Requires: libQtSql.so.4%{qual}
-Requires: libQtSvg.so.4%{qual}
-Requires: libQtXml.so.4%{qual}
-Requires: libSM.so.6%{qual}
-Requires: libX11.so.6%{qual}
-Requires: libXext.so.6%{qual}
-Requires: libXft.so.2%{qual}
-Requires: libXi.so.6%{qual}
-Requires: libxml2.so.2%{qual}
-Requires: libXrender.so.1%{qual}
-Requires: libXt.so.6%{qual}
-Requires: libXtst.so.6%{qual}
-
-# gLSB Graphics Command and Utilities
+%package desktop
+Group: System Environment/Base
+Summary: LSB Desktop module support
+Requires: xdg-utils
+# LSB_Graphics library
+Requires: libICE%{?_isa}
+Requires: libSM%{?_isa}
+Requires: libX11%{?_isa}
+Requires: libXext%{?_isa}
+Requires: libXi%{?_isa}
+Requires: libXt%{?_isa}
+Requires: libXtst%{?_isa}
+Requires: mesa-libGL%{?_isa}
+Requires: mesa-libGLU%{?_isa}
+# gLSB Graphics and gLSB Graphics Ext Command and Utilities
 Requires: /usr/bin/fc-cache
 Requires: /usr/bin/fc-list
 Requires: /usr/bin/fc-match
+# gLSB Graphics Ext library
+Requires: cairo%{?_isa}
+Requires: freetype%{?_isa}
+Requires: libjpeg-turbo%{?_isa}
+Requires: libpng%{?_isa}
+Requires: libXft%{?_isa}
+Requires: libXrender%{?_isa}
+# toolkit-gtk
+Requires: atk%{?_isa}
+Requires: gdk-pixbuf2%{?_isa}
+Requires: glib2%{?_isa}
+Requires: gtk2%{?_isa}
+Requires: pango%{?_isa}
+# toolkit-qt
+Requires: qt%{?_isa}
+Requires: qt-x11%{?_isa}
+# toolkit-qt3
+Requires: qt3%{?_isa}
+# xml
+Requires: libxml2%{?_isa}
+Requires: redhat-lsb-submod-multimedia%{?_isa} = %{version}
+Requires: redhat-lsb-core%{?_isa} = %{version}
 
-#for directory ownership
-Requires:       %{name} = %{version}-%{release}
-
+Provides: lsb-desktop-%{archname} = %{version}
+Provides: lsb-desktop-noarch = %{version}
 Provides: lsb-graphics-%{archname} = %{version}
 Provides: lsb-graphics-noarch = %{version}
+Obsoletes: redhat-lsb-graphics < %{version}
 
-%description graphics
-The Linux Standard Base (LSB) Graphics Specifications define components that are required
- to be present on an LSB conforming system.
+%description desktop
+The Linux Standard Base (LSB) Desktop Specifications define components that are
+required to be present on an LSB conforming system.
+
+%package languages
+Group: System Environment/Base
+Summary: LSB Languages module support
+# Perl and Perl non-builtin modules
+Requires: /usr/bin/perl
+Requires: perl(CGI)
+Requires: perl(Class::ISA)
+Requires: perl(CPAN)
+# Locale::Constants has been Locale::Codes::Costants, so we need
+# create a /usr/share/perl5/vendor_perl/Constants.pm manually.
+# Requires: perl(Locale::Constants)
+# perl(Locale::Constants) requires perl(Locale::Codes)
+# DB module is a builtin module, but perl package doesn't contain this provide.
+# Requires: perl(DB)
+# we also need perl(Pod::Plainer), we need to rpm this package ourself
+Requires: perl(Locale::Codes)
+Requires: perl(File::Spec)
+Requires: perl(Scalar::Util)
+Requires: perl(Test::Harness)
+Requires: perl(Test::Simple)
+Requires: perl(ExtUtils::MakeMaker)
+# python
+Requires: /usr/bin/python
+# java
+Requires: redhat-lsb-core%{?_isa} = %{version}
+
+Provides: lsb-languages-%{archname} = %{version}
+Provides: lsb-languages-noarch = %{version}
+
+%description languages
+The Linux Standard Base (LSB) Languages module supports components for runtime
+languages which are found on an LSB conforming system.
 
 %package printing
 Group: System Environment/Base
-Summary: LSB printing libraries support for Red Hat Enterprise Linux
-
+Summary: LSB Printing module support
 # gLSB Printing Libraries
-Requires: libcups.so.2%{qual}
-Requires: libcupsimage.so.2%{qual}
-
+Requires: cups-libs
 # gLSB Printing Command and Utilities
 Requires: /usr/bin/foomatic-rip
 Requires: /usr/bin/gs
-Requires: /usr/bin/lp
-Requires: /usr/bin/lpr
-
-#for directory ownership
-Requires:       %{name} = %{version}-%{release}
+Requires: redhat-lsb-core%{?_isa} = %{version}
 
 Provides: lsb-printing-%{archname} = %{version}
 Provides: lsb-printing-noarch = %{version}
+Obsoletes: redhat-lsb-printing < %{version}
 
 %description printing
-The Linux Standard Base (LSB) Printing Specifications define components that are required
- to be present on an LSB conforming system.
+The Linux Standard Base (LSB) Printing specifications define components that 
+are required to be present on an LSB conforming system.
+
+%package trialuse
+Group: System Environment/Base
+Summary: LSB Trialuse module support
+Requires: redhat-lsb-submod-multimedia%{?_isa} = %{version}
+Requires: redhat-lsb-submod-security%{?_isa} = %{version}
+Requires: redhat-lsb-core%{?_isa} = %{version}
+
+Provides: lsb-trialuse-%{archname} = %{version}
+Provides: lsb-trialuse-noarch = %{version}
+
+%description trialuse
+The Linux Standard Base (LSB) Trialuse module support defines components
+which are not required parts of the LSB Specification.
 
 %prep
 %setup -q
@@ -639,25 +431,92 @@ if [ -e /bin/mailx ]; then
    fi 
 fi
 
-
 %install
 # LSB uses /usr/lib rather than /usr/lib64 even for 64bit OS
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir} $RPM_BUILD_ROOT/%{_lib} $RPM_BUILD_ROOT%{_mandir} \
          $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT/usr/lib/lsb \
-         $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/ $RPM_BUILD_ROOT%{_sbindir}
+         $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/ $RPM_BUILD_ROOT%{_sbindir} \
+         $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}
+
+# manually add Locale::Constants. This module is just an alias of Locale::Codes::Constants
+mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}/Locale
+cp -p Constants.pm $RPM_BUILD_ROOT%{perl_vendorlib}/Locale
+cp -p Constants.pod $RPM_BUILD_ROOT%{perl_vendorlib}/Locale
+
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 cd lsb-release-%{upstreamlsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-4.0-%{archname}
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/core-4.0-noarch
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-4.0-%{archname}
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/graphics-4.0-noarch
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/printing-4.0-%{archname}
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/printing-4.0-noarch
+# we keep more lsb information in /usr/share/lsb
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules   
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/submodules
+
+# relations between modules and submodules
+modules="core cxx desktop languages printing trialuse"
+submodules="core perl python cpp toolkit-gtk toolkit-qt toolkit-qt3"
+submodules="${submodules} xml multimedia security desktop-misc graphics graphics-ext"
+submodules="${submodules} printing"
+
+core="core security"
+cxx="cpp"
+desktop="desktop-misc graphics graphics-ext multimedia toolkit-gtk toolkit-qt toolkit-qt3"
+desktop="${desktop} xml"
+languages="perl python"
+printing="printing"
+trialuse="security multimedia"
+
+for mod in ${modules};do
+  touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/${mod}-%{lsbrelver}-%{archname}
+  touch $RPM_BUILD_ROOT%{_sysconfdir}/lsb-release.d/${mod}-%{lsbrelver}-noarch
+done
+
+for submod in ${submodules};do
+  touch $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/submodules/${submod}-%{lsbrelver}-%{archname}
+  touch $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/submodules/${submod}-%{lsbrelver}-noarch
+done
+for moddir in ${modules};do
+    mkdir -p $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/${moddir}
+done
+
+for submod in ${core};do
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-%{archname} \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/core/${submod}-%{lsbrelver}-%{archname}
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-noarch \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/core/${submod}-%{lsbrelver}-noarch
+done
+for submod in ${cxx};do
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-%{archname} \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/cxx/${submod}-%{lsbrelver}-%{archname}
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-noarch \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/cxx/${submod}-%{lsbrelver}-noarch
+done
+for submod in ${desktop};do
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-%{archname} \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/desktop/${submod}-%{lsbrelver}-%{archname}
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-noarch \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/desktop/${submod}-%{lsbrelver}-noarch
+done
+for submod in ${languages};do
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-%{archname} \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/languages/${submod}-%{lsbrelver}-%{archname}
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-noarch \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/languages/${submod}-%{lsbrelver}-noarch
+done
+for submod in ${printing};do
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-%{archname} \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/printing/${submod}-%{lsbrelver}-%{archname}
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-noarch \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/printing/${submod}-%{lsbrelver}-noarch
+done
+for submod in ${trialuse};do
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-%{archname} \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/trialuse/${submod}-%{lsbrelver}-%{archname}
+  ln -snf ../../submodules/${submod}-%{lsbrelver}-noarch \
+$RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules/trialuse/${submod}-%{lsbrelver}-noarch
+done
 
 for LSBVER in %{lsbsover}; do
-  ln -s %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
+  ln -snf %{ldso} $RPM_BUILD_ROOT/%{_lib}/%{lsbldso}.$LSBVER
 done
 
 mkdir -p $RPM_BUILD_ROOT/bin
@@ -679,7 +538,7 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 # is imported against segfault error while running redhat_lsb_trigger
 gcc $RPM_OPT_FLAGS -Os -static -fno-stack-protector -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
-install -m 700 redhat_lsb_trigger.%{_target_cpu} \
+install -p -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT%{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
 cp -p redhat_lsb_init $RPM_BUILD_ROOT/bin/redhat_lsb_init
@@ -713,12 +572,61 @@ fi
   fi
 %endif
 
+%postun submod-security -p <lua>
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+%postun submod-multimedia -p <lua>
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+%postun core -p <lua> 
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+%postun cxx -p <lua> 
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+%postun desktop -p <lua> 
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+%postun languages -p <lua> 
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+%postun printing -p <lua> 
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+%postun trialuse -p <lua> 
+os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
+os.remove("%{_datadir}/lsb/%{lsbrelver}")
+os.remove("%{_datadir}/lsb")
+
 %files
+%{_datadir}/lsb/
+
+%files submod-security
+%{_datadir}/lsb/%{lsbrelver}/submodules/security-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/security-%{lsbrelver}-noarch
+
+%files submod-multimedia
+%{_datadir}/lsb/%{lsbrelver}/submodules/multimedia-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/multimedia-%{lsbrelver}-noarch
+
+%files core
 %{_sysconfdir}/redhat-lsb
 %dir %{_sysconfdir}/lsb-release.d
-# These files are needed because they shows which LSB we're supporting now, 
-# for example, if core-3.1-noarch exists, it means we are supporting LSB3.1 now
-%{_sysconfdir}/lsb-release.d/core*
 %{_mandir}/*/*
 %{_bindir}/*
 #/bin/mailx
@@ -727,15 +635,64 @@ fi
 /%{_lib}/*so*
 /lib/lsb*
 %{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
+%{_datadir}/lsb/%{lsbrelver}/modules/core
+%{_sysconfdir}/lsb-release.d/core*
+%{_datadir}/lsb/%{lsbrelver}/submodules/core-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/core-%{lsbrelver}-noarch
 
-%files graphics
-%{_sysconfdir}/lsb-release.d/graphics*
+%files cxx
+%{_sysconfdir}/lsb-release.d/cxx*
+%{_datadir}/lsb/%{lsbrelver}/modules/cxx
+%{_datadir}/lsb/%{lsbrelver}/submodules/cpp-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/cpp-%{lsbrelver}-noarch
+
+%files desktop
+%{_sysconfdir}/lsb-release.d/desktop*
+%{_datadir}/lsb/%{lsbrelver}/modules/desktop
+%{_datadir}/lsb/%{lsbrelver}/submodules/toolkit-gtk-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/toolkit-gtk-%{lsbrelver}-noarch
+%{_datadir}/lsb/%{lsbrelver}/submodules/toolkit-qt-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/toolkit-qt-%{lsbrelver}-noarch
+%{_datadir}/lsb/%{lsbrelver}/submodules/toolkit-qt3-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/toolkit-qt3-%{lsbrelver}-noarch
+%{_datadir}/lsb/%{lsbrelver}/submodules/xml-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/xml-%{lsbrelver}-noarch
+%{_datadir}/lsb/%{lsbrelver}/submodules/desktop-misc-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/desktop-misc-%{lsbrelver}-noarch
+%{_datadir}/lsb/%{lsbrelver}/submodules/graphics-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/graphics-%{lsbrelver}-noarch
+%{_datadir}/lsb/%{lsbrelver}/submodules/graphics-ext-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/graphics-ext-%{lsbrelver}-noarch
+
+%files languages
+%{_sysconfdir}/lsb-release.d/languages*
+%{_datadir}/lsb/%{lsbrelver}/modules/languages
+%{_datadir}/lsb/%{lsbrelver}/submodules/perl-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/perl-%{lsbrelver}-noarch
+%{perl_vendorlib}/Locale/Constants.pm
+%{perl_vendorlib}/Locale/Constants.pod
+%{_datadir}/lsb/%{lsbrelver}/submodules/python-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/python-%{lsbrelver}-noarch
 
 %files printing
 %{_sysconfdir}/lsb-release.d/printing*
+%{_datadir}/lsb/%{lsbrelver}/modules/printing
+%{_datadir}/lsb/%{lsbrelver}/submodules/printing-%{lsbrelver}-%{archname}
+%{_datadir}/lsb/%{lsbrelver}/submodules/printing-%{lsbrelver}-noarch
+
+%files trialuse
+%{_sysconfdir}/lsb-release.d/trialuse*
+%{_datadir}/lsb/%{lsbrelver}/modules/trialuse
 
 
 %changelog
+* Mon Mar 19 2012 xning <xning AT redhat DOT com> - 4.1-1
+- Update to 4.1 release
+- Added -core, -cxx, -desktop, -languages, -printing modules as subpackages
+- Added submod-security, -submod-multimedia subpackages
+- Implements http://refspecs.linux-foundation.org/LSB_4.1.0/ 
+- Resolves:rh#800249: new package update review by Parag.
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
@@ -959,4 +916,3 @@ fi
 
 * Thu Jan 24 2002 Matt Wilson <msw@redhat.com>
 - Initial build.
-
