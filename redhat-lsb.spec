@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -318,6 +318,13 @@ Requires: /usr/bin/fc-match
 Requires: cairo%{?_isa}
 Requires: freetype%{?_isa}
 Requires: libjpeg-turbo%{?_isa}
+
+%ifarch %{ix86}
+Requires: libpng12.so.0
+%endif
+%ifarch x86_64
+Requires: libpng12.so.0()(64bit)
+%endif
 Requires: libpng%{?_isa}
 Requires: libXft%{?_isa}
 Requires: libXrender%{?_isa}
@@ -368,6 +375,8 @@ Requires: perl(Scalar::Util)
 Requires: perl(Test::Harness)
 Requires: perl(Test::Simple)
 Requires: perl(ExtUtils::MakeMaker)
+Requires: perl(Pod::Plainer)
+
 # python
 Requires: /usr/bin/python
 # java
@@ -561,9 +570,19 @@ fi
     done
   fi
 %endif
+if grep '^hosts: \+files \+dns$' /etc/nsswitch.conf;then
+    true
+else
+    cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.bak
+    ed -s /etc/nsswitch.conf <<EOF
+/^hosts: \+files \+/s/.*/hosts:      files dns/
+w
+q
+EOF
+fi
 
-%ifarch %{ix86}
 %post
+%ifarch %{ix86}
 # make this softlink again for /emul
   if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
     for LSBVER in %{lsbsover}; do
@@ -571,6 +590,21 @@ fi
     done
   fi
 %endif
+if grep '^hosts: \+files \+dns$' /etc/nsswitch.conf;then
+    true
+else
+    cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.bak
+    ed -s /etc/nsswitch.conf <<EOF
+/^hosts: \+files \+/s/.*/hosts:      files dns/
+w
+q
+EOF
+fi
+
+
+%preun
+cat %{_datadir}/lsb/nsswitch.conf.bak >/etc/nsswitch.conf
+rm -f %{_datadir}/lsb/nsswitch.conf.bak
 
 %postun submod-security -p <lua>
 os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
@@ -686,6 +720,11 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Mon May 14 2012 xning <xning AT redhat DOT com> - 4.1-2
+- Resolves:rh:#806190: gethostbyaddr sets h_errno to 3, not HOST_NOT_FOUND
+- Resolves:rh:#799284: perl(Pod::Plainer) is required by LSB 4.1
+- Resolves:rh:#821308: redhat-lsb 4.1 test libpn12.so.0 failed on fedora 17
+
 * Mon Mar 19 2012 xning <xning AT redhat DOT com> - 4.1-1
 - Update to 4.1 release
 - Added -core, -cxx, -desktop, -languages, -printing modules as subpackages
