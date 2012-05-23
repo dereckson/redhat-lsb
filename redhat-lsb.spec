@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -129,7 +129,7 @@ Group: System Environment/Base
 Summary: LSB Core module support
 # gLSB Library
 Requires: glibc%{?_isa}
-Requires: glibc-common%{?_isa}
+Requires: glibc-common
 Requires: libgcc%{?_isa}
 Requires: ncurses-libs%{?_isa}
 Requires: pam%{?_isa}
@@ -720,6 +720,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Wed May 23 2012 Parag <pnemade AT redhat DOT com> - 4.1-3
+- Resolves:rh#824305: Dependency glibc-common%{?_isa} should be changed to glibc-common only
+
 * Mon May 14 2012 xning <xning AT redhat DOT com> - 4.1-2
 - Resolves:rh:#806190: gethostbyaddr sets h_errno to 3, not HOST_NOT_FOUND
 - Resolves:rh:#799284: perl(Pod::Plainer) is required by LSB 4.1
