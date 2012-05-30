@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -273,7 +273,7 @@ Requires: redhat-lsb-submod-security%{?_isa} = %{version}
 
 Provides: lsb-core-%{archname} = %{version}
 Provides: lsb-core-noarch = %{version}
-Obsoletes: redhat-lsb < %{version}
+#Obsoletes: redhat-lsb < %{version}
 
 %description core
 The Linux Standard Base (LSB) Core module support provides the fundamental
@@ -570,15 +570,14 @@ fi
     done
   fi
 %endif
-if grep '^hosts: \+files \+dns$' /etc/nsswitch.conf;then
-    true
-else
-    cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.bak
+if ! grep -s -q '^hosts: \+files \+dns *$' /etc/nsswitch.conf;then
+    cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.orig
     ed -s /etc/nsswitch.conf <<EOF
 /^hosts: \+files \+/s/.*/hosts:      files dns/
 w
 q
 EOF
+    cat /etc/nsswitch.conf > %{_datadir}/lsb/nsswitch.conf
 fi
 
 %post
@@ -590,21 +589,25 @@ fi
     done
   fi
 %endif
-if grep '^hosts: \+files \+dns$' /etc/nsswitch.conf;then
-    true
-else
-    cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.bak
-    ed -s /etc/nsswitch.conf <<EOF
+if ! grep -s -q '^hosts: \+files \+dns *$' /etc/nsswitch.conf;then
+     cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.orig
+     ed -s /etc/nsswitch.conf <<EOF
 /^hosts: \+files \+/s/.*/hosts:      files dns/
 w
 q
 EOF
+cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf
 fi
 
-
 %preun
-cat %{_datadir}/lsb/nsswitch.conf.bak >/etc/nsswitch.conf
-rm -f %{_datadir}/lsb/nsswitch.conf.bak
+if [ $1 -eq 0 ];then
+    if [ -e %{_datadir}/lsb/nsswitch.conf -a -e  %{_datadir}/lsb/nsswitch.conf.orig ];then
+        if cmp -s %{_datadir}/lsb/nsswitch.conf /etc/nsswitch.conf;then
+            cat %{_datadir}/lsb/nsswitch.conf.orig >/etc/nsswitch.conf
+        fi
+        rm -f %{_datadir}/lsb/{nsswitch.conf,nsswitch.conf.orig}
+    fi
+fi
 
 %postun submod-security -p <lua>
 os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
@@ -720,6 +723,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Tue May 29 2012 xning <xning AT redhat DOT com> - 4.1-4
+- Resolves:rh:#825261: redhat-lsb scripts blow away my /etc/nsswitch.conf
+
 * Wed May 23 2012 Parag <pnemade AT redhat DOT com> - 4.1-3
 - Resolves:rh#824305: Dependency glibc-common%{?_isa} should be changed to glibc-common only
 
