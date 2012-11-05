@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -177,7 +177,6 @@ Requires: /bin/sh
 Requires: /bin/sleep
 Requires: /bin/sort
 Requires: /bin/stty
-Requires: /bin/su
 Requires: /bin/sync
 Requires: /bin/tar
 Requires: /bin/touch
@@ -252,6 +251,7 @@ Requires: /usr/bin/seq
 Requires: /usr/bin/split
 Requires: /usr/bin/strings
 Requires: /usr/bin/strip
+Requires: /usr/bin/su
 Requires: /usr/bin/tail
 Requires: /usr/bin/tee
 Requires: /usr/bin/test
@@ -723,6 +723,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Mon Nov 05 2012 Parag <pnemade AT redhat DOT com> - 4.1-6
+- Resolves:rh#873066 - missing dependency /bin/su moved to /usr/bin/su
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
