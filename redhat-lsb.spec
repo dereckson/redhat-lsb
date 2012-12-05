@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -421,6 +421,16 @@ Provides: lsb-trialuse-noarch = %{version}
 The Linux Standard Base (LSB) Trialuse module support defines components
 which are not required parts of the LSB Specification.
 
+%package supplemental
+Group: System Environment/Base
+Summary: LSB supplemental dependencies required by LSB certification tests
+Requires: net-tools
+
+%description supplemental
+This subpackage brings in supplemental dependencies for components required for
+passing LSB (Linux Standard Base) certification testsuite, but not directly required
+to be on LSB conforming system.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -721,8 +731,15 @@ os.remove("%{_datadir}/lsb")
 %{_sysconfdir}/lsb-release.d/trialuse*
 %{_datadir}/lsb/%{lsbrelver}/modules/trialuse
 
+%files supplemental
+#no files, just dependencies
+
 
 %changelog
+* Wed Dec 05 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-7
+- add new subpackage -supplemental for LSB testuite-only dependencies
+- Require net-tools in -supplemental (#882122)
+
 * Mon Nov 05 2012 Parag <pnemade AT redhat DOT com> - 4.1-6
 - Resolves:rh#873066 - missing dependency /bin/su moved to /usr/bin/su
 
