@@ -376,6 +376,7 @@ Requires: perl(Test::Harness)
 Requires: perl(Test::Simple)
 Requires: perl(ExtUtils::MakeMaker)
 Requires: perl(Pod::Plainer)
+Requires: perl(XML::LibXML)
 
 # python
 Requires: /usr/bin/python
@@ -425,6 +426,8 @@ which are not required parts of the LSB Specification.
 Group: System Environment/Base
 Summary: LSB supplemental dependencies required by LSB certification tests
 Requires: net-tools
+Requires: xorg-x11-fonts-ISO8859-1-75dpi
+Requires: xorg-x11-fonts-ISO8859-1-100dpi
 
 %description supplemental
 This subpackage brings in supplemental dependencies for components required for
@@ -613,6 +616,8 @@ fi
 if [ $1 -eq 0 ];then
     if [ -e %{_datadir}/lsb/nsswitch.conf -a -e  %{_datadir}/lsb/nsswitch.conf.orig ];then
         if cmp -s %{_datadir}/lsb/nsswitch.conf /etc/nsswitch.conf;then
+            cp /etc/nsswitch.conf /etc/nsswitch.conf.rpmsave
+            echo "warning: /etc/nsswitch.conf saved as /etc/nsswitch.conf.rpmsave" >&2
             cat %{_datadir}/lsb/nsswitch.conf.orig >/etc/nsswitch.conf
         fi
         rm -f %{_datadir}/lsb/{nsswitch.conf,nsswitch.conf.orig}
@@ -738,7 +743,13 @@ os.remove("%{_datadir}/lsb")
 %changelog
 * Wed Dec 05 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-7
 - add new subpackage -supplemental for LSB testuite-only dependencies
-- Require net-tools in -supplemental (#882122)
+- require net-tools in -supplemental (#882122)
+- require xorg-x11-fonts-ISO8859-1-{75,100}dpi in -supplemental
+  (#883385)
+- require perl(XML::LibXML) (#880954)
+- keep usermodified /etc/nsswitch.conf as /etc/nsswitch.conf.rpmsave,
+  warn about modification (#867124)
+- require libpng12.so.0 in other architectures (#881596)
 
 * Mon Nov 05 2012 Parag <pnemade AT redhat DOT com> - 4.1-6
 - Resolves:rh#873066 - missing dependency /bin/su moved to /usr/bin/su
