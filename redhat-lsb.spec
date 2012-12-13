@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 7%{?dist}
+Release: 8%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -319,10 +319,10 @@ Requires: cairo%{?_isa}
 Requires: freetype%{?_isa}
 Requires: libjpeg-turbo%{?_isa}
 
-%ifarch %{ix86}
+%ifarch %{ix86} ppc s390
 Requires: libpng12.so.0
 %endif
-%ifarch x86_64
+%ifarch x86_64 ppc64 s390x
 Requires: libpng12.so.0()(64bit)
 %endif
 Requires: libpng%{?_isa}
@@ -741,6 +741,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Wed Dec 13 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-8
+- require libpng12.so.0 in other architectures (#881596)
+
 * Wed Dec 05 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-7
 - add new subpackage -supplemental for LSB testuite-only dependencies
 - require net-tools in -supplemental (#882122)
@@ -749,7 +752,6 @@ os.remove("%{_datadir}/lsb")
 - require perl(XML::LibXML) (#880954)
 - keep usermodified /etc/nsswitch.conf as /etc/nsswitch.conf.rpmsave,
   warn about modification (#867124)
-- require libpng12.so.0 in other architectures (#881596)
 
 * Mon Nov 05 2012 Parag <pnemade AT redhat DOT com> - 4.1-6
 - Resolves:rh#873066 - missing dependency /bin/su moved to /usr/bin/su
