@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 8%{?dist}
+Release: 9%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -450,7 +450,7 @@ make
 if [ -e /bin/mailx ]; then
    if [ -L /bin/mailx ]; then
      rm -f /bin/mailx
-   fi 
+   fi
 fi
 
 %install
@@ -470,8 +470,12 @@ cd lsb-release-%{upstreamlsbrelver}
 make mandir=$RPM_BUILD_ROOT/%{_mandir} prefix=$RPM_BUILD_ROOT/%{_prefix} install
 cd ..
 # we keep more lsb information in /usr/share/lsb
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules   
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/modules
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/lsb/%{lsbrelver}/submodules
+
+#prepare installation of doc
+cp -p lsb-release-2.0/COPYING .
+cp -p lsb-release-2.0/README README.lsb_release
 
 # relations between modules and submodules
 modules="core cxx desktop languages printing trialuse"
@@ -677,6 +681,7 @@ os.remove("%{_datadir}/lsb")
 %{_datadir}/lsb/%{lsbrelver}/submodules/multimedia-%{lsbrelver}-noarch
 
 %files core
+%doc README README.lsb_release COPYING
 %{_sysconfdir}/redhat-lsb
 %dir %{_sysconfdir}/lsb-release.d
 %{_mandir}/*/*
@@ -741,7 +746,11 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
-* Wed Dec 13 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-8
+* Fri Dec 14 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-9
+- ship README and COPYING file in -core subpackage
+  (#887195)
+
+* Wed Dec 12 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-8
 - require libpng12.so.0 in other architectures (#881596)
 
 * Wed Dec 05 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-7
