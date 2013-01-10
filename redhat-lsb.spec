@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 9%{?dist}
+Release: 10%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -428,6 +428,7 @@ Summary: LSB supplemental dependencies required by LSB certification tests
 Requires: net-tools
 Requires: xorg-x11-fonts-ISO8859-1-75dpi
 Requires: xorg-x11-fonts-ISO8859-1-100dpi
+Requires: abattis-cantarell-fonts
 
 %description supplemental
 This subpackage brings in supplemental dependencies for components required for
@@ -746,6 +747,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Thu Jan 10 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-10
+- require abattis-cantarell-fonts in supplemental (#892998)
+
 * Fri Dec 14 2012 Ondrej Vasik <ovasik@redhat.com> - 4.1-9
 - ship README and COPYING file in -core subpackage
   (#887195)
