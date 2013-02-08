@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 10%{?dist}
+Release: 11%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -377,6 +377,7 @@ Requires: perl(Test::Simple)
 Requires: perl(ExtUtils::MakeMaker)
 Requires: perl(Pod::Plainer)
 Requires: perl(XML::LibXML)
+Requires: perl(Pod::LaTeX)
 
 # python
 Requires: /usr/bin/python
@@ -429,6 +430,7 @@ Requires: net-tools
 Requires: xorg-x11-fonts-ISO8859-1-75dpi
 Requires: xorg-x11-fonts-ISO8859-1-100dpi
 Requires: abattis-cantarell-fonts
+Requires: xorg-x11-server-Xvfb
 
 %description supplemental
 This subpackage brings in supplemental dependencies for components required for
@@ -747,6 +749,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Fri Feb 08 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-11
+- require perl(Pod::LaTeX) in languages (#908705)
+- require xorg-x11-server-Xvfb in supplemental (#896058)
+
 * Thu Jan 10 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-10
 - require abattis-cantarell-fonts in supplemental (#892998)
 
