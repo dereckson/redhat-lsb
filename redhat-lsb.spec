@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 11%{?dist}
+Release: 12%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -378,6 +378,9 @@ Requires: perl(ExtUtils::MakeMaker)
 Requires: perl(Pod::Plainer)
 Requires: perl(XML::LibXML)
 Requires: perl(Pod::LaTeX)
+Requires: perl(Pod::Checker)
+Requires: perl(B::Lint)
+Requires: perl(Text::Soundex)
 
 # python
 Requires: /usr/bin/python
@@ -749,6 +752,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Fri Mar 01 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-12
+- require perl(Pod::Checker), perl(B::Lint) and
+  perl(Text::Soundex) in languages (#916898)
+
 * Fri Feb 08 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-11
 - require perl(Pod::LaTeX) in languages (#908705)
 - require xorg-x11-server-Xvfb in supplemental (#896058)
