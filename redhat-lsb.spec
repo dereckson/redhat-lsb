@@ -789,7 +789,7 @@ os.remove("%{_datadir}/lsb")
 - Resolves:rh:#825261: redhat-lsb scripts blow away my /etc/nsswitch.conf
 
 * Wed May 23 2012 Parag <pnemade AT redhat DOT com> - 4.1-3
-- Resolves:rh#824305: Dependency glibc-common%{?_isa} should be changed to glibc-common only
+- Resolves:rh#824305: Dependency glibc-common%%{?_isa} should be changed to glibc-common only
 
 * Mon May 14 2012 xning <xning AT redhat DOT com> - 4.1-2
 - Resolves:rh:#806190: gethostbyaddr sets h_errno to 3, not HOST_NOT_FOUND
@@ -860,18 +860,18 @@ os.remove("%{_datadir}/lsb")
 * Thu Aug 28 2008 Hao Liu <hliu@redhat.com> 3.2-2
 - Modify "Requires: /usr/bin/mailx" to "Requires: mailx" (Bug #460249)
 
-* Wed Aug 18 2008 Hao Liu <hliu@redhat.com> 3.2-1
+* Wed Aug 20 2008 Hao Liu <hliu@redhat.com> 3.2-1
 - Port forward to LSB 3.2
 - Remove symlink for mailx if user is upgrading from the redhat-lsb of older version 
 - Since F10 put mailx under /usr/bin, change the corresponding requires
 
-* Thu Aug 5 2008 Hao Liu <hliu@redhat.com> - 3.1-22
+* Tue Aug 5 2008 Hao Liu <hliu@redhat.com> - 3.1-22
 - Remove 2 requires which provided by redhat-lsb
 - Add comments explaining why hard-coded path is kept
 - Resolve some hard-coded path problems
 - Add comments explaining why importing '-static' option while compiling redhat_lsb_trigger
-- Replace %{_libdir}/lsb with /usr/lib/lsb
-- Replace /%{_lib}/* with /%{_lib}/*so*
+- Replace %%{_libdir}/lsb with /usr/lib/lsb
+- Replace /%%{_lib}/* with /%%{_lib}/*so*
 - Replace /lib/lsb with /lib/lsb*
 
 * Thu Jul 31 2008 Lawrence Lim <llim@redhat.com> - 3.1-21
@@ -892,14 +892,14 @@ os.remove("%{_datadir}/lsb")
 * Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 3.1-17
 - Rebuild for selinux ppc32 issue.
 
-* Fri Aug 20 2007 Lawrence Lim <llim@redhat.com> - 3.1-16
+* Mon Aug 20 2007 Lawrence Lim <llim@redhat.com> - 3.1-16
 - update spec file in accordance to feedback provided through merge review - merge-review.patch - #226363
 
 * Wed Jul 18 2007 Lawrence Lim <llim@redhat.com> - 3.1-15.f8
 - Resolved: #239842 - /lib/lsb/init-functions shall use aliases but not functions
 - forward port the patch from 3.1-12.3.EL which fix #217566, #233530, #240916
 
-* Wed Jul 2 2007 Lawrence Lim <llim@redhat.com> - 3.1-14.fc7
+* Wed Jul 4 2007 Lawrence Lim <llim@redhat.com> - 3.1-14.fc7
 - fixed Bug 232918 for new glibc version
 
 * Tue Jun 26 2007 Lawrence Lim <llim@redhat.com> - 3.1-12.3.EL
@@ -988,7 +988,7 @@ os.remove("%{_datadir}/lsb")
 
 * Fri Jan 21 2005 Leon Ho <llch@redhat.com> 1.3-7
 - Add to support multiple LSB test suite version
-- Add %endif in trigger postun
+- Add %%endif in trigger postun
 
 * Thu Nov 11 2004 Phil Knirsch <pknirsch@redhat.com> 1.3-6
 - Fixed invalid sln call for trigger in postun on ia64 (#137647)
