@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 12%{?dist}
+Release: 13%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -142,7 +142,6 @@ Requires: /bin/chgrp
 Requires: /bin/chmod
 Requires: /bin/chown
 Requires: /bin/cp
-Requires: /bin/cpio
 Requires: /bin/date
 Requires: /bin/dd
 Requires: /bin/df
@@ -199,6 +198,7 @@ Requires: /usr/bin/cksum
 Requires: /usr/bin/cmp
 Requires: /usr/bin/col
 Requires: /usr/bin/comm
+Requires: /usr/bin/cpio
 Requires: /usr/bin/crontab
 Requires: /usr/bin/csplit
 Requires: /usr/bin/cut
@@ -752,6 +752,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Tue Mar 12 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-13
+- require /usr/bin/cpio (binary moved as part of UsrMove)
+
 * Fri Mar 01 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-12
 - require perl(Pod::Checker), perl(B::Lint) and
   perl(Text::Soundex) in languages (#916898)
