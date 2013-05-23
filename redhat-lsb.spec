@@ -43,7 +43,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 13%{?dist}
+Release: 14%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -243,7 +243,8 @@ Requires: /usr/bin/passwd
 Requires: /usr/bin/paste
 Requires: /usr/bin/patch
 Requires: /usr/bin/pathchk
-Requires: /usr/bin/pax
+#better POSIX conformance of /usr/bin/pax
+Requires: spax
 Requires: /usr/bin/pr
 Requires: /usr/bin/printf
 Requires: /usr/bin/renice
@@ -381,6 +382,13 @@ Requires: perl(Pod::LaTeX)
 Requires: perl(Pod::Checker)
 Requires: perl(B::Lint)
 Requires: perl(Text::Soundex)
+Requires: perl(Env)
+Requires: perl(Time::HiRes)
+Requires: perl(Locale::Maketext)
+Requires: perl(Fatal)
+Requires: perl(File::CheckTree)
+Requires: perl(Sys::Syslog)
+
 
 # python
 Requires: /usr/bin/python
@@ -596,7 +604,7 @@ fi
 if ! grep -s -q '^hosts: \+files \+dns *$' /etc/nsswitch.conf;then
     cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.orig
     ed -s /etc/nsswitch.conf <<EOF
-/^hosts: \+files \+/s/.*/hosts:      files dns/
+/^hosts: \+files \+/s/.*/hosts:      files dns mdns4_minimal/
 w
 q
 EOF
@@ -615,7 +623,7 @@ fi
 if ! grep -s -q '^hosts: \+files \+dns *$' /etc/nsswitch.conf;then
      cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.orig
      ed -s /etc/nsswitch.conf <<EOF
-/^hosts: \+files \+/s/.*/hosts:      files dns/
+/^hosts: \+files \+/s/.*/hosts:      files dns mdns4_minimal/
 w
 q
 EOF
@@ -752,6 +760,11 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Thu May 23 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-14
+- require spax instead of pax (more POSIX compatible) (#965658)
+- require another set of perl modules in -languages (#959129)
+- polish a bit the nsswitch.conf hack - include mdns4_minimal (#915147)
+
 * Tue Mar 12 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-13
 - require /usr/bin/cpio (binary moved as part of UsrMove)
 
