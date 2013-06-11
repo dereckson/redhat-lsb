@@ -42,7 +42,7 @@
 %endif
 
 %ifarch aarch64
-%define ldso ld-linux.so.2
+%define ldso ld-linux-aarch64.so.1
 %define lsbldso ld-lsb-aarch64.so
 %endif
 
