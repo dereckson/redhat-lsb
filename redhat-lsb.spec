@@ -36,6 +36,16 @@
 %define lsbldso ld-lsb-x86-64.so
 %endif
 
+%ifarch %{arm}
+%define ldso ld-linux.so.2
+%define lsbldso ld-lsb-arm.so
+%endif
+
+%ifarch aarch64
+%define ldso ld-linux.so.2
+%define lsbldso ld-lsb-aarch64.so
+%endif
+
 %define upstreamlsbrelver 2.0
 %define lsbrelver 4.1
 %define srcrelease 1
@@ -43,13 +53,14 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 14%{?dist}
+Release: 15%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
 Patch1: redhat-lsb-lsb_start_daemon-fix.patch
 Patch2: redhat-lsb-trigger.patch
 Patch3: redhat-lsb-arm.patch
+Patch4: redhat-lsb-aarch64.patch
 License: GPLv2
 Group: System Environment/Base
 BuildRequires: glibc-static
@@ -75,8 +86,14 @@ BuildRequires: glibc-static
 %ifarch x86_64
 %define archname amd64
 %endif
+%ifarch %{arm}
+%define archname arm
+%endif
+%ifarch aarch64
+%define archname aarch64
+%endif
 
-ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm}
+ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm} aarch64
 
 Requires: redhat-lsb-core%{?_isa} = %{version}
 Requires: redhat-lsb-cxx%{?_isa} = %{version}
@@ -320,10 +337,10 @@ Requires: cairo%{?_isa}
 Requires: freetype%{?_isa}
 Requires: libjpeg-turbo%{?_isa}
 
-%ifarch %{ix86} ppc s390
+%ifarch %{ix86} ppc s390 arm
 Requires: libpng12.so.0
 %endif
-%ifarch x86_64 ppc64 s390x
+%ifarch x86_64 ppc64 s390x aarch64
 Requires: libpng12.so.0()(64bit)
 %endif
 Requires: libpng%{?_isa}
@@ -454,6 +471,7 @@ to be on LSB conforming system.
 %patch1 -p1
 %patch2 -p0 -b .triggerfix
 %patch3 -p1 -b .arm
+%patch4 -p1 -b .aarch64
 
 %build
 cd lsb-release-%{upstreamlsbrelver}
@@ -760,6 +778,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Tue Jun 11 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-15
+- fix build on aarch64 (#973343)
+- fix the defines for arm and aarch64 (may need adjustment)
+
 * Thu May 23 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-14
 - require spax instead of pax (more POSIX compatible) (#965658)
 - require another set of perl modules in -languages (#959129)
