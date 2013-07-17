@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 15%{?dist}
+Release: 16%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -778,6 +778,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 4.1-16
+- Perl 5.18 rebuild
+
 * Tue Jun 11 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-15
 - fix build on aarch64 (#973343)
 - fix the defines for arm and aarch64 (may need adjustment)
