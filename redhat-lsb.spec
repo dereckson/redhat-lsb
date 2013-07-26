@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 16%{?dist}
+Release: 17%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -594,8 +594,13 @@ ln -snf ../../../sbin/chkconfig $RPM_BUILD_ROOT/usr/lib/lsb/remove_initd
 
 # According to https://bugzilla.redhat.com/show_bug.cgi?id=232918 , the '-static' option
 # is imported against segfault error while running redhat_lsb_trigger
+%ifarch %{arm}
+gcc $RPM_OPT_FLAGS -Os -fno-stack-protector -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
+  -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
+%else
 gcc $RPM_OPT_FLAGS -Os -static -fno-stack-protector -o redhat_lsb_trigger{.%{_target_cpu},.c} -DLSBSOVER='"%{lsbsover}"' \
   -DLDSO='"%{ldso}"' -DLSBLDSO='"/%{_lib}/%{lsbldso}"' -D_GNU_SOURCE
+%endif
 install -p -m 700 redhat_lsb_trigger.%{_target_cpu} \
   $RPM_BUILD_ROOT%{_sbindir}/redhat_lsb_trigger.%{_target_cpu}
 
@@ -778,6 +783,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Fri Jul 26 2013 Dennis Gilmore <dennis@ausil.us> - 4.1-17
+- dont use -static when compiling redhat_lsb_trigger on arm
+
 * Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 4.1-16
 - Perl 5.18 rebuild
 
