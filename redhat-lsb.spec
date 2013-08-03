@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 17%{?dist}
+Release: 18%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -783,6 +783,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Sat Aug 03 2013 Petr Pisar <ppisar@redhat.com> - 4.1-18
+- Perl 5.18 rebuild
+
 * Fri Jul 26 2013 Dennis Gilmore <dennis@ausil.us> - 4.1-17
 - dont use -static when compiling redhat_lsb_trigger on arm
 
