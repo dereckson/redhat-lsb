@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 18%{?dist}
+Release: 19%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -95,16 +95,16 @@ BuildRequires: glibc-static
 
 ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm} aarch64
 
-Requires: redhat-lsb-core%{?_isa} = %{version}
-Requires: redhat-lsb-cxx%{?_isa} = %{version}
-Requires: redhat-lsb-desktop%{?_isa} = %{version}
-Requires: redhat-lsb-languages = %{version}
-Requires: redhat-lsb-printing = %{version}
-#Requires: redhat-lsb-trialuse = %{version}
+Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
+Requires: redhat-lsb-cxx%{?_isa} = %{version}-%{release}
+Requires: redhat-lsb-desktop%{?_isa} = %{version}-%{release}
+Requires: redhat-lsb-languages = %{version}-%{release}
+Requires: redhat-lsb-printing = %{version}-%{release}
+#Requires: redhat-lsb-trialuse = %{version}-%{release}
 
-Provides: lsb = %{version}
-Provides: lsb-%{archname} = %{version}
-Provides: lsb-noarch = %{version}
+Provides: lsb = %{version}-%{release}
+Provides: lsb-%{archname} = %{version}-%{release}
+Provides: lsb-noarch = %{version}-%{release}
 
 %description
 The Linux Standard Base (LSB) is an attempt to develop a set of standards that
@@ -122,8 +122,8 @@ Requires: nspr%{?_isa}
 # Requires: nspr-devel
 Requires: nss%{?_isa}
 
-Provides: lsb-submod-security-%{archname} = %{version}
-Provides: lsb-submod-security-noarch = %{version}
+Provides: lsb-submod-security-%{archname} = %{version}-%{release}
+Provides: lsb-submod-security-noarch = %{version}-%{release}
 
 %description submod-security
 The Linux Standard Base (LSB) Security submodule specifications define 
@@ -134,8 +134,8 @@ Group: System Environment/Base
 Summary: LSB Multimedia submodule support
 Requires: alsa-lib%{?_isa}
 
-Provides: lsb-submod-multimedia-%{archname} = %{version}
-Provides: lsb-submod-multimedia-noarch = %{version}
+Provides: lsb-submod-multimedia-%{archname} = %{version}-%{release}
+Provides: lsb-submod-multimedia-noarch = %{version}-%{release}
 
 %description submod-multimedia
 The Linux Standard Base (LSB) Multimedia submodule specifications define 
@@ -287,11 +287,11 @@ Requires: /usr/sbin/groupmod
 Requires: /usr/sbin/useradd
 Requires: /usr/sbin/userdel
 Requires: /usr/sbin/usermod
-Requires: redhat-lsb-submod-security%{?_isa} = %{version}
+Requires: redhat-lsb-submod-security%{?_isa} = %{version}-%{release}
 
-Provides: lsb-core-%{archname} = %{version}
-Provides: lsb-core-noarch = %{version}
-#Obsoletes: redhat-lsb < %{version}
+Provides: lsb-core-%{archname} = %{version}-%{release}
+Provides: lsb-core-noarch = %{version}-%{release}
+#Obsoletes: redhat-lsb < %{version}-%{release}
 
 %description core
 The Linux Standard Base (LSB) Core module support provides the fundamental
@@ -302,10 +302,10 @@ applications and libraries depend.
 Group: System Environment/Base
 Summary: LSB CXX module support
 Requires: libstdc++%{?_isa}
-Requires: redhat-lsb-core%{?_isa} = %{version}
+Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
 
-Provides: lsb-cxx-%{archname} = %{version}
-Provides: lsb-cxx-noarch = %{version}
+Provides: lsb-cxx-%{archname} = %{version}-%{release}
+Provides: lsb-cxx-noarch = %{version}-%{release}
 
 %description cxx
 The Linux Standard Base (LSB) CXX module supports the core interfaces by
@@ -359,14 +359,14 @@ Requires: qt-x11%{?_isa}
 Requires: qt3%{?_isa}
 # xml
 Requires: libxml2%{?_isa}
-Requires: redhat-lsb-submod-multimedia%{?_isa} = %{version}
-Requires: redhat-lsb-core%{?_isa} = %{version}
+Requires: redhat-lsb-submod-multimedia%{?_isa} = %{version}-%{release}
+Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
 
-Provides: lsb-desktop-%{archname} = %{version}
-Provides: lsb-desktop-noarch = %{version}
-Provides: lsb-graphics-%{archname} = %{version}
-Provides: lsb-graphics-noarch = %{version}
-Obsoletes: redhat-lsb-graphics < %{version}
+Provides: lsb-desktop-%{archname} = %{version}-%{release}
+Provides: lsb-desktop-noarch = %{version}-%{release}
+Provides: lsb-graphics-%{archname} = %{version}-%{release}
+Provides: lsb-graphics-noarch = %{version}-%{release}
+Obsoletes: redhat-lsb-graphics < %{version}-%{release}
 
 %description desktop
 The Linux Standard Base (LSB) Desktop Specifications define components that are
@@ -410,10 +410,10 @@ Requires: perl(Sys::Syslog)
 # python
 Requires: /usr/bin/python
 # java
-Requires: redhat-lsb-core%{?_isa} = %{version}
+Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
 
-Provides: lsb-languages-%{archname} = %{version}
-Provides: lsb-languages-noarch = %{version}
+Provides: lsb-languages-%{archname} = %{version}-%{release}
+Provides: lsb-languages-noarch = %{version}-%{release}
 
 %description languages
 The Linux Standard Base (LSB) Languages module supports components for runtime
@@ -427,11 +427,11 @@ Requires: cups-libs
 # gLSB Printing Command and Utilities
 Requires: /usr/bin/foomatic-rip
 Requires: /usr/bin/gs
-Requires: redhat-lsb-core%{?_isa} = %{version}
+Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
 
-Provides: lsb-printing-%{archname} = %{version}
-Provides: lsb-printing-noarch = %{version}
-Obsoletes: redhat-lsb-printing < %{version}
+Provides: lsb-printing-%{archname} = %{version}-%{release}
+Provides: lsb-printing-noarch = %{version}-%{release}
+Obsoletes: redhat-lsb-printing < %{version}-%{release}
 
 %description printing
 The Linux Standard Base (LSB) Printing specifications define components that 
@@ -440,12 +440,12 @@ are required to be present on an LSB conforming system.
 %package trialuse
 Group: System Environment/Base
 Summary: LSB Trialuse module support
-Requires: redhat-lsb-submod-multimedia%{?_isa} = %{version}
-Requires: redhat-lsb-submod-security%{?_isa} = %{version}
-Requires: redhat-lsb-core%{?_isa} = %{version}
+Requires: redhat-lsb-submod-multimedia%{?_isa} = %{version}-%{release}
+Requires: redhat-lsb-submod-security%{?_isa} = %{version}-%{release}
+Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
 
-Provides: lsb-trialuse-%{archname} = %{version}
-Provides: lsb-trialuse-noarch = %{version}
+Provides: lsb-trialuse-%{archname} = %{version}-%{release}
+Provides: lsb-trialuse-noarch = %{version}-%{release}
 
 %description trialuse
 The Linux Standard Base (LSB) Trialuse module support defines components
@@ -458,6 +458,7 @@ Requires: net-tools
 Requires: xorg-x11-fonts-ISO8859-1-75dpi
 Requires: xorg-x11-fonts-ISO8859-1-100dpi
 Requires: abattis-cantarell-fonts
+Requires: sil-abyssinica-fonts
 Requires: xorg-x11-server-Xvfb
 
 %description supplemental
@@ -783,6 +784,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Thu Aug 08 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-19
+- Require sil-abyssinica-fonts in supplemental(#994341)
+- Fully specify requirements on subpackages(#971386)
+
 * Sat Aug 03 2013 Petr Pisar <ppisar@redhat.com> - 4.1-18
 - Perl 5.18 rebuild
 
