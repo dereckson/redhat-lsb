@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 19%{?dist}
+Release: 20%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -784,6 +784,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Tue Aug 13 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-20
+- fix the patch for aarch64 support to be not patch of
+  patch but real patch (sorry, simply, fix aarch64 build)
+
 * Thu Aug 08 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-19
 - Require sil-abyssinica-fonts in supplemental(#994341)
 - Fully specify requirements on subpackages(#971386)
