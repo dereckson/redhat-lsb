@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 20%{?dist}
+Release: 21%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -172,7 +172,6 @@ Requires: /bin/find
 Requires: /bin/grep
 Requires: /bin/gunzip
 Requires: /bin/gzip
-Requires: /bin/hostname
 Requires: /bin/kill
 Requires: /bin/ln
 Requires: /bin/ls
@@ -233,6 +232,7 @@ Requires: /usr/bin/getconf
 Requires: /usr/bin/gettext
 Requires: /usr/bin/groups
 Requires: /usr/bin/head
+Requires: /usr/bin/hostname
 Requires: /usr/bin/iconv
 Requires: /usr/bin/id
 Requires: /usr/bin/install
@@ -784,6 +784,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Wed Oct 16 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-21
+- fix the broken dependency caused by hostname move after
+  recent post UsrMove cleanup
+
 * Tue Aug 13 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-20
 - fix the patch for aarch64 support to be not patch of
   patch but real patch (sorry, simply, fix aarch64 build)
