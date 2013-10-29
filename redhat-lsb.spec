@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 22%{?dist}
+Release: 23%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -199,7 +199,6 @@ Requires: /bin/true
 Requires: /bin/umount
 Requires: /bin/uname
 Requires: /bin/zcat
-Requires: /sbin/fuser
 Requires: /sbin/shutdown
 Requires: /usr/bin/[
 Requires: /usr/bin/ar
@@ -281,6 +280,7 @@ Requires: /usr/bin/unexpand
 Requires: /usr/bin/uniq
 Requires: /usr/bin/wc
 Requires: /usr/bin/xargs
+Requires: /usr/sbin/fuser
 Requires: /usr/sbin/groupadd
 Requires: /usr/sbin/groupdel
 Requires: /usr/sbin/groupmod
@@ -784,6 +784,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Tue Oct 29 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-23
+- fuser moved from /sbin to /usr/sbin/ (#1023283)
+
 * Thu Oct 17 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-22
 - pidof moved from /sbin to /usr/bin/ as part of the
   transfer to procps-ng package
