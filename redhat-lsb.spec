@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 23%{?dist}
+Release: 24%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -625,15 +625,6 @@ fi
     done
   fi
 %endif
-if ! grep -s -q '^hosts: \+files \+dns *$' /etc/nsswitch.conf;then
-    cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.orig
-    ed -s /etc/nsswitch.conf <<EOF
-/^hosts: \+files \+/s/.*/hosts:      files dns mdns4_minimal/
-w
-q
-EOF
-    cat /etc/nsswitch.conf > %{_datadir}/lsb/nsswitch.conf
-fi
 
 %post
 %ifarch %{ix86}
@@ -644,27 +635,6 @@ fi
     done
   fi
 %endif
-if ! grep -s -q '^hosts: \+files \+dns *$' /etc/nsswitch.conf;then
-     cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf.orig
-     ed -s /etc/nsswitch.conf <<EOF
-/^hosts: \+files \+/s/.*/hosts:      files dns mdns4_minimal/
-w
-q
-EOF
-cat /etc/nsswitch.conf >%{_datadir}/lsb/nsswitch.conf
-fi
-
-%preun
-if [ $1 -eq 0 ];then
-    if [ -e %{_datadir}/lsb/nsswitch.conf -a -e  %{_datadir}/lsb/nsswitch.conf.orig ];then
-        if cmp -s %{_datadir}/lsb/nsswitch.conf /etc/nsswitch.conf;then
-            cp /etc/nsswitch.conf /etc/nsswitch.conf.rpmsave
-            echo "warning: /etc/nsswitch.conf saved as /etc/nsswitch.conf.rpmsave" >&2
-            cat %{_datadir}/lsb/nsswitch.conf.orig >/etc/nsswitch.conf
-        fi
-        rm -f %{_datadir}/lsb/{nsswitch.conf,nsswitch.conf.orig}
-    fi
-fi
 
 %postun submod-security -p <lua>
 os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
@@ -784,6 +754,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Mon Nov 25 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-24
+- remove nsswitch handling - broken and unnecessary
+  (#986728, #915147)
+
 * Tue Oct 29 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-23
 - fuser moved from /sbin to /usr/sbin/ (#1023283)
 
