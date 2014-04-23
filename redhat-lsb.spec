@@ -53,7 +53,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 24%{?dist}
+Release: 25%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -754,6 +754,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Wed Apr 23 2014 Peter Robinson <pbrobinson@fedoraproject.org> 4.1-25
+- Update aarch64 patch
+
 * Mon Nov 25 2013 Ondrej Vasik <ovasik@redhat.com> - 4.1-24
 - remove nsswitch handling - broken and unnecessary
   (#986728, #915147)
