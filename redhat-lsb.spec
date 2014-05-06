@@ -21,6 +21,11 @@
 %define lsbldso ld-lsb-ppc64.so
 %endif
 
+%ifarch ppc64le
+%define ldso ld64.so.2
+%define lsbldso ld-lsb-ppc64le.so
+%endif
+
 %ifarch s390
 %define ldso ld.so.1
 %define lsbldso ld-lsb-s390.so
@@ -53,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 25%{?dist}
+Release: 26%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -77,6 +82,9 @@ BuildRequires: glibc-static
 %ifarch ppc64
 %define archname ppc64
 %endif
+%ifarch ppc64le
+%define archname ppc64le
+%endif
 %ifarch s390
 %define archname s390
 %endif
@@ -93,7 +101,7 @@ BuildRequires: glibc-static
 %define archname aarch64
 %endif
 
-ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm} aarch64
+ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm} aarch64 ppc64le
 
 Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
 Requires: redhat-lsb-cxx%{?_isa} = %{version}-%{release}
@@ -340,7 +348,7 @@ Requires: libjpeg-turbo%{?_isa}
 %ifarch %{ix86} ppc s390 arm
 Requires: libpng12.so.0
 %endif
-%ifarch x86_64 ppc64 s390x aarch64
+%ifarch x86_64 ppc64 s390x aarch64 ppc64le
 Requires: libpng12.so.0()(64bit)
 %endif
 Requires: libpng%{?_isa}
@@ -754,6 +762,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Tue May 06 2014 Ondrej Vasik <ovasik@redhat.com> - 4.1-26
+- add support for ppc64le (#1094371)
+
 * Wed Apr 23 2014 Peter Robinson <pbrobinson@fedoraproject.org> 4.1-25
 - Update aarch64 patch
 
