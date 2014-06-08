@@ -58,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 26%{?dist}
+Release: 27%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -762,6 +762,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.1-27
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Tue May 06 2014 Ondrej Vasik <ovasik@redhat.com> - 4.1-26
 - add support for ppc64le (#1094371)
 
