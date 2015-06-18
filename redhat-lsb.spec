@@ -58,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 29%{?dist}
+Release: 30%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -763,6 +763,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.1-30
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed Aug 27 2014 Parag <pnemade AT redhat DOT com> - 4.1-29
 - Resolves:rh#1133536 - redhat-lsb does not requires /usr/sbin/sendmail
 
