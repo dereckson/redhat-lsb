@@ -1,64 +1,64 @@
 # Define this to link to which library version  eg. /lib64/ld-lsb-x86-64.so.3
-%define lsbsover 3 
+%global lsbsover 3
 
 %ifarch %{ix86}
-%define ldso ld-linux.so.2
-%define lsbldso ld-lsb.so
+%global ldso ld-linux.so.2
+%global lsbldso ld-lsb.so
 %endif
 
 %ifarch ia64
-%define ldso ld-linux-ia64.so.2
-%define lsbldso ld-lsb-ia64.so
+%global ldso ld-linux-ia64.so.2
+%global lsbldso ld-lsb-ia64.so
 %endif
 
 %ifarch ppc
-%define ldso ld.so.1
-%define lsbldso ld-lsb-ppc32.so
+%global ldso ld.so.1
+%global lsbldso ld-lsb-ppc32.so
 %endif
 
 %ifarch ppc64
-%define ldso ld64.so.1
-%define lsbldso ld-lsb-ppc64.so
+%global ldso ld64.so.1
+%global lsbldso ld-lsb-ppc64.so
 %endif
 
 %ifarch ppc64le
-%define ldso ld64.so.2
-%define lsbldso ld-lsb-ppc64le.so
+%global ldso ld64.so.2
+%global lsbldso ld-lsb-ppc64le.so
 %endif
 
 %ifarch s390
-%define ldso ld.so.1
-%define lsbldso ld-lsb-s390.so
+%global ldso ld.so.1
+%global lsbldso ld-lsb-s390.so
 %endif
 
 %ifarch s390x
-%define ldso ld64.so.1
-%define lsbldso ld-lsb-s390x.so
+%global ldso ld64.so.1
+%global lsbldso ld-lsb-s390x.so
 %endif
 
 %ifarch x86_64
-%define ldso ld-linux-x86-64.so.2
-%define lsbldso ld-lsb-x86-64.so
+%global ldso ld-linux-x86-64.so.2
+%global lsbldso ld-lsb-x86-64.so
 %endif
 
 %ifarch %{arm}
-%define ldso ld-linux.so.2
-%define lsbldso ld-lsb-arm.so
+%global ldso ld-linux.so.2
+%global lsbldso ld-lsb-arm.so
 %endif
 
 %ifarch aarch64
-%define ldso ld-linux-aarch64.so.1
-%define lsbldso ld-lsb-aarch64.so
+%global ldso ld-linux-aarch64.so.1
+%global lsbldso ld-lsb-aarch64.so
 %endif
 
-%define upstreamlsbrelver 2.0
-%define lsbrelver 4.1
-%define srcrelease 1
+%global upstreamlsbrelver 2.0
+%global lsbrelver 4.1
+%global srcrelease 1
 
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 31%{?dist}
+Release: 32%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -67,38 +67,38 @@ Patch2: redhat-lsb-trigger.patch
 Patch3: redhat-lsb-arm.patch
 Patch4: redhat-lsb-aarch64.patch
 License: GPLv2
-Group: System Environment/Base
 BuildRequires: glibc-static
+BuildRequires: perl(Getopt::Long)
 
 %ifarch %{ix86}
-%define archname ia32
+%global archname ia32
 %endif
 %ifarch ia64
-%define archname ia64
+%global archname ia64
 %endif
 %ifarch ppc
-%define archname ppc32
+%global archname ppc32
 %endif
 %ifarch ppc64
-%define archname ppc64
+%global archname ppc64
 %endif
 %ifarch ppc64le
-%define archname ppc64le
+%global archname ppc64le
 %endif
 %ifarch s390
-%define archname s390
+%global archname s390
 %endif
 %ifarch s390x
-%define archname s390x
+%global archname s390x
 %endif
 %ifarch x86_64
-%define archname amd64
+%global archname amd64
 %endif
 %ifarch %{arm}
-%define archname arm
+%global archname arm
 %endif
 %ifarch aarch64
-%define archname aarch64
+%global archname aarch64
 %endif
 
 ExclusiveArch: %{ix86} ia64 x86_64 ppc ppc64 s390 s390x %{arm} aarch64 ppc64le
@@ -108,7 +108,7 @@ Requires: redhat-lsb-cxx%{?_isa} = %{version}-%{release}
 Requires: redhat-lsb-desktop%{?_isa} = %{version}-%{release}
 Requires: redhat-lsb-languages = %{version}-%{release}
 Requires: redhat-lsb-printing = %{version}-%{release}
-#Requires: redhat-lsb-trialuse = %{version}-%{release}
+#Requires: redhat-lsb-trialuse = %%{version}-%%{release}
 
 Provides: lsb = %{version}-%{release}
 Provides: lsb-%{archname} = %{version}-%{release}
@@ -124,7 +124,6 @@ Applications. It also contains requirements that will ensure that all
 components required by the LSB are installed on the system.
 
 %package submod-security
-Group: System Environment/Base
 Summary: LSB Security submodule support
 Requires: nspr%{?_isa}
 # Requires: nspr-devel
@@ -138,7 +137,6 @@ The Linux Standard Base (LSB) Security submodule specifications define
 components that are required to be present on an LSB conforming system.
 
 %package submod-multimedia
-Group: System Environment/Base
 Summary: LSB Multimedia submodule support
 Requires: alsa-lib%{?_isa}
 
@@ -150,7 +148,6 @@ The Linux Standard Base (LSB) Multimedia submodule specifications define
 components that are required to be present on an LSB conforming system.
 
 %package core
-Group: System Environment/Base
 Summary: LSB Core module support
 # gLSB Library
 Requires: glibc%{?_isa}
@@ -300,7 +297,7 @@ Requires: redhat-lsb-submod-security%{?_isa} = %{version}-%{release}
 
 Provides: lsb-core-%{archname} = %{version}-%{release}
 Provides: lsb-core-noarch = %{version}-%{release}
-#Obsoletes: redhat-lsb < %{version}-%{release}
+#Obsoletes: redhat-lsb < %%{version}-%%{release}
 
 %description core
 The Linux Standard Base (LSB) Core module support provides the fundamental
@@ -308,7 +305,6 @@ system interfaces, libraries, and runtime environment upon which all conforming
 applications and libraries depend.
 
 %package cxx
-Group: System Environment/Base
 Summary: LSB CXX module support
 Requires: libstdc++%{?_isa}
 Requires: redhat-lsb-core%{?_isa} = %{version}-%{release}
@@ -324,7 +320,6 @@ provide low-level support for the core constructs of the language, and
 implement the standard base C++ libraries.
 
 %package desktop
-Group: System Environment/Base
 Summary: LSB Desktop module support
 Requires: xdg-utils
 # LSB_Graphics library
@@ -382,7 +377,6 @@ The Linux Standard Base (LSB) Desktop Specifications define components that are
 required to be present on an LSB conforming system.
 
 %package languages
-Group: System Environment/Base
 Summary: LSB Languages module support
 # Perl and Perl non-builtin modules
 Requires: /usr/bin/perl
@@ -414,7 +408,7 @@ Requires: perl(Locale::Maketext)
 Requires: perl(Fatal)
 Requires: perl(File::CheckTree)
 Requires: perl(Sys::Syslog)
-
+Requires: perl(Getopt::Long)
 
 # python
 Requires: /usr/bin/python
@@ -429,7 +423,6 @@ The Linux Standard Base (LSB) Languages module supports components for runtime
 languages which are found on an LSB conforming system.
 
 %package printing
-Group: System Environment/Base
 Summary: LSB Printing module support
 # gLSB Printing Libraries
 Requires: cups-libs
@@ -447,7 +440,6 @@ The Linux Standard Base (LSB) Printing specifications define components that
 are required to be present on an LSB conforming system.
 
 %package trialuse
-Group: System Environment/Base
 Summary: LSB Trialuse module support
 Requires: redhat-lsb-submod-multimedia%{?_isa} = %{version}-%{release}
 Requires: redhat-lsb-submod-security%{?_isa} = %{version}-%{release}
@@ -461,7 +453,6 @@ The Linux Standard Base (LSB) Trialuse module support defines components
 which are not required parts of the LSB Specification.
 
 %package supplemental
-Group: System Environment/Base
 Summary: LSB supplemental dependencies required by LSB certification tests
 Requires: net-tools
 Requires: xorg-x11-fonts-ISO8859-1-75dpi
@@ -698,7 +689,8 @@ os.remove("%{_datadir}/lsb")
 %{_datadir}/lsb/%{lsbrelver}/submodules/multimedia-%{lsbrelver}-noarch
 
 %files core
-%doc README README.lsb_release COPYING
+%doc README README.lsb_release
+%license COPYING
 %{_sysconfdir}/redhat-lsb
 %dir %{_sysconfdir}/lsb-release.d
 %{_mandir}/*/*
@@ -763,6 +755,12 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Tue Feb 23 2016 Parag Nemade <pnemade AT redhat DOT com> - 4.1-32
+- Resolves:rh#1307989: FTBFS in rawhide by adding perl-Getopt-Long in BuildRequires
+- Drop Group: tag
+- Added %%license tag
+- Changed %%define -> %%global
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-31
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
