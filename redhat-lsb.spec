@@ -68,6 +68,7 @@ Patch3: redhat-lsb-arm.patch
 Patch4: redhat-lsb-aarch64.patch
 License: GPLv2
 BuildRequires: glibc-static
+BuildRequires: perl-generators
 BuildRequires: perl(Getopt::Long)
 
 %ifarch %{ix86}
