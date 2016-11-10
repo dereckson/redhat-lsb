@@ -58,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 32%{?dist}
+Release: 33%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -154,7 +154,8 @@ Summary: LSB Core module support
 Requires: glibc%{?_isa}
 Requires: glibc-common
 Requires: libgcc%{?_isa}
-Requires: ncurses-libs%{?_isa}
+#LSB requires libncurses.so.5 for some reason
+Requires: ncurses-compat-libs%{?_isa}
 Requires: pam%{?_isa}
 Requires: zlib%{?_isa}
 
@@ -756,6 +757,10 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Thu Nov 10 2016 Ondrej Vasik <ovasik@redhat.com> - 4.1-33
+- require ncurses-compat-libs - as LSB strictly requires libncurses.so.5
+  (#1392972)
+
 * Tue Feb 23 2016 Parag Nemade <pnemade AT redhat DOT com> - 4.1-32
 - Resolves:rh#1307989: FTBFS in rawhide by adding perl-Getopt-Long in BuildRequires
 - Drop Group: tag
