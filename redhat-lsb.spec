@@ -58,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 33%{?dist}
+Release: 34%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -628,16 +628,6 @@ fi
   fi
 %endif
 
-%post
-%ifarch %{ix86}
-# make this softlink again for /emul
-  if [ -f /emul/ia32-linux/lib/%{ldso} ]; then
-    for LSBVER in %{lsbsover}; do
-      /sbin/sln /emul/ia32-linux/lib/%{ldso} /%{_lib}/%{lsbldso}.$LSBVER || :
-    done
-  fi
-%endif
-
 %postun submod-security -p <lua>
 os.remove("%{_datadir}/lsb/%{lsbrelver}/submodules")
 os.remove("%{_datadir}/lsb/%{lsbrelver}/modules")
@@ -757,6 +747,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Mon Nov 06 2017 Ondrej Vasik <ovasik@redhat.com> - 4.1-34
+- drop the postscriptlet specific for itanium completely(#1508613)
+
 * Thu Nov 10 2016 Ondrej Vasik <ovasik@redhat.com> - 4.1-33
 - require ncurses-compat-libs - as LSB strictly requires libncurses.so.5
   (#1392972)
