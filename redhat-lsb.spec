@@ -58,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 34%{?dist}
+Release: 37%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -747,8 +747,17 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
-* Mon Nov 06 2017 Ondrej Vasik <ovasik@redhat.com> - 4.1-34
+* Mon Nov 06 2017 Ondrej Vasik <ovasik@redhat.com> - 4.1-37
 - drop the postscriptlet specific for itanium completely(#1508613)
+
+* Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-36
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
+
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-35
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 4.1-34
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
 * Thu Nov 10 2016 Ondrej Vasik <ovasik@redhat.com> - 4.1-33
 - require ncurses-compat-libs - as LSB strictly requires libncurses.so.5
