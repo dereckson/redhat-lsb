@@ -58,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 39%{?dist}
+Release: 40%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -230,7 +230,7 @@ Requires: /usr/bin/lp
 Requires: /usr/bin/lpr
 Requires: /usr/bin/ls
 Requires: /usr/bin/m4
-Requires: /usr/bin/mailx
+Requires: /bin/mailx
 Requires: /usr/bin/make
 Requires: /usr/bin/man
 Requires: /usr/bin/md5sum
@@ -746,6 +746,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Mon Nov 13 2017 Sébastien Santoro <dereckson@espace-win.org> - 4.1-40
+- Resolves:rh#1512650: /bin/mailx is still in /bin
+
 * Mon Nov 13 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.1-39
 - /bin/ed is in /usr/bin/ed now
 - /usr/bin/*grep are in /bin still
