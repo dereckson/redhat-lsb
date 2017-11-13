@@ -191,12 +191,12 @@ Requires: /usr/bin/dmesg
 Requires: /usr/bin/du
 Requires: /usr/bin/echo
 Requires: /usr/bin/ed
-Requires: /usr/bin/egrep
+Requires: /bin/egrep
 Requires: /usr/bin/env
 Requires: /usr/bin/expand
 Requires: /usr/bin/expr
 Requires: /usr/bin/false
-Requires: /usr/bin/fgrep
+Requires: /bin/fgrep
 Requires: /usr/bin/file
 Requires: /usr/bin/find
 Requires: /usr/bin/fold
@@ -204,7 +204,7 @@ Requires: /usr/sbin/fuser
 Requires: /usr/bin/gencat
 Requires: /usr/bin/getconf
 Requires: /usr/bin/gettext
-Requires: /usr/bin/grep
+Requires: /bin/grep
 Requires: /usr/sbin/groupadd
 Requires: /usr/sbin/groupdel
 Requires: /usr/sbin/groupmod
@@ -748,6 +748,7 @@ os.remove("%{_datadir}/lsb")
 %changelog
 * Mon Nov 13 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.1-39
 - /bin/ed is in /usr/bin/ed now
+- /usr/bin/*grep are in /bin still
 
 * Thu Nov 09 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.1-38
 - change /bin requirements to /usr/bin
