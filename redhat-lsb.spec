@@ -58,7 +58,7 @@
 Summary: Implementation of Linux Standard Base specification
 Name: redhat-lsb
 Version: 4.1
-Release: 38%{?dist}
+Release: 39%{?dist}
 URL: http://www.linuxfoundation.org/collaborate/workgroups/lsb
 Source0: https://fedorahosted.org/releases/r/e/redhat-lsb/%{name}-%{version}-%{srcrelease}.tar.bz2
 Patch0: lsb-release-3.1-update-init-functions.patch
@@ -190,7 +190,7 @@ Requires: /usr/bin/dirname
 Requires: /usr/bin/dmesg
 Requires: /usr/bin/du
 Requires: /usr/bin/echo
-Requires: /bin/ed
+Requires: /usr/bin/ed
 Requires: /usr/bin/egrep
 Requires: /usr/bin/env
 Requires: /usr/bin/expand
@@ -746,6 +746,9 @@ os.remove("%{_datadir}/lsb")
 
 
 %changelog
+* Mon Nov 13 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.1-39
+- /bin/ed is in /usr/bin/ed now
+
 * Thu Nov 09 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.1-38
 - change /bin requirements to /usr/bin
 
